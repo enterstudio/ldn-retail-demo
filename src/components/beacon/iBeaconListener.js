@@ -1,4 +1,4 @@
-import { DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter, Platform } from 'react-native';
 import Beacons from 'react-native-beacons-manager';
 
 
@@ -15,16 +15,27 @@ class IBeaconListener {
 
     init(beaconsDidRangeCb, regionDidEnterCb, regionDidExitCb) {
         // Request for authorization while the app is open
-        // Beacons
-        //     .requestWhenInUseAuthorization();
 
-        //Beacons.requestAlwaysAuthorization();
+        if(Platform.OS  === 'ios') {
 
-        //Beacons
-        //    .startMonitoringForRegion(region);
+            //ranging
+            Beacons.requestWhenInUseAuthorization();
+            Beacons.startRangingBeaconsInRegion(region);
 
-        //Beacons
-        //    .startRangingBeaconsInRegion(region.identifier, region.uuid);
+            //monitoring
+            //Beacons.requestAlwaysAuthorization();
+            //Beacons.startUpdatingLocation();
+            //Beacons
+            //    .startMonitoringForRegion(region);
+        }
+
+
+
+        if(Platform.OS  === 'android') {
+            Beacons.startRangingBeaconsInRegion(region.identifier, region.uuid);
+
+           // Beacons.startMonitoringForRegion(region.identifier, region.uuid);
+        }
 
         //Beacons
         //    .startUpdatingLocation();
@@ -38,9 +49,9 @@ class IBeaconListener {
         //    'regionDidExit',
         //    regionDidExitCb
         //);
-        //
-        //
-        //// Listen for beacon changes
+
+
+        // Listen for beacon changes
         DeviceEventEmitter.addListener(
             'beaconsDidRange',
             beaconsDidRangeCb
@@ -51,7 +62,7 @@ class IBeaconListener {
     close() {
         Beacons.stopMonitoringForRegion();
         Beacons.stopRangingBeaconsInRegion();
-        Beacons.stopUpdatingLocation();
+        //Beacons.stopUpdatingLocation();
         //DeviceEventEmitter.removeListener('regionDidEnter');
         //DeviceEventEmitter.removeListener('regionDidExit');
         DeviceEventEmitter.removeListener('beaconsDidRange');
