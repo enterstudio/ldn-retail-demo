@@ -6,7 +6,6 @@
  */
 import { AsyncStorage } from 'react-native';
 import { Firebase, FirebaseRef } from '@constants/';
-import * as RecipeActions from '../recipes/actions';
 
 /**
   * Get Login Credentials from AsyncStorage
@@ -88,9 +87,6 @@ export function login(formData = {}, verifyEmail = false) {
               .sendEmailVerification()
               .catch(() => console.log('Verification email failed to send'));
           }
-
-          // Get Favourites
-          RecipeActions.getFavourites(dispatch);
 
           // Get User Data
           getUserData(dispatch);

@@ -1,0 +1,4 @@
+
+export default {
+    SHOW_NOTIFICATION : 'SHOW_NOTIFICATION'
+}

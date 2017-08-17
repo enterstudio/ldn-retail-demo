@@ -35,13 +35,15 @@ export default Actions.create(
     {/* Auth */}
     {AuthScenes}
 
-    {/* Main App */}
+      {/* Main App */}
     <Scene key={'app'} {...AppConfig.navbarProps} title={AppConfig.appName} hideNavBar={false} type={ActionConst.RESET}>
-      {/* Drawer Side Menu */}
-      <Scene key={'home'} component={Drawer} initial={'tabBar'}>
-        {/* Tabbar */}
-        {TabsScenes}
-      </Scene>
+
+        <Scene key={'home'} component={Drawer} initial={'tabBar'}>
+
+            {/* Tabbar */}
+            {TabsScenes}
+        </Scene>
+
     </Scene>
   </Scene>
 );

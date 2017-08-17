@@ -15,7 +15,7 @@ import {
 import timer from 'react-native-timer';
 import { ButtonGroup } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import IBeaconListener from '../../components/beacon/iBeaconListener';
+import IBeaconListener from '../../lib/IBeaconListener';
 import moment from 'moment';
 
 // Consts and Libs

@@ -15,6 +15,8 @@ import {
 import timer from 'react-native-timer';
 import { ButtonGroup } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import * as NotificationActions from '@redux/notification/actions';
 
 // Consts and Libs
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -105,9 +107,18 @@ const styles = StyleSheet.create({
 
 });
 
-class ShoppingCart extends Component {
+const mapDispatchToProps = (dispatch) => {
+    return({
+        showNotification: (message) => {NotificationActions.showNotification(dispatch, message)}
+    })
+};
 
-    modalTimerName:'modalTimer';
+const mapStateToProps = () => ({
+});
+
+class CartView extends Component {
+
+    modalTimerName = 'modalTimer';
 
     constructor(props) {
         super(props);
@@ -126,7 +137,6 @@ class ShoppingCart extends Component {
         this.setState({modalVisible: visible});
     }
 
-
     //displayNotification() {
     //    Alert.alert(
     //        'Victory Solid Polo',
@@ -140,6 +150,8 @@ class ShoppingCart extends Component {
     //}
 
     updateIndex(selectedIndex) {
+
+        this.props.showNotification('Notification test message');
         this.setState({selectedIndex});
         selectedIndex = 1;
         timer.setTimeout(this.modalTimerName, () => {
@@ -204,4 +216,4 @@ class ShoppingCart extends Component {
     }
 }
 
-export default ShoppingCart;
+export default connect(mapStateToProps, mapDispatchToProps)(CartView);
