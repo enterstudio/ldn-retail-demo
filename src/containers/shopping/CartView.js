@@ -12,16 +12,12 @@ import {
     TouchableOpacity,
     TouchableHighlight,
 } from 'react-native';
-import timer from 'react-native-timer';
-import { ButtonGroup } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as NotificationActions from '@redux/notification/actions';
 
-// Consts and Libs
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
-// Components
 import {
     Alerts,
     Button,
@@ -82,30 +78,11 @@ const styles = StyleSheet.create({
         padding: 12,
         fontStyle: 'italic',
         fontWeight: 'bold'
-    },
-
-    modal: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 60,
-        height: 150,
-        backgroundColor: 'white',
-        borderColor: AppColors.base.grey,
-        borderWidth: 1
-    },
-
-    modalContent: {
-       // height: 80
-    },
-
-
-    modalMsg: {
-        padding: 20,
-        fontSize: 18,
-        textAlign: 'center'
     }
 
 });
+
+
 
 const mapDispatchToProps = (dispatch) => {
     return({
@@ -118,7 +95,6 @@ const mapStateToProps = () => ({
 
 class CartView extends Component {
 
-    modalTimerName = 'modalTimer';
 
     constructor(props) {
         super(props);
@@ -128,13 +104,10 @@ class CartView extends Component {
             modalVisible: false,
             selectedIndex: 1
         }
-
-        this.updateIndex = this.updateIndex.bind(this)
-
     }
 
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
+    showNotification(message) {
+        this.props.showNotification(message);
     }
 
     //displayNotification() {
@@ -149,39 +122,20 @@ class CartView extends Component {
     //    )
     //}
 
-    updateIndex(selectedIndex) {
-
-        this.props.showNotification('Notification test message');
-        this.setState({selectedIndex});
-        selectedIndex = 1;
-        timer.setTimeout(this.modalTimerName, () => {
-            this.setModalVisible(false)
-            this.setState({selectedIndex});
-        }, 300);
-
-    }
-
+    counter = 0;
 
     render = () => (
+
+
         <View>
-            <Modal
+            {/*<Modal
                 animationType={'fade'}
                 transparent={true}
                 presentationStyle={'pageSheet'}
                 visible={this.state.modalVisible}
             >
-                <View style={styles.modal}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalMsg}>Add to Item to cart?</Text>
-                    </View>
-                    <ButtonGroup
-                        onPress={this.updateIndex}
-                        selectedIndex={this.state.selectedIndex}
-                        buttons={['Cancel', 'OK']}
-                        containerStyle={{height: 50, width: AppSizes.screen.width * 0.50}}
-                    />
-                </View>
-            </Modal>
+
+            </Modal>*/}
             <ScrollView style={{backgroundColor: '#EBEBEB'}}
                 automaticallyAdjustContentInsets={false}
             >
@@ -193,7 +147,7 @@ class CartView extends Component {
                     hideChevron={true}
                     title={
                       <TouchableHighlight onPress={() => {
-                            this.setModalVisible(true)
+                            this.showNotification('Notification test message ' + this.counter++)
                         }}>
                           <View style={styles.titleView} >
                             <Image style={styles.productImage} source={require('../../images/LongSleevePolo.png')} />
@@ -211,9 +165,7 @@ class CartView extends Component {
         </View>
     )
 
-    componentWillUnmount() {
-        timer.clearTimeout(this.modalTimerName);
-    }
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartView);

@@ -35,9 +35,7 @@ class AppLaunch extends Component {
     static componentName = 'AppLaunch';
 
     static propTypes = {
-        login: PropTypes.func.isRequired,
-        getRecipes: PropTypes.func.isRequired,
-        getMeals: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired
     }
 
     componentDidMount = () => {

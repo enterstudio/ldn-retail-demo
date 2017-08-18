@@ -14,10 +14,32 @@ const region = {
 class IBeaconListener {
 
     init(beaconsDidRangeCb, regionDidEnterCb, regionDidExitCb) {
-        // Request for authorization while the app is open
+
+        DeviceEventEmitter.addListener(
+            'regionDidEnter',
+            regionDidEnterCb
+        );
+
+        DeviceEventEmitter.addListener(
+            'regionDidExit',
+            regionDidExitCb
+        );
+
+
+        // Listen for beacon changes
+        DeviceEventEmitter.addListener(
+            'beaconsDidRange',
+            beaconsDidRangeCb
+        );
+
+        this.startRanging();
+
+
+    }
+
+    startRanging() {
 
         if(Platform.OS  === 'ios') {
-
             //ranging
             Beacons.requestWhenInUseAuthorization();
             Beacons.startRangingBeaconsInRegion(region);
@@ -29,43 +51,20 @@ class IBeaconListener {
             //    .startMonitoringForRegion(region);
         }
 
-
-
         if(Platform.OS  === 'android') {
             Beacons.startRangingBeaconsInRegion(region.identifier, region.uuid);
 
-           // Beacons.startMonitoringForRegion(region.identifier, region.uuid);
+            // Beacons.startMonitoringForRegion(region.identifier, region.uuid);
         }
-
-        //Beacons
-        //    .startUpdatingLocation();
-
-        //DeviceEventEmitter.addListener(
-        //    'regionDidEnter',
-        //    regionDidEnterCb
-        //);
-
-        //DeviceEventEmitter.addListener(
-        //    'regionDidExit',
-        //    regionDidExitCb
-        //);
-
-
-        // Listen for beacon changes
-        DeviceEventEmitter.addListener(
-            'beaconsDidRange',
-            beaconsDidRangeCb
-        );
-
     }
 
-    close() {
-        Beacons.stopMonitoringForRegion();
-        Beacons.stopRangingBeaconsInRegion();
+    stopRanging() {
+        //Beacons.stopMonitoringForRegion();
+        Beacons.stopRangingBeaconsInRegion(region);
         //Beacons.stopUpdatingLocation();
         //DeviceEventEmitter.removeListener('regionDidEnter');
         //DeviceEventEmitter.removeListener('regionDidExit');
-        DeviceEventEmitter.removeListener('beaconsDidRange');
+        //DeviceEventEmitter.removeListener('beaconsDidRange');
     }
 
 

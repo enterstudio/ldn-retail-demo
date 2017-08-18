@@ -48,7 +48,7 @@ const store = compose(
 // Wrap App in Redux provider (makes Redux available to all sub-components)
 export default function AppContainer() {
   StatusBar.setBarStyle('light-content', true);
-  console.ignoredYellowBox = ['Warning: Failed prop type'];
+  console.ignoredYellowBox = ['Warning: Failed prop type', 'Setting a timer'];
   return (
     <Provider store={store}>
       <RouterWithRedux scenes={AppRoutes} style={AppStyles.appContainer} />

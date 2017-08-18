@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "start android emulator" : "emu -avd pixel",
-    "android" : "react-native run-android",
-    "ios" : "react-native run-ios"
+    "start android emulator": "emu -avd pixel",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios"
   },
   "jest": {
     "preset": "react-native",
