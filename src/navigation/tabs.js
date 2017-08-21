@@ -18,6 +18,7 @@ import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButt
 
 // Scenes
 import CartView from '@containers/shopping/CartView';
+import ItemBrowser from '@containers/shopping/ItemBrowser';
 import IBeaconMonitorView from '@containers/beacons/IBeaconMonitorView';
 import StyleGuide from '@containers/StyleGuideView';
 
@@ -36,7 +37,7 @@ const scenes = (
 
     <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
         <Scene
-            key={'timeline'}
+            key={'shoppingCart'}
             {...navbarPropsTabs}
             title={'Shopping cart'}
             component={CartView}
@@ -45,22 +46,23 @@ const scenes = (
         />
 
         <Scene
+            key={'itemBrowser'}
+            {...navbarPropsTabs}
+            title={'Browse shopping items'}
+            component={ItemBrowser}
+            icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
+            analyticsDesc={'ItemBrowser: Item Browser'}
+        />
+
+        <Scene
             key={'ibeacon'}
             {...navbarPropsTabs}
             title={'Ibeacon Monitoring'}
             component={IBeaconMonitorView}
-            icon={props => TabIcon({ ...props, icon: 'rss' })}
-            analyticsDesc={'ShoppingCart: Shopping Cart'}
+            icon={props => TabIcon({ ...props, icon: 'signal' })}
+            analyticsDesc={'iBeacon: Beacon monitoring'}
         />
 
-        <Scene
-            key={'styleGuide'}
-            {...navbarPropsTabs}
-            title={'Style Guide'}
-            component={StyleGuide}
-            icon={props => TabIcon({ ...props, icon: 'text' })}
-            analyticsDesc={'StyleGuide: Style Guide'}
-        />
     </Scene>
 );
 
