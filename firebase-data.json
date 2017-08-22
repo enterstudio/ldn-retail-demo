@@ -1,0 +1,37 @@
+{
+  "users": {
+  },
+  "favourites": {
+  },
+  "products" :[
+  {
+    "id": 1,
+    "title": "Long sleeve polo",
+    "description": "Tee off in style in this Nike Victory Long Sleeve Golf Polo Shirt, crafted with regular fold down collar and long sleeves, plus incorporated Dri-Fit technology to pull sweat away from the skin.",
+    "price": 40,
+    "img": "LongSleevePolo"
+  },
+  {
+    "id": 2,
+    "title": "Techsphere hoodie",
+    "description": "Mens Nike Golf Tech Sphere Full Zip Hoodie. A versatile mid-layer garment for use both off and on the course, constructed using a composite Sphere fleece body.",
+    "price": 79,
+    "img": "TechSphereZipHoodie"
+  },
+  {
+    "id": 3,
+    "title": "Victory polo",
+    "description": "The new Nike Golf Victory Polo LC is a constant favourite in the Nike range. The Victory Polo features Nike's Dri-FIT fabric that wicks away sweat from your body to keep you cool dry and comfortable on those hot summers days.",
+    "price": 52,
+    "img": "VictorySolidPolo"
+  },
+  {
+    "id": 4,
+    "title": "Women's polo",
+    "description": "The Nike Women's Victory Solid Polo comes crafted with Dri-Fit fabric that lifts moisture away from the skin for ultimate comfort on the course.    ",
+    "price": 31,
+    "img": "WomensVictorySolidPolo"
+  }
+]
+ 
+}

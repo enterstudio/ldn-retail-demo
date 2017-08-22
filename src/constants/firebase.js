@@ -22,4 +22,5 @@ Firebase.initializeApp({
 });
 
 export const FirebaseRef = Firebase.database().ref();
+export const FirebaseImgRef = 'https://firebasestorage.googleapis.com/v0/b/'.concat(STORAGE_BUCKET);
 export default Firebase;

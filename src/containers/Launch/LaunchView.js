@@ -50,6 +50,8 @@ class AppLaunch extends Component {
             // Not Logged in, show Login screen
             .catch(() => Actions.authenticate({type: 'reset'}
             ));
+
+        this.props.getAllProducts();
     }
 
     render = () => (

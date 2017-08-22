@@ -22,7 +22,7 @@ export default {
     widthQuarter: screenWidth * 0.25,
     widthThreeQuarters: screenWidth * 0.75,
 
-    heightHalf: screenHeight * 0.5,
+    heightHalf: screenHeight / 2,
     heightThird: screenHeight * 0.333,
     heightTwoThirds: screenHeight * 0.666,
     heightQuarter: screenHeight * 0.25,

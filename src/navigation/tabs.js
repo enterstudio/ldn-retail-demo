@@ -39,7 +39,7 @@ const scenes = (
         <Scene
             key={'shoppingCart'}
             {...navbarPropsTabs}
-            title={'Shopping cart'}
+            title={'Your shopping cart'}
             component={CartView}
             icon={props => TabIcon({ ...props, icon: 'shopping-cart' })}
             analyticsDesc={'ShoppingCart: Shopping Cart'}
@@ -48,7 +48,7 @@ const scenes = (
         <Scene
             key={'itemBrowser'}
             {...navbarPropsTabs}
-            title={'Browse shopping items'}
+            title={'Browse items'}
             component={ItemBrowser}
             icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
             analyticsDesc={'ItemBrowser: Item Browser'}

@@ -29,25 +29,6 @@ import {
     FormLabel,
 } from '@components/ui/';
 
-const productList = [
-    {
-        id: '1',
-        key: 'key1',
-        title: 'Victory Long Sleeve Polo',
-        description: '',
-        img: "require('../../images/LongSleevePolo.png')",
-        price: 65
-    },
-    {
-        id: '3',
-        key: 'key2',
-        title: 'Victory Polo',
-        description: '',
-        img: "require('../../images/VictorySolidPolo.png')",
-        price: 78
-    }
-]
-
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
     // Tab Styles
@@ -60,6 +41,7 @@ const styles = StyleSheet.create({
 
     titleView: {
         flex: 2,
+        width: '100%',
         flexDirection: 'row',
         padding: 20,
         backgroundColor: AppColors.base.white
@@ -78,19 +60,40 @@ const styles = StyleSheet.create({
         padding: 12,
         fontStyle: 'italic',
         fontWeight: 'bold'
+    },
+
+    btnContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        width: '100%'
+    },
+
+    removeBtn: {
+        paddingLeft: 15,
+        width: 110
+    },
+
+    checkoutBtn: {
+        margin: 10
+    },
+
+    scrollView: {
+      backgroundColor: AppColors.base.greyLight
     }
 
 });
 
 
-
 const mapDispatchToProps = (dispatch) => {
-    return({
-        showNotification: (message) => {NotificationActions.showNotification(dispatch, message)}
+    return ({
+        showNotification: (message) => {
+            NotificationActions.showNotification(dispatch, message)
+        }
     })
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+    products: state.products.products
 });
 
 class CartView extends Component {
@@ -100,8 +103,6 @@ class CartView extends Component {
         super(props);
 
         this.state = {
-            productList: productList,
-            modalVisible: false,
             selectedIndex: 1
         }
     }
@@ -129,18 +130,18 @@ class CartView extends Component {
 
         <View>
             {/*<Modal
-                animationType={'fade'}
-                transparent={true}
-                presentationStyle={'pageSheet'}
-                visible={this.state.modalVisible}
-            >
+             animationType={'fade'}
+             transparent={true}
+             presentationStyle={'pageSheet'}
+             visible={this.state.modalVisible}
+             >
 
-            </Modal>*/}
-            <ScrollView style={{backgroundColor: '#EBEBEB'}}
-                automaticallyAdjustContentInsets={false}
+             </Modal>*/}
+            <ScrollView style={styles.scrollView}
+                        automaticallyAdjustContentInsets={false}
             >
                 <FlatList
-                    data={this.state.productList}
+                    data={this.props.products}
                     renderItem={({item}) =>
                     <ListItem
                     containerStyle={styles.listItem}
@@ -150,10 +151,16 @@ class CartView extends Component {
                             this.showNotification('Notification test message ' + this.counter++)
                         }}>
                           <View style={styles.titleView} >
-                            <Image style={styles.productImage} source={require('../../images/LongSleevePolo.png')} />
+                            <Image style={styles.productImage} source={{uri: item.img}} />
                             <View style={{flexDirection: 'column'}}>
                              <Text style={styles.titleViewText}>{item.title}</Text>
-                            <Text style={styles.productPrice}>£{item.price}</Text>
+                             <Text style={styles.productPrice}>£{item.price}</Text>
+                             <View style={styles.btnContainer}>
+                                <Button
+                                    title={'Remove'}
+                                    style={styles.removeBtn}
+                                ></Button>
+                             </View>
                             </View>
                           </View>
                           </TouchableHighlight>
@@ -162,6 +169,12 @@ class CartView extends Component {
                     }
                 />
             </ScrollView>
+            <View>
+                <Button
+                    title={'Go to checkout'}
+                    style={styles.checkoutBtn}
+                ></Button>
+            </View>
         </View>
     )
 

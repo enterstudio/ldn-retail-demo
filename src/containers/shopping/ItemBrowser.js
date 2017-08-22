@@ -15,6 +15,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
+import { FirebaseImgRef } from '@constants/';
+
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -29,32 +31,6 @@ import {
     FormLabel,
 } from '@components/ui/';
 
-const productList = [
-    {
-        id: '1',
-        key: 'key1',
-        title: 'Victory Long Sleeve Polo',
-        description: '',
-        img: "require('../../images/LongSleevePolo.png')",
-        price: 65
-    },
-    {
-        id: '2',
-        key: 'key2',
-        title: 'Victory Hoodie',
-        description: '',
-        img: "require('../../images/VictorySolidPolo.png')",
-        price: 66
-    },
-    {
-        id: '3',
-        key: 'key3',
-        title: 'Victory Polo',
-        description: '',
-        img: "require('../../images/VictorySolidPolo.png')",
-        price: 78
-    }
-]
 
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
@@ -75,8 +51,8 @@ const styles = StyleSheet.create({
     titleView: {
         flex: 2,
         flexDirection: 'row',
-        padding: 40,
-        backgroundColor: AppColors.base.white,
+        padding: 20,
+        backgroundColor: AppColors.base.white
 
     },
 
@@ -87,8 +63,8 @@ const styles = StyleSheet.create({
     },
 
     productImage: {
-        width: 60,
-        height: 80,
+        width: 110,
+        height: 160,
     },
 
     productPrice: {
@@ -102,25 +78,27 @@ const styles = StyleSheet.create({
     },
 
     card: {
-        flexDirection: 'column',
+        flexDirection: 'column'
 
     }
 
 
 });
 
-
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+    products: state.products.products
+});
 
 class ItemBrowser extends Component {
 
-    slides = productList.map((item, index) => {
+    slides = this.props.products.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide}>
                 <View style={styles.titleView}>
-                    <Image style={styles.productImage} source={require('../../images/LongSleevePolo.png')}/>
+
                     <View style={styles.card}>
                         <Text style={styles.titleViewText}>{item.title}</Text>
+                        <Image style={styles.productImage} source={{uri: item.img}}/>
                         <Text style={styles.productPrice}>£{item.price}</Text>
                     </View>
                 </View>
@@ -133,7 +111,7 @@ class ItemBrowser extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.titleViewText}>{'Item browser'}</Text>
+                    <Text style={AppStyles.h1}>{'Item browser'}</Text>
                 </View>
                 <Carousel
                     ref={(carousel) => { this._carousel = carousel; }}
