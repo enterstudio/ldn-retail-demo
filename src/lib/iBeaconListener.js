@@ -52,6 +52,7 @@ class IBeaconListener {
         }
 
         if(Platform.OS  === 'android') {
+
             Beacons.startRangingBeaconsInRegion(region.identifier, region.uuid);
 
             // Beacons.startMonitoringForRegion(region.identifier, region.uuid);

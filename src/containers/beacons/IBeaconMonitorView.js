@@ -48,10 +48,6 @@ const styles = StyleSheet.create({
     },
     listItem: {},
 
-    btn: {
-        margin: 10
-    }
-
 });
 
 const TIME_FORMAT = "MMMM Do YYYY, h:mm:ss a";
@@ -153,7 +149,7 @@ class IBeaconMonitorView extends Component {
                 <Text style={AppStyles.h2}>Beacon Did Exit</Text>
                 <Text>Minor: {this.state.regionExitData.minor}</Text>
             </View>
-            <Button style={styles.btn} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
+            <Button style={{margin: 15}} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
         </View>
     )
 

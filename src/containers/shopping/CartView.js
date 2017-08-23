@@ -64,13 +64,13 @@ const styles = StyleSheet.create({
 
     btnContainer: {
         flex: 1,
-        justifyContent: 'flex-end',
-        width: '100%'
+        width: 110,
+        paddingLeft: 15,
     },
 
     removeBtn: {
         paddingLeft: 15,
-        width: 110
+
     },
 
     checkoutBtn: {
@@ -108,7 +108,7 @@ class CartView extends Component {
     }
 
     showNotification(message) {
-        this.props.showNotification(message);
+        this.props.showNotification({message});
     }
 
     //displayNotification() {
@@ -123,7 +123,7 @@ class CartView extends Component {
     //    )
     //}
 
-    counter = 0;
+    _keyExtractor = (item, index) => item.id;
 
     render = () => (
 
@@ -142,13 +142,14 @@ class CartView extends Component {
             >
                 <FlatList
                     data={this.props.products}
+                    keyExtractor={this._keyExtractor}
                     renderItem={({item}) =>
                     <ListItem
                     containerStyle={styles.listItem}
                     hideChevron={true}
                     title={
                       <TouchableHighlight onPress={() => {
-                            this.showNotification('Notification test message ' + this.counter++)
+                            this.showNotification('Notification test message')
                         }}>
                           <View style={styles.titleView} >
                             <Image style={styles.productImage} source={{uri: item.img}} />

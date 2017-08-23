@@ -132,7 +132,7 @@ class Notification extends Component {
         // this.setState({height: new Animated.Value(this.props.heightClosed)});
 
         if (nextProps.message && nextProps.message !== '') {
-            this.setState({message: nextProps.message})
+            this.setState({message: nextProps.message.message})
             this.open();
         }
 
@@ -163,7 +163,7 @@ class Notification extends Component {
                        height: this.state.height
                        }]}>
                 <View style={styles.shadowContainer}>
-                    <Text style={styles.message}>{this.props.message}</Text>
+                    <Text style={styles.message}>{this.state.message}</Text>
 
                     <View style={styles.modal}>
                         <View style={styles.modalContent}>

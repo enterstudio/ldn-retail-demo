@@ -41,25 +41,23 @@ const styles = StyleSheet.create({
     },
 
     slide: {
-        width : AppSizes.screen.widthThreeQuarters,
-        height : AppSizes.screen.height / 2.5,
+        width: AppSizes.screen.widthThreeQuarters,
+        height: AppSizes.screen.height / 2.5,
         borderBottomColor: AppColors.base.grey,
         borderBottomWidth: 1,
         backgroundColor: AppColors.base.white
     },
 
-    titleView: {
-        flex: 2,
+    productContainer: {
         flexDirection: 'row',
-        padding: 20,
-        backgroundColor: AppColors.base.white
-
+        paddingLeft: 30
     },
 
-    titleViewText: {
+    titleText: {
         textAlign: 'center',
         fontSize: 17,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 15
     },
 
     productImage: {
@@ -74,7 +72,9 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        height: AppSizes.screen.heightThird
+        height: AppSizes.screen.heightThird,
+        alignItems: 'center',
+        paddingTop: 15
     },
 
     card: {
@@ -94,10 +94,9 @@ class ItemBrowser extends Component {
     slides = this.props.products.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide}>
-                <View style={styles.titleView}>
-
-                    <View style={styles.card}>
-                        <Text style={styles.titleViewText}>{item.title}</Text>
+                <View style={styles.card}>
+                    <Text style={styles.titleText}>{item.title}</Text>
+                    <View style={styles.productContainer}>
                         <Image style={styles.productImage} source={{uri: item.img}}/>
                         <Text style={styles.productPrice}>£{item.price}</Text>
                     </View>
