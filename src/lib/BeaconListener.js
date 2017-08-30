@@ -1,5 +1,5 @@
 import { DeviceEventEmitter, Platform } from 'react-native';
-//import EstimoteManager from 'react-android-estimote-manager';
+//import Beacons from 'react-native-beacons-manager';
 
 
 // Define a region which can be identifier + uuid,
@@ -11,25 +11,24 @@ const region = {
 };
 
 
-class EstimoteListener {
+class BeaconListener {
 
+    init(beaconsDidRangeCb, regionDidEnterCb, regionDidExitCb) {
 
+        DeviceEventEmitter.addListener(
+            'regionDidEnter',
+            regionDidEnterCb
+        );
 
-    init(beaconsDidRangeCb) {
+        DeviceEventEmitter.addListener(
+            'regionDidExit',
+            regionDidExitCb
+        );
 
-        //DeviceEventEmitter.addListener(
-        //    'regionDidEnter',
-        //    regionDidEnterCb
-        //);
-        //
-        //DeviceEventEmitter.addListener(
-        //    'regionDidExit',
-        //    regionDidExitCb
-        //);
 
         // Listen for beacon changes
         DeviceEventEmitter.addListener(
-            'Beacons',
+            'beaconsDidRange',
             beaconsDidRangeCb
         );
 
@@ -40,15 +39,29 @@ class EstimoteListener {
 
     startRanging() {
 
+        if(Platform.OS  === 'ios') {
+            //ranging
+            //Beacons.requestWhenInUseAuthorization();
+            //Beacons.startRangingBeaconsInRegion(region);
+
+            //monitoring
+            //Beacons.requestAlwaysAuthorization();
+            //Beacons.startUpdatingLocation();
+            //Beacons
+            //    .startMonitoringForRegion(region);
+        }
+
         if(Platform.OS  === 'android') {
-           // EstimoteManager.startBeaconScan();
+
+            //Beacons.startRangingBeaconsInRegion(region.identifier, region.uuid);
+
             // Beacons.startMonitoringForRegion(region.identifier, region.uuid);
         }
     }
 
     stopRanging() {
         //Beacons.stopMonitoringForRegion();
-        //EstimoteManager.stopRangingBeaconsInRegion(region);
+        //Beacons.stopRangingBeaconsInRegion(region);
         //Beacons.stopUpdatingLocation();
         //DeviceEventEmitter.removeListener('regionDidEnter');
         //DeviceEventEmitter.removeListener('regionDidExit');
@@ -58,4 +71,4 @@ class EstimoteListener {
 
 }
 
-export default EstimoteListener;
+export default BeaconListener;

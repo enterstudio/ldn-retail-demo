@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -23,8 +24,6 @@
 		34AD7DA8B67F4DDE9FF31B6A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE710E9387E94BA1BF4AAB21 /* FontAwesome.ttf */; };
 		377865A391264332817AE3C3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 037F13963D23404DBB23BC3F /* Ionicons.ttf */; };
 		50BAB68A1EB84DA69372E99D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA2A2B45BE844319B549C2DD /* Octicons.ttf */; };
-		5C0EC4031F4480050070E3FB /* libRNiBeacon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD48B3B1F444D22008D25B4 /* libRNiBeacon.a */; };
-		5CD48BAD1F445E8C008D25B4 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD48BAC1F445E8C008D25B4 /* EstimoteSDK.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		7AF7426070434F78BDED341C /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CBD057CA9CA42E5BCD7F708 /* libRCTGoogleAnalyticsBridge.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -311,7 +310,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CD48BAD1F445E8C008D25B4 /* EstimoteSDK.framework in Frameworks */,
 				C97D70A31E23777B00C3C793 /* CoreData.framework in Frameworks */,
 				C97D70C11E23779800C3C793 /* SystemConfiguration.framework in Frameworks */,
 				C97D70C51E2377B200C3C793 /* libsqlite3.0.tbd in Frameworks */,
@@ -328,7 +326,6 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				A86B48E557534E6994A40ACF /* libRNDeviceInfo.a in Frameworks */,
-				5C0EC4031F4480050070E3FB /* libRNiBeacon.a in Frameworks */,
 				7AF7426070434F78BDED341C /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

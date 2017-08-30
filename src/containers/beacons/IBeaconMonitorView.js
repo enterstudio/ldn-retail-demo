@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import timer from 'react-native-timer';
 import { Actions } from 'react-native-router-flux';
-import IBeaconListener from '../../lib/IBeaconListener';
+import BeaconListener from '../../lib/BeaconListener';
 import moment from 'moment';
 
 // Consts and Libs
@@ -60,7 +60,7 @@ class IBeaconMonitorView extends Component {
 
     constructor(props) {
         super(props);
-        this.beaconListener = new IBeaconListener();
+        this.beaconListener = new BeaconListener();
         this.toggleRanging = this.toggleRanging.bind(this);
         this.beaconsDidRangeCb = this.beaconsDidRangeCb.bind(this);
         this.regionDidEnterCb = this.regionDidEnterCb.bind(this);
