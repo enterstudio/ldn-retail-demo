@@ -14,7 +14,11 @@ import {
 } from 'react-native';
 import timer from 'react-native-timer';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import BeaconListener from '../../lib/BeaconListener';
+import * as BeaconActions from '@redux/beacon/actions';
+
+
 import moment from 'moment';
 
 // Consts and Libs
@@ -50,7 +54,21 @@ const styles = StyleSheet.create({
 
 const TIME_FORMAT = "MMMM Do YYYY, h:mm:ss a";
 
-class IBeaconMonitorView extends Component {
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatchUserInRange: (user) => {
+            BeaconActions.sendUserInRangeEvent(user);
+        }
+    }
+};
+
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+//TODO seperate container and view
+class BeaconMonitorView extends Component {
 
     _keyExtractor = (item, index) => 'item'.concat(index);
 
@@ -80,17 +98,20 @@ class IBeaconMonitorView extends Component {
     }
 
     beaconsDidRangeCb(data) {
-        console.log('ranging - data: ', data);
+        //console.log('ranging - data: ', data);
         this.setState({beaconsDidRangeData: JSON.parse(data)});
     }
 
     regionMonitoringCb(data) {
-        // good place for background tasks
+        //TODO app running in background? Send system notification
+
         const event  = JSON.parse(data);
         console.log('monitoring - data: ', data);
 
-        const time = moment().format(TIME_FORMAT);
         if(event.type === 'enter'){
+
+        this.props.dispatchUserInRange(this.props.user);
+
         this.setState({
             regionEnterData: {
                 identifier: event.region_identifier
@@ -103,7 +124,6 @@ class IBeaconMonitorView extends Component {
                     identifier: event.region_identifier
                 }
             });
-
         }
     }
 
@@ -139,11 +159,9 @@ class IBeaconMonitorView extends Component {
 
     componentDidMount() {
         this.beaconListener.init(this.beaconsDidRangeCb, this.regionMonitoringCb);
-        this.setState({isRanging: true})
+        this.setState({isRanging: true});
     }
-
-
 
 }
 
-export default IBeaconMonitorView;
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconMonitorView);

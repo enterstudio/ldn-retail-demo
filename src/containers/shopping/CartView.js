@@ -96,6 +96,7 @@ const mapStateToProps = state => ({
     products: state.products.products
 });
 
+//TODO seperate container and view
 class CartView extends Component {
 
 

@@ -19,7 +19,7 @@ import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButt
 // Scenes
 import CartView from '@containers/shopping/CartView';
 import ItemBrowser from '@containers/shopping/ItemBrowser';
-import IBeaconMonitorView from '@containers/beacons/IBeaconMonitorView';
+import BeaconMonitorView from '@containers/beacon/BeaconMonitorView';
 import StyleGuide from '@containers/StyleGuideView';
 
 
@@ -58,7 +58,7 @@ const scenes = (
             key={'ibeacon'}
             {...navbarPropsTabs}
             title={'Ibeacon Monitoring'}
-            component={IBeaconMonitorView}
+            component={BeaconMonitorView}
             icon={props => TabIcon({ ...props, icon: 'signal' })}
             analyticsDesc={'iBeacon: Beacon monitoring'}
         />

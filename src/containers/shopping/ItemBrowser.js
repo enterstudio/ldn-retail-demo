@@ -79,16 +79,14 @@ const styles = StyleSheet.create({
 
     card: {
         flexDirection: 'column'
-
     }
-
-
 });
 
 const mapStateToProps = state => ({
     products: state.products.products
 });
 
+//TODO separate container and view
 class ItemBrowser extends Component {
 
     slides = this.props.products.map((item, index) => {

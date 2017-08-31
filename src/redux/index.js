@@ -14,14 +14,15 @@ import sideMenu from '@redux/sidemenu/reducer';
 import user from '@redux/user/reducer';
 import notification from '@redux/notification/reducer';
 import products from '@redux/products/reducer';
-
+import beacons from '@redux/beacon/reducer';
 // Combine all
 const appReducer = combineReducers({
   router,
   sideMenu,
   user,
   notification,
-  products
+  products,
+  beacons
 });
 
 // Setup root reducer

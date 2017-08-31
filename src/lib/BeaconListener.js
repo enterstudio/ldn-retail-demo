@@ -23,7 +23,6 @@ class BeaconListener {
         );
 
 
-        // Listen for beacon changes
         DeviceEventEmitter.addListener(
             'Ranging',
             beaconsDidRangeCb
