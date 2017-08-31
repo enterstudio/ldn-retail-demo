@@ -42,8 +42,6 @@ const styles = StyleSheet.create({
 
     log: {
         backgroundColor: AppColors.base.white,
-        borderBottomColor: AppColors.base.grey,
-        borderBottomWidth: 1,
         padding: 15
     },
     listItem: {},
@@ -63,13 +61,10 @@ class IBeaconMonitorView extends Component {
         this.beaconListener = new BeaconListener();
         this.toggleRanging = this.toggleRanging.bind(this);
         this.beaconsDidRangeCb = this.beaconsDidRangeCb.bind(this);
-        this.regionDidEnterCb = this.regionDidEnterCb.bind(this);
-        this.regionDidExitCb = this.regionDidExitCb.bind(this);
+        this.regionMonitoringCb = this.regionMonitoringCb.bind(this);
         this.state = {
             isRanging: false,
-            beaconsDidRangeData: {
-                beacons: []
-            },
+            beaconsDidRangeData: [],
             regionEnterData: {},
             regionExitData: {}
         }
@@ -85,42 +80,31 @@ class IBeaconMonitorView extends Component {
     }
 
     beaconsDidRangeCb(data) {
-        //console.log('beaconsDidRangeCb ', data)
-        this.setState({beaconsDidRangeData: data})
-
+        console.log('ranging - data: ', data);
+        this.setState({beaconsDidRangeData: JSON.parse(data)});
     }
 
-    regionDidEnterCb(data) {
+    regionMonitoringCb(data) {
         // good place for background tasks
-        console.log('monitoring - regionDidEnter data: ', data);
+        const event  = JSON.parse(data);
+        console.log('monitoring - data: ', data);
 
         const time = moment().format(TIME_FORMAT);
+        if(event.type === 'enter'){
         this.setState({
             regionEnterData: {
-                identifier: data.identifier,
-                uuid: data.uuid,
-                minor: data.minor,
-                major: data.major,
-                time
+                identifier: event.region_identifier
             }
         });
-    }
+        }
+        else if(event.type === 'exit'){
+            this.setState({
+                regionExitData: {
+                    identifier: event.region_identifier
+                }
+            });
 
-
-    regionDidExitCb(data) {
-        // good place for background tasks
-        console.log('monitoring - regionDidExit data: ', data);
-
-        const time = moment().format(TIME_FORMAT);
-        this.setState({
-            regionExitData: {
-                identifier: data.identifier,
-                uuid: data.uuid,
-                minor: data.minor,
-                major: data.major,
-                time
-            }
-        });
+        }
     }
 
     render = () => (
@@ -128,14 +112,14 @@ class IBeaconMonitorView extends Component {
             <View style={styles.log}>
                 <Text style={AppStyles.h2}>Beacon Range</Text>
                 <FlatList
-                    data={this.state.beaconsDidRangeData.beacons}
+                    data={this.state.beaconsDidRangeData}
                     keyExtractor={this._keyExtractor}
                     renderItem={({item}) =>
                     <ListItem
                         containerStyle={styles.listItem}
                         hideChevron={true}
-                        title={'Minor: ' + item.minor}
-                        subtitle={'proximity: ' + item.proximity + ', rssi: ' + item.rssi + ', accuracy: ' + item.accuracy }
+                        title={'macAddress: ' + item.macAddress}
+                        subtitle={'proximityUUID: ' + item.proximityUUID + ', rssi: ' + item.rssi + ', accuracy: ' + item.accuracy }
                         subtitleStyle={{fontSize: 15}}
                     />
                     }
@@ -143,18 +127,18 @@ class IBeaconMonitorView extends Component {
             </View>
             <View style={styles.log}>
                 <Text style={AppStyles.h2}>Beacon Did Enter</Text>
-                <Text>Minor: {this.state.regionEnterData.minor}</Text>
+                <Text>Minor: {this.state.regionEnterData.identifier}</Text>
             </View>
             <View style={styles.log}>
                 <Text style={AppStyles.h2}>Beacon Did Exit</Text>
-                <Text>Minor: {this.state.regionExitData.minor}</Text>
+                <Text>Minor: {this.state.regionExitData.identifier}</Text>
             </View>
             <Button style={{margin: 15}} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
         </View>
     )
 
     componentDidMount() {
-        this.beaconListener.init(this.beaconsDidRangeCb, this.regionDidEnterCb, this.regionDidExitCb);
+        this.beaconListener.init(this.beaconsDidRangeCb, this.regionMonitoringCb);
         this.setState({isRanging: true})
     }
 

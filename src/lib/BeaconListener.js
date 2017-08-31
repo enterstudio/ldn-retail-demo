@@ -1,5 +1,7 @@
-import { DeviceEventEmitter, Platform } from 'react-native';
-//import Beacons from 'react-native-beacons-manager';
+import { DeviceEventEmitter, Platform, NativeModules } from 'react-native';
+//import EstimoteManager from 'react-android-estimote-manager';
+
+const EstimoteManager = NativeModules.Estimote;
 
 
 // Define a region which can be identifier + uuid,
@@ -13,22 +15,17 @@ const region = {
 
 class BeaconListener {
 
-    init(beaconsDidRangeCb, regionDidEnterCb, regionDidExitCb) {
+    init(beaconsDidRangeCb, regionMonitoringCb ) {
 
         DeviceEventEmitter.addListener(
-            'regionDidEnter',
-            regionDidEnterCb
-        );
-
-        DeviceEventEmitter.addListener(
-            'regionDidExit',
-            regionDidExitCb
+            'Monitoring',
+            regionMonitoringCb
         );
 
 
         // Listen for beacon changes
         DeviceEventEmitter.addListener(
-            'beaconsDidRange',
+            'Ranging',
             beaconsDidRangeCb
         );
 
@@ -39,23 +36,10 @@ class BeaconListener {
 
     startRanging() {
 
-        if(Platform.OS  === 'ios') {
-            //ranging
-            //Beacons.requestWhenInUseAuthorization();
-            //Beacons.startRangingBeaconsInRegion(region);
-
-            //monitoring
-            //Beacons.requestAlwaysAuthorization();
-            //Beacons.startUpdatingLocation();
-            //Beacons
-            //    .startMonitoringForRegion(region);
-        }
-
         if(Platform.OS  === 'android') {
+            EstimoteManager.startBeaconRangingScan('[ {"identifier": "blueberry_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon02", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" } ]');
+            EstimoteManager.startBeaconMonitoringScan('[ {"identifier": "blueberry_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon02", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" } ]');
 
-            //Beacons.startRangingBeaconsInRegion(region.identifier, region.uuid);
-
-            // Beacons.startMonitoringForRegion(region.identifier, region.uuid);
         }
     }
 

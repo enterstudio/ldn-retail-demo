@@ -1,19 +1,15 @@
 package com.visaretaildemo;
 
-import android.os.Bundle;
-import android.util.Log;
-
 import com.facebook.react.ReactActivity;
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 
-
-import java.util.List;
-import java.util.UUID;
 
 public class MainActivity extends ReactActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
 
     @Override
