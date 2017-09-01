@@ -1,8 +1,5 @@
 import { DeviceEventEmitter, Platform, NativeModules } from 'react-native';
-//import EstimoteManager from 'react-android-estimote-manager';
-
-const EstimoteManager = NativeModules.Estimote;
-
+import EstimoteManager from 'react-android-estimote-manager';
 
 // Define a region which can be identifier + uuid,
 // identifier + uuid + major or identifier + uuid + major + minor
