@@ -162,6 +162,11 @@ class BeaconMonitorView extends Component {
         this.setState({isRanging: true});
     }
 
+
+    componentWillUnmount() {
+        this.beaconListener.stopRanging();
+    }
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeaconMonitorView);

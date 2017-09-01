@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
     slide: {
         width: AppSizes.screen.widthThreeQuarters,
-        height: AppSizes.screen.height / 2.5,
+        height: AppSizes.screen.height / 2,
         borderBottomColor: AppColors.base.grey,
         borderBottomWidth: 1,
         backgroundColor: AppColors.base.white
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        height: AppSizes.screen.heightThird,
         alignItems: 'center',
+        height: AppSizes.screen.height / 4,
         paddingTop: 15
     },
 
@@ -91,7 +91,7 @@ class ItemBrowser extends Component {
 
     slides = this.props.products.map((item, index) => {
         return (
-            <View key={`entry-${index}`} style={styles.slide}>
+            <View key={`entry-${index}`} style={styles.slide} elevation={5}>
                 <View style={styles.card}>
                     <Text style={styles.titleText}>{item.title}</Text>
                     <View style={styles.productContainer}>
@@ -115,6 +115,9 @@ class ItemBrowser extends Component {
                     sliderWidth={AppSizes.screen.width}
                     itemWidth={AppSizes.screen.widthThreeQuarters}
                     itemheight={AppSizes.screen.heightThreeQuarters}
+                    enableMomentum = {false}
+                    scrollEndDragDebounceValue = {50}
+                    swipeThreshold = {80}
                 >
                     { this.slides }
                 </Carousel>

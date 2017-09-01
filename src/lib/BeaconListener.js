@@ -30,7 +30,6 @@ class BeaconListener {
 
         this.startRanging();
 
-
     }
 
     startRanging() {
@@ -43,12 +42,14 @@ class BeaconListener {
     }
 
     stopRanging() {
-        //Beacons.stopMonitoringForRegion();
-        //Beacons.stopRangingBeaconsInRegion(region);
-        //Beacons.stopUpdatingLocation();
-        //DeviceEventEmitter.removeListener('regionDidEnter');
-        //DeviceEventEmitter.removeListener('regionDidExit');
-        //DeviceEventEmitter.removeListener('beaconsDidRange');
+
+        if(Platform.OS  === 'android') {
+            EstimoteManager.stopBeaconMonitoringScan();
+            EstimoteManager.stopBeaconRangingScan();
+            // DeviceEventEmitter.removeListener('Ranging');
+            //DeviceEventEmitter.removeListener('Monitoring');
+        }
+
     }
 
 
