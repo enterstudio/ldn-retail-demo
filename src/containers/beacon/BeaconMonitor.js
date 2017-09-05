@@ -44,15 +44,21 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
 
+    rangeContainer: {
+      height: 200,
+        overflow: 'hidden'
+    },
+
     log: {
         backgroundColor: AppColors.base.white,
-        padding: 15
+        padding: 15,
+        borderBottomWidth: 1
     },
-    listItem: {},
+    listItem: {
+        borderBottomWidth: 0
+    },
 
 });
-
-const TIME_FORMAT = "MMMM Do YYYY, h:mm:ss a";
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -68,7 +74,7 @@ const mapStateToProps = state => ({
 });
 
 //TODO seperate container and view
-class BeaconMonitorView extends Component {
+class BeaconMonitor extends Component {
 
     _keyExtractor = (item, index) => 'item'.concat(index);
 
@@ -90,20 +96,21 @@ class BeaconMonitorView extends Component {
 
     toggleRanging() {
         if (!this.state.isRanging) {
-            this.beaconListener.startRanging();
+          //  this.beaconListener.startRanging();
         } else {
-            this.beaconListener.stopRanging();
+           // this.beaconListener.stopRanging();
         }
         this.setState({isRanging: !this.state.isRanging});
     }
 
     beaconsDidRangeCb(data) {
         //console.log('ranging - data: ', data);
-        this.setState({beaconsDidRangeData: JSON.parse(data)});
+        if(this.state.isRanging) {
+            this.setState({beaconsDidRangeData: JSON.parse(data)});
+        }
     }
 
     regionMonitoringCb(data) {
-        //TODO app running in background? Send system notification
 
         const event  = JSON.parse(data);
         console.log('monitoring - data: ', data);
@@ -114,22 +121,29 @@ class BeaconMonitorView extends Component {
 
         this.setState({
             regionEnterData: {
-                identifier: event.region_identifier
+                identifier: event.region_identifier  + ': ' + moment(new Date()).format('h:mm:ss')
+            },
+            regionExitData : {
+                identifier: ''
             }
         });
         }
         else if(event.type === 'exit'){
             this.setState({
                 regionExitData: {
-                    identifier: event.region_identifier
+                    identifier: event.region_identifier  + ': ' + moment(new Date()).format('h:mm:ss')
+                },
+                regionEnterData: {
+                    identifier: ''
                 }
+
             });
         }
     }
 
     render = () => (
         <View style={styles.container}>
-            <View style={styles.log}>
+            <View style={styles.rangeContainer}>
                 <Text style={AppStyles.h2}>Beacon Range</Text>
                 <FlatList
                     data={this.state.beaconsDidRangeData}
@@ -138,8 +152,8 @@ class BeaconMonitorView extends Component {
                     <ListItem
                         containerStyle={styles.listItem}
                         hideChevron={true}
-                        title={'macAddress: ' + item.macAddress}
-                        subtitle={'proximityUUID: ' + item.proximityUUID + ', rssi: ' + item.rssi + ', accuracy: ' + item.accuracy }
+                        title={'UUID: ' + item.proximityUUID.split('-')[4]}
+                        subtitle={'Minor: ' + item.minor + ', rssi: ' + item.rssi + ', accuracy: ' + item.accuracy }
                         subtitleStyle={{fontSize: 15}}
                     />
                     }
@@ -147,11 +161,11 @@ class BeaconMonitorView extends Component {
             </View>
             <View style={styles.log}>
                 <Text style={AppStyles.h2}>Beacon Did Enter</Text>
-                <Text>Minor: {this.state.regionEnterData.identifier}</Text>
+                <Text>Identifier: {this.state.regionEnterData.identifier} </Text>
             </View>
             <View style={styles.log}>
                 <Text style={AppStyles.h2}>Beacon Did Exit</Text>
-                <Text>Minor: {this.state.regionExitData.identifier}</Text>
+                <Text>Identifier: {this.state.regionExitData.identifier}</Text>
             </View>
             <Button style={{margin: 15}} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
         </View>
@@ -169,4 +183,4 @@ class BeaconMonitorView extends Component {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BeaconMonitorView);
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconMonitor);

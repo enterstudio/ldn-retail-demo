@@ -97,7 +97,7 @@ const mapStateToProps = state => ({
 });
 
 //TODO seperate container and view
-class CartView extends Component {
+class Cart extends Component {
 
 
     constructor(props) {
@@ -138,6 +138,7 @@ class CartView extends Component {
              >
 
              </Modal>*/}
+
             <ScrollView style={styles.scrollView}
                         automaticallyAdjustContentInsets={false}
             >
@@ -157,12 +158,12 @@ class CartView extends Component {
                             <View style={{flexDirection: 'column'}}>
                              <Text style={styles.titleViewText}>{item.title}</Text>
                              <Text style={styles.productPrice}>£{item.price}</Text>
-                             <View style={styles.btnContainer}>
-                                <Button
-                                    title={'Remove'}
-                                    style={styles.removeBtn}
-                                ></Button>
-                             </View>
+                                 <View style={styles.btnContainer}>
+                                    <Button
+                                        title={'Remove'}
+                                        style={styles.removeBtn}
+                                    ></Button>
+                                 </View>
                             </View>
                           </View>
                           </TouchableHighlight>
@@ -183,4 +184,4 @@ class CartView extends Component {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartView);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

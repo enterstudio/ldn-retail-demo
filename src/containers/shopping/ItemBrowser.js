@@ -9,12 +9,16 @@ import {
     FlatList,
     ScrollView,
     StyleSheet,
+    Platform,
+    Dimensions,
+    Animated,
     TouchableOpacity,
     TouchableHighlight,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
+import Product from './Product';
 import { FirebaseImgRef } from '@constants/';
 
 
@@ -31,6 +35,7 @@ import {
     FormLabel,
 } from '@components/ui/';
 
+const Screen = Dimensions.get('window');
 
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
@@ -79,6 +84,30 @@ const styles = StyleSheet.create({
 
     card: {
         flexDirection: 'column'
+    },
+
+    browserContainer: {
+        position: 'absolute',
+        top: 0,
+        height: AppSizes.screen.height,
+        width: Screen.width,
+        backgroundColor: AppColors.base.white,
+        overflow: 'hidden',
+        // borderRadius: 12,
+        zIndex: 13,
+    },
+
+    productViewContainer: {
+        position: 'absolute',
+        top: 0,
+        height: AppSizes.screen.height,
+        width: Screen.width,
+        backgroundColor: AppColors.base.white,
+        overflow: 'hidden',
+        // borderRadius: 12,
+        zIndex: 1,
+
+
     }
 });
 
@@ -86,44 +115,77 @@ const mapStateToProps = state => ({
     products: state.products.products
 });
 
+
+const defaultProps = {
+    timeout: 3000,
+    fadeTime: 500,
+    top: 0,
+    topHidden: -AppSizes.screen.height,
+    message: ''
+};
+
 //TODO separate container and view
 class ItemBrowser extends Component {
+
+    constructor(props) {
+        super(props);
+        this._slideUp = this._slideUp.bind(this);
+        this.state = {
+            top: new Animated.Value(this.props.top),
+            topHidden: new Animated.Value(this.props.topHidden)
+        };
+    }
+
+    _slideUp = () => {
+        console.log('sliding up');
+        Animated.timing(this.state.top, {
+            duration: this.props.fadeTime,
+            toValue: this.props.topHidden
+        }).start();
+    }
 
     slides = this.props.products.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide} elevation={5}>
-                <View style={styles.card}>
-                    <Text style={styles.titleText}>{item.title}</Text>
-                    <View style={styles.productContainer}>
-                        <Image style={styles.productImage} source={{uri: item.img}}/>
-                        <Text style={styles.productPrice}>£{item.price}</Text>
+                <TouchableHighlight onPress={this._slideUp}>
+                    <View style={styles.card}>
+                        <Text style={styles.titleText}>{item.title}</Text>
+                        <View style={styles.productContainer}>
+                            <Image style={styles.productImage} source={{uri: item.img}}/>
+                            <Text style={styles.productPrice}>£{item.price}</Text>
+                        </View>
                     </View>
-                </View>
+                </TouchableHighlight>
             </View>
         );
     });
 
     render = () => {
-
         return (
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={AppStyles.h1}>{'Item browser'}</Text>
+                <Animated.View style={[styles.browserContainer, {top: this.state.top}]}>
+                    <View style={styles.header}>
+                        <Text style={AppStyles.h1}>{'Item browser'}</Text>
+                    </View>
+                    <Carousel
+                        ref={(carousel) => { this._carousel = carousel; }}
+                        sliderWidth={AppSizes.screen.width}
+                        itemWidth={AppSizes.screen.widthThreeQuarters}
+                        itemheight={AppSizes.screen.heightThreeQuarters}
+                        enableMomentum={false}
+                        scrollEndDragDebounceValue={50}
+                        swipeThreshold={80}
+                    >
+                        { this.slides }
+                    </Carousel>
+                </Animated.View>
+                <View style={styles.productViewContainer}>
+                    <Product product={this.props.products[0]}></Product>
                 </View>
-                <Carousel
-                    ref={(carousel) => { this._carousel = carousel; }}
-                    sliderWidth={AppSizes.screen.width}
-                    itemWidth={AppSizes.screen.widthThreeQuarters}
-                    itemheight={AppSizes.screen.heightThreeQuarters}
-                    enableMomentum = {false}
-                    scrollEndDragDebounceValue = {50}
-                    swipeThreshold = {80}
-                >
-                    { this.slides }
-                </Carousel>
             </View>
         );
     }
 }
 
+ItemBrowser.defaultProps = defaultProps;
 export default connect(mapStateToProps)(ItemBrowser);

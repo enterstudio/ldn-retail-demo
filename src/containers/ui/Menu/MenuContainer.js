@@ -3,6 +3,7 @@
  *
  * React Native Starter App
  * https://github.com/mcnamee/react-native-starter-app
+ * TODO use as template for container/component def
  */
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -16,13 +17,13 @@ import MenuRender from './MenuView';
 // Authenticated User Menu
 const authMenu = [
   { title: 'Update Profile', onPress: () => { Actions.updateProfile(); } },
-  { title: 'Change Password', onPress: () => { Actions.passwordReset(); } },
+  { title: 'Change Password', onPress: () => { Actions.passwordReset(); } }
 ];
 
 // Unauthenticated User Menu
 const unauthMenu = [
   { title: 'Login', onPress: () => { Actions.login(); } },
-  { title: 'Sign Up', onPress: () => { Actions.signUp(); } },
+  { title: 'Sign Up', onPress: () => { Actions.signUp(); } }
 ];
 
 // What data from the store shall we send to the component?

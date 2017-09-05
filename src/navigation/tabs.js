@@ -17,10 +17,9 @@ import { TabIcon } from '@ui/';
 import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
 
 // Scenes
-import CartView from '@containers/shopping/CartView';
+import Cart from '@containers/shopping/Cart';
 import ItemBrowser from '@containers/shopping/ItemBrowser';
-import BeaconMonitorView from '@containers/beacon/BeaconMonitorView';
-import StyleGuide from '@containers/StyleGuideView';
+import BeaconMonitor from '@containers/beacon/BeaconMonitor';
 
 
 const navbarPropsTabs = {
@@ -29,7 +28,7 @@ const navbarPropsTabs = {
     sceneStyle: {
         ...AppConfig.navbarProps.sceneStyle,
         paddingBottom: AppSizes.tabbarHeight,
-    },
+    }
 };
 
 /* Routes ==================================================================== */
@@ -40,7 +39,7 @@ const scenes = (
             key={'shoppingCart'}
             {...navbarPropsTabs}
             title={'Your shopping cart'}
-            component={CartView}
+            component={Cart}
             icon={props => TabIcon({ ...props, icon: 'shopping-cart' })}
             analyticsDesc={'ShoppingCart: Shopping Cart'}
         />
@@ -48,7 +47,7 @@ const scenes = (
         <Scene
             key={'itemBrowser'}
             {...navbarPropsTabs}
-            title={'Browse items'}
+            title={'Browsing history'}
             component={ItemBrowser}
             icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
             analyticsDesc={'ItemBrowser: Item Browser'}
@@ -57,8 +56,8 @@ const scenes = (
         <Scene
             key={'ibeacon'}
             {...navbarPropsTabs}
-            title={'Ibeacon Monitoring'}
-            component={BeaconMonitorView}
+            title={'Beacon Monitoring'}
+            component={BeaconMonitor}
             icon={props => TabIcon({ ...props, icon: 'signal' })}
             analyticsDesc={'iBeacon: Beacon monitoring'}
         />

@@ -26,14 +26,15 @@ class BeaconListener {
         );
 
         this.startRanging();
+        EstimoteManager.startBeaconMonitoringScan('[ {"identifier": "d03d68a8d18a", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE2A" } ]');
+
 
     }
 
     startRanging() {
 
         if(Platform.OS  === 'android') {
-            EstimoteManager.startBeaconRangingScan('[ {"identifier": "blueberry_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon02", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" } ]');
-            EstimoteManager.startBeaconMonitoringScan('[ {"identifier": "blueberry_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" }, {"identifier": "ice_beacon02", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEAA" } ]');
+            EstimoteManager.startBeaconRangingScan('[ {"identifier": "Estimote", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D" }, {"identifier": "d03d68a8d18a", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE2A" }]');
 
         }
     }
@@ -41,8 +42,8 @@ class BeaconListener {
     stopRanging() {
 
         if(Platform.OS  === 'android') {
-            EstimoteManager.stopBeaconMonitoringScan();
             EstimoteManager.stopBeaconRangingScan();
+
             // DeviceEventEmitter.removeListener('Ranging');
             //DeviceEventEmitter.removeListener('Monitoring');
         }

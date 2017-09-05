@@ -69,11 +69,11 @@ class Drawer extends Component {
                 ref={(a) => { this.rootSidebarMenu = a; }}
                 openMenuOffset={AppSizes.screen.width * 0.75}
                 menu={
-          <Menu
-            closeSideMenu={this.props.closeSideMenu}
-            ref={(b) => { this.rootSidebarMenuMenu = b; }}
-          />
-        }
+                    <Menu
+                        closeSideMenu={this.props.closeSideMenu}
+                        ref={(b) => { this.rootSidebarMenuMenu = b; }}
+                    />
+                }
                 isOpen={this.props.sideMenuIsOpen}
                 onChange={this.onSideMenuChange}
                 disableGestures

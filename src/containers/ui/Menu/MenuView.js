@@ -115,7 +115,7 @@ class Menu extends Component {
           this.props.closeSideMenu();
           Actions.login();
         }).catch(() => {
-          Alert.alert('Oh uh!', 'Something went wrong.');
+          Alert.alert('Uh Oh!', 'Something went wrong.');
         });
     }
   }
@@ -160,7 +160,7 @@ class Menu extends Component {
               <Text
                 style={[
                   styles.menuBottom_text,
-                  AppStyles.textCenterAligned,
+                  AppStyles.textCenterAligned
                 ]}
               >
                 Logged in as:{'\n'}

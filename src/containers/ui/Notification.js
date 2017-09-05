@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
         padding: 6,
         width: '100%',
         height: '90%',
-        backgroundColor: AppColors.base.white,
+        backgroundColor: AppColors.base.greyLight,
         shadowColor: '#000',
         shadowOpacity: 0.5,
         borderBottomWidth: 1,
-        borderBottomColor: AppColors.base.grey,
+        borderBottomColor: AppColors.base.greyDark,
 
         // shadowRadius: 1,
         shadowOffset: {
@@ -57,21 +57,16 @@ const styles = StyleSheet.create({
     message: {
         textAlign: 'center'
     },
-
     modal: {
         justifyContent: 'center',
         alignItems: 'center',
         height: 150,
-        backgroundColor: 'white',
         borderColor: AppColors.base.grey,
         overflow: 'hidden'
     },
-
     modalContent: {
         // height: 80
     },
-
-
     modalMsg: {
         padding: 20,
         fontSize: 18,
@@ -93,9 +88,8 @@ const defaultProps = {
     fadeTime: 500,
     heightClosed: 0,
     heightOpen: 200,
-    message: '',
+    message: ''
 };
-
 
 const mapStateToProps = state => ({
     message: state.notification.message
