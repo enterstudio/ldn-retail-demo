@@ -9,6 +9,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import  SwipeCarousel  from 'react-native-swipe-carousel';
 import { connect } from 'react-redux';
 
 import {AppColors, AppStyles, AppSizes} from '@theme/';
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     },
 
     priceContainer: {
-        flex:1,
+        flex: 1,
         paddingTop: 15
 
     },
@@ -78,7 +79,35 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: AppColors.base.black
-    }
+    },
+
+    slide: {
+        width: AppSizes.screen.width,
+        height: 300
+    },
+
+    complementaryItem: {
+        flexDirection: 'row',
+        width: AppSizes.screen.width,
+        padding: AppSizes.padding,
+        height: 500,
+        backgroundColor: AppColors.base.greyLight
+    },
+
+    complementaryImg: {
+        width: 150,
+        height: 150,
+        resizeMode: 'center'
+    },
+
+    complementaryContainer: {
+        height: 300,
+        backgroundColor: '#6495ED'
+    },
+
+    complementaryTitle: {},
+
+    complementaryPrice: {}
 
 
 });
@@ -93,6 +122,23 @@ const mapStateToProps = state => ({});
 //TODO separate container and view
 class Product extends Component {
 
+    slides = this.props.complementaryItems.map((item, index) => {
+        return (
+            <View key={`entry-${index}`} style={styles.slide}>
+                <TouchableHighlight onPress={this._slideUp}>
+                    <View style={styles.complementaryItem}>
+                        <Image style={styles.complementaryImg} source={{uri: item.img}}/>
+                        <View style={styles.complementaryContainer}>
+                            <Text style={styles.complementaryTitle}>{item.title}</Text>
+                            <Text style={styles.complementaryPrice}>£{item.price}</Text>
+                        </View>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        );
+    });
+
+
     render = () => {
         console.log('product: ', this.props.product);
         return (
@@ -106,7 +152,16 @@ class Product extends Component {
                         <View style={[styles.descriptionContainer, AppStyles.padding]}>
                             <Text style={styles.description}>{this.props.product.description}</Text>
                         </View>
-                        <Spacer size={200}/>
+                        <View>
+                            <ScrollView
+                                horizontal
+                                pagingEnabled
+                                showsHorizontalScrollIndicator={true}
+                                style={{height: 500}}
+                            >
+                                {this.slides}
+                            </ScrollView>
+                        </View>
                     </ScrollView>
                 </View>
                 <View style={[styles.addToCartContainer]}>

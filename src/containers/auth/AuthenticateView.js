@@ -52,7 +52,7 @@ class Authenticate extends Component {
         <View style={[AppStyles.containerCentered, AppStyles.container, styles.background]}>
             <View>
                 <Image
-                    source={require('../../images/visa-logo.png')}
+                    source={require('../../assets/images/visa-logo.png')}
                     style={[styles.logo]}
                 />
                 <View style={[styles.colorBox]}>
@@ -92,5 +92,5 @@ class Authenticate extends Component {
     )
 }
 
-/* Export Component ==================================================================== */
+/* Export Component ========= */
 export default Authenticate;

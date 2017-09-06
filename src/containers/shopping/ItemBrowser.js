@@ -182,7 +182,7 @@ class ItemBrowser extends Component {
                     </Carousel>
                 </Animated.View>
                 <View style={styles.productViewContainer}>
-                    <Product product={this.props.products[this.state.currentProductIndex]}></Product>
+                    <Product product={this.props.products[this.state.currentProductIndex]} complementaryItems={this.props.products}></Product>
                 </View>
             </View>
         );

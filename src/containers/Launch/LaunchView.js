@@ -57,7 +57,7 @@ class AppLaunch extends Component {
     render = () => (
         <View style={[AppStyles.container]}>
             <Image
-                source={require('../../images/launch.jpg')}
+                source={require('../../assets/images/launch.jpg')}
                 style={[styles.launchImage, AppStyles.containerCentered]}
             >
                 <ActivityIndicator
