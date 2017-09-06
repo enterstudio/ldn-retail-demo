@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         height: AppSizes.screen.height / 2,
         borderBottomColor: AppColors.base.grey,
         borderBottomWidth: 1,
-        backgroundColor: AppColors.base.white
+        backgroundColor: AppColors.base.greyLight
     },
 
     productContainer: {
@@ -132,12 +132,14 @@ class ItemBrowser extends Component {
         this._slideUp = this._slideUp.bind(this);
         this.state = {
             top: new Animated.Value(this.props.top),
-            topHidden: new Animated.Value(this.props.topHidden)
+            currentProductIndex: 0
         };
     }
 
     _slideUp = () => {
-        console.log('sliding up');
+        const index  = this._carousel.currentIndex;
+        this.setState({currentProductIndex: index})
+        //console.log('sliding up');
         Animated.timing(this.state.top, {
             duration: this.props.fadeTime,
             toValue: this.props.topHidden
@@ -180,7 +182,7 @@ class ItemBrowser extends Component {
                     </Carousel>
                 </Animated.View>
                 <View style={styles.productViewContainer}>
-                    <Product product={this.props.products[0]}></Product>
+                    <Product product={this.props.products[this.state.currentProductIndex]}></Product>
                 </View>
             </View>
         );

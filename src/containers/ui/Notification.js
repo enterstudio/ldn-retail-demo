@@ -138,6 +138,7 @@ class Notification extends Component {
     }
 
     open = () => {
+        // TODO change top position instead of height
         Animated.timing(this.state.height, {
             duration: this.props.fadeTime,
             toValue: this.props.heightOpen

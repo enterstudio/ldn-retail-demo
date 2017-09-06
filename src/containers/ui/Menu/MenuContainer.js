@@ -30,7 +30,7 @@ const unauthMenu = [
 const mapStateToProps = state => ({
   user: state.user,
   unauthMenu,
-  authMenu,
+  authMenu
 });
 
 // Any actions to map to the component?
