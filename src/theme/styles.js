@@ -46,7 +46,7 @@ export default {
   baseText: {
     fontFamily: Fonts.base.family,
     fontSize: Fonts.base.size,
-    lineHeight: Fonts.base.lineHeight,
+    //lineHeight: Fonts.base.lineHeight,
     color: Colors.textPrimary,
     fontWeight: '300',
   },
@@ -196,6 +196,12 @@ export default {
   },
 
   // Grid
+  paddedRow: {
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    padding: Sizes.paddingSml
+  },
   row: {
     left: 0,
     right: 0,

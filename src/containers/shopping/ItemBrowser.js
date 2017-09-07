@@ -66,8 +66,10 @@ const styles = StyleSheet.create({
     },
 
     productImage: {
-        width: 110,
-        height: 160,
+        height: 200,
+        width: 150,
+        resizeMode: 'center'
+
     },
 
     productPrice: {

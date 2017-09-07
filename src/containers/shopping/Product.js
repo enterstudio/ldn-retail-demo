@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     View,
     Image,
-    Text,
     ScrollView,
     StyleSheet,
     TouchableOpacity,
@@ -11,13 +10,14 @@ import {
 import { Actions } from 'react-native-router-flux';
 import  SwipeCarousel  from 'react-native-swipe-carousel';
 import { connect } from 'react-redux';
+import Dash from 'react-native-dash';
 
 import {AppColors, AppStyles, AppSizes} from '@theme/';
 
 import {
+    Text,
     Button,
     Spacer
-
 } from '@components/ui/';
 
 
@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
         height: AppSizes.screen.height
     },
 
+    header: {
+        fontSize: 15,
+        color: AppColors.base.black
+    },
+
     imageContainer: {
         paddingVertical: AppSizes.paddingSml
     },
@@ -40,14 +45,14 @@ const styles = StyleSheet.create({
     productImage: {
         height: 300,
         resizeMode: 'contain'
-
     },
 
-    descriptionContainer: {},
+    descriptionContainer: {
+        paddingHorizontal: AppSizes.paddingSml
+    },
 
     description: {
-        fontSize: 22,
-        color: AppColors.base.black
+        fontSize: 14
     },
 
     addToCartContainer: {
@@ -83,31 +88,55 @@ const styles = StyleSheet.create({
 
     slide: {
         width: AppSizes.screen.width,
-        height: 300
+        borderWidth: 1
     },
 
     complementaryItem: {
         flexDirection: 'row',
         width: AppSizes.screen.width,
         padding: AppSizes.padding,
-        height: 500,
         backgroundColor: AppColors.base.greyLight
     },
 
     complementaryImg: {
-        width: 150,
-        height: 150,
+        width: 70,
+        height: 80,
         resizeMode: 'center'
     },
 
     complementaryContainer: {
-        height: 300,
-        backgroundColor: '#6495ED'
+        flexDirection: 'row'
     },
 
-    complementaryTitle: {},
+    complementaryTitle: {
+        fontSize: 15,
+        paddingLeft: AppSizes.paddingSml,
+    },
 
-    complementaryPrice: {}
+    complementaryPrice: {
+        paddingLeft: AppSizes.paddingSml,
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+
+    iconContainer: {
+        position: 'absolute',
+        top: AppSizes.paddingSml,
+        right: AppSizes.paddingSml
+    },
+
+    //TODO create icon component
+    smallIcon: {
+        height: 30,
+        width: 30,
+        resizeMode: 'contain'
+    },
+
+    largeIcon: {
+        height: 70,
+        width: 70,
+        resizeMode: 'contain'
+    }
 
 
 });
@@ -119,8 +148,12 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = state => ({});
 
+const spacerSize = 40;
+
 //TODO separate container and view
 class Product extends Component {
+
+    spacerSize = 40;
 
     slides = this.props.complementaryItems.map((item, index) => {
         return (
@@ -128,9 +161,17 @@ class Product extends Component {
                 <TouchableHighlight onPress={this._slideUp}>
                     <View style={styles.complementaryItem}>
                         <Image style={styles.complementaryImg} source={{uri: item.img}}/>
-                        <View style={styles.complementaryContainer}>
-                            <Text style={styles.complementaryTitle}>{item.title}</Text>
-                            <Text style={styles.complementaryPrice}>£{item.price}</Text>
+                        <View style={[styles.complementaryContainer]}>
+                            <View>
+                                <Text style={[styles.complementaryTitle]}>{item.title}</Text>
+                                <Text style={[styles.complementaryPrice]}>£{item.price}</Text>
+                            </View>
+                        </View>
+                        <View style={[styles.iconContainer]}>
+                            <Image
+                                source={require('../../assets/icons/icon-pin.png')}
+                                style={[styles.smallIcon]}
+                            />
                         </View>
                     </View>
                 </TouchableHighlight>
@@ -148,32 +189,66 @@ class Product extends Component {
                         <View style={styles.imageContainer}>
                             <Image style={styles.productImage} source={{uri: this.props.product.img}}/>
                         </View>
-                        <Spacer size={20}/>
-                        <View style={[styles.descriptionContainer, AppStyles.padding]}>
-                            <Text style={styles.description}>{this.props.product.description}</Text>
+                        <Spacer size={50}/>
+                        <View style={[styles.descriptionContainer]}>
+                            <Text style={[styles.description]}>{this.props.product.description}</Text>
                         </View>
+                        <Spacer size={20}></Spacer>
                         <View>
+                            <View style={[AppStyles.paddedRow, {justifyContent: 'space-between'}]}>
+                                <Text upperCase={true} style={[styles.header]}>{'complementary items'}</Text>
+                                <View>
+                                    <Text style={[AppStyles.h5]}>{'----'}</Text>
+                                </View>
+                            </View>
                             <ScrollView
                                 horizontal
                                 pagingEnabled
-                                showsHorizontalScrollIndicator={true}
-                                style={{height: 500}}
                             >
                                 {this.slides}
                             </ScrollView>
                         </View>
+                        <Spacer size={spacerSize}></Spacer>
+                        <Dash style={{width:AppSizes.screen.width, height:1}}/>
+                        <View style={[AppStyles.paddedRow, {paddingVertical: AppSizes.padding}]}>
+                            <Text style={[AppStyles.h3]}>Available sizes</Text>
+                        </View>
+                        <Dash style={{width:AppSizes.screen.width, height:1}}/>
+                        <View style={[AppStyles.paddedRow, {paddingVertical: AppSizes.padding}]}>
+                            <Text style={[AppStyles.h3]}>Available colors</Text>
+                        </View>
+                        <Dash style={{width:AppSizes.screen.width, height:1}}/>
+                        <Spacer size={spacerSize}></Spacer>
+                        <View style={[AppStyles.paddedRow, {justifyContent: 'space-between', backgroundColor: AppColors.base.greyLight}]}>
+                            <View style={[{justifyContent: 'center'}]}>
+                            <Text style={[AppStyles.h3]}>View in store location</Text>
+                            </View>
+                                <Image
+                                source={require('../../assets/icons/icon-location.png')}
+                                style={[styles.largeIcon, { marginRight: 20}]}
+                            />
+                        </View>
+                        <Spacer size={spacerSize}></Spacer>
+                        <View style={[AppStyles.containerCentered]}>
+                            <Text style={[AppStyles.h3]}>Need help?</Text>
+                            <Image
+                                source={require('../../assets/icons/icon-assistant.png')}
+                                style={[styles.largeIcon]}
+                            />
+                            <Button raised={false} title={'Ask an assistant'}></Button>
+                        </View>
+                        <Spacer size={230}></Spacer>
                     </ScrollView>
                 </View>
                 <View style={[styles.addToCartContainer]}>
                     <View style={[styles.priceContainer]}>
-                        <Text style={styles.price}>£{this.props.product.price}</Text>
+                        <Text style={[styles.price]}>£{this.props.product.price}</Text>
                     </View>
                     <Button raised={false} large title={'Add to cart'}></Button>
                 </View>
             </View>
         )
     }
-
 
     componentWillReceiveProps(nextProps) {
         console.log('next props: ', nextProps)

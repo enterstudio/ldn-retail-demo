@@ -37,6 +37,7 @@ class CustomText extends Component {
     h4: false,
     h5: false,
     p: false,
+    upperCase: false,
     onPress: null,
     style: null,
     children: null,
@@ -64,7 +65,7 @@ class CustomText extends Component {
     return props;
   }
 
-  render = () => <Text {...this.textProps()}>{this.props.children}</Text>;
+  render = () => <Text {...this.textProps()}>{this.props.upperCase? this.props.children.toUpperCase(): this.props.children}</Text>;
 }
 
 /* Export Component ==================================================================== */

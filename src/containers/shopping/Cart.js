@@ -147,7 +147,7 @@ class Cart extends Component {
                     keyExtractor={this._keyExtractor}
                     renderItem={({item}) =>
                     <ListItem
-                    containerStyle={styles.listItem}
+                    containerStyle={[styles.listItem]}
                     hideChevron={true}
                     title={
                       <TouchableHighlight onPress={() => {
@@ -156,8 +156,8 @@ class Cart extends Component {
                           <View style={styles.titleView} >
                             <Image style={styles.productImage} source={{uri: item.img}} />
                             <View style={{flexDirection: 'column'}}>
-                             <Text style={styles.titleViewText}>{item.title}</Text>
-                             <Text style={styles.productPrice}>£{item.price}</Text>
+                             <Text style={[styles.titleViewText]}>{item.title}</Text>
+                             <Text style={[styles.productPrice]}>£{item.price}</Text>
                                  <View style={styles.btnContainer}>
                                     <Button
                                         title={'Remove'}

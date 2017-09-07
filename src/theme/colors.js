@@ -30,7 +30,7 @@ const brand = {
 };
 
 const text = {
-    textPrimary: '#222222',
+    textPrimary: base.black,
     textSecondary: '#777777',
     headingPrimary: brand.brand.primary,
     headingSecondary: brand.brand.primary,
