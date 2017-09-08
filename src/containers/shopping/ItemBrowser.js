@@ -78,12 +78,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
 
-    header: {
-        alignItems: 'center',
-        paddingTop: 15,
-        height: 60
-    },
-
     card: {
         flexDirection: 'column'
     },
@@ -113,7 +107,8 @@ const styles = StyleSheet.create({
     iconContainer: {
         position: 'absolute',
         top: 15,
-        right: 15
+        right: 15,
+        zIndex: 2
     },
 
     icon: {
@@ -121,6 +116,35 @@ const styles = StyleSheet.create({
         width: 30,
         resizeMode: 'contain',
         marginBottom: 15
+    },
+
+    infoHeaderContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 75,
+    },
+
+    infoHeader: {
+        borderBottomWidth: 1,
+        paddingHorizontal: AppSizes.paddingSml,
+        height: 60,
+        backgroundColor: 'yellow'
+    },
+
+    infoIcon: {
+        position: 'absolute',
+        bottom: 0,
+        right: AppSizes.padding,
+        height: 30,
+        width: 30,
+        resizeMode: 'contain'
+    },
+
+    touchable: {
+        height: 40,
+        width: 40
     }
 
 });
@@ -153,12 +177,22 @@ class ItemBrowser extends Component {
     _slideUp = () => {
         const index = this._carousel.currentIndex;
         this.setState({currentProductIndex: index})
-        //console.log('sliding up');
+        console.log('sliding up');
         Animated.timing(this.state.top, {
             duration: this.props.fadeTime,
             toValue: this.props.topHidden
         }).start();
     }
+
+    _addToCartCart = () => {
+
+    }
+
+    _removeFromCart = () => {
+
+    }
+
+
 
     slides = this.props.products.map((item, index) => {
         return (
@@ -166,34 +200,39 @@ class ItemBrowser extends Component {
 
                 <View style={styles.card}>
                     <View style={[styles.iconContainer]}>
-                        <View>
-                            <TouchableHighlight onPress={this._slideUp}>
-                                <Image
-                                    source={require('../../assets/icons/icon-zoom.png')}
-                                    style={[styles.icon]}
-                                />
-                            </TouchableHighlight>
-                        </View>
-                        <View>
-                            <TouchableHighlight onPress={this._slideUp}>
-                                <Image
-                                    source={require('../../assets/icons/icon-add-to-cart.png')}
-                                    style={[styles.icon]}
-                                />
-                            </TouchableHighlight>
-                        </View>
-                        <View>
-                            <TouchableHighlight onPress={this._slideUp}>
-                                <Image
-                                    source={require('../../assets/icons/icon-remove.png')}
-                                    style={[styles.icon]}
-                                />
-                            </TouchableHighlight>
-                        </View>
+
+                        <TouchableHighlight style={styles.touchable}
+                                            underlayColor={AppColors.base.grey}
+                                            onPress={() => this._slideUp()}>
+                            <Image
+                                source={require('../../assets/icons/icon-zoom.png')}
+                                style={[styles.icon]}
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.touchable}
+                                            underlayColor={AppColors.base.grey}
+                                            onPress={() => this._addToCart()}>
+                            <Image
+                                source={require('../../assets/icons/icon-add-to-cart.png')}
+                                style={[styles.icon]}
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.touchable}
+                                            underlayColor={AppColors.base.grey}
+                                            onPress={() => this._removeFromCart()}>
+                            <Image
+                                source={require('../../assets/icons/icon-remove.png')}
+                                style={[styles.icon]}
+                            />
+                        </TouchableHighlight>
                     </View>
                     <Text style={styles.titleText}>{item.title}</Text>
                     <View style={styles.productContainer}>
-                        <Image style={styles.productImage} source={{uri: item.img}}/>
+                        <TouchableHighlight
+                            underlayColor='#f1c40f'
+                            onPress={() => this._slideUp()}>
+                            <Image style={styles.productImage} source={{uri: item.img}}/>
+                        </TouchableHighlight>
                     </View>
                     <Text style={styles.productPrice}>£{item.price}</Text>
                 </View>
@@ -204,10 +243,20 @@ class ItemBrowser extends Component {
     render = () => {
         return (
             <View style={styles.container}>
+                {/*Item browser layer*/}
                 <Animated.View style={[styles.browserContainer, {top: this.state.top}]}>
-                    <View style={styles.header}>
-                        <Text style={AppStyles.h1}>{'Item browser'}</Text>
-                    </View>
+                    <Animated.View style={styles.infoHeaderContainer}>
+                        <View style={styles.infoHeader}>
+                            <Text style={AppColors.base.black}>
+                                {'While you are shopping, any items you pick up will be added to the list below.'}
+                            </Text>
+                        </View>
+                        <Image
+                            source={require('../../assets/icons/icon-info.png')}
+                            style={[styles.infoIcon]}
+                        />
+                    </Animated.View>
+                    <Spacer size={100}></Spacer>
                     <Carousel
                         ref={(carousel) => { this._carousel = carousel; }}
                         sliderWidth={AppSizes.screen.width}
@@ -215,11 +264,12 @@ class ItemBrowser extends Component {
                         itemheight={AppSizes.screen.height - 250}
                         enableMomentum={false}
                         scrollEndDragDebounceValue={50}
-                        swipeThreshold={80}
+                        swipeThreshold={70}
                     >
                         { this.slides }
                     </Carousel>
                 </Animated.View>
+                {/*ProductView layer*/}
                 <View style={styles.productViewContainer}>
                     <Product product={this.props.products[this.state.currentProductIndex]}
                              complementaryItems={this.props.products}></Product>

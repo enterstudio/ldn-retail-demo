@@ -39,6 +39,7 @@ class CustomFormInput extends Component {
         borderBottomColor: AppColors.border,
         borderBottomWidth: 1,
         backgroundColor: 'rgba(255,255,255,0.05)',
+        color: AppColors.textPrimary,
         marginTop: 10,
         marginLeft: 0,
         marginRight: 0,
@@ -66,4 +67,6 @@ class CustomFormInput extends Component {
 }
 
 /* Export Component ==================================================================== */
-export default CustomFormInput;
+//TODO check Error while updating property 'Color'
+//https://react-native-training.github.io/react-native-elements/API/forms/
+export default FormInput;
