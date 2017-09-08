@@ -3,7 +3,6 @@ import {
     View,
     Image,
     Modal,
-    Text,
     Alert,
     ListView,
     FlatList,
@@ -27,6 +26,7 @@ import { AppColors, AppStyles, AppSizes} from '@theme/';
 import {
     Alerts,
     Button,
+    Text,
     Card,
     Spacer,
     List,
@@ -211,7 +211,10 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this._addToCart()}>
+                                            onPress={() => {
+                                            console.log('--> Go to product')
+                                            Actions.product()
+                                            }}>
                             <Image
                                 source={require('../../assets/icons/icon-add-to-cart.png')}
                                 style={[styles.icon]}
@@ -226,7 +229,7 @@ class ItemBrowser extends Component {
                             />
                         </TouchableHighlight>
                     </View>
-                    <Text style={styles.titleText}>{item.title}</Text>
+                    <Text style={[styles.titleText]}>{item.title}</Text>
                     <View style={styles.productContainer}>
                         <TouchableHighlight
                             underlayColor='#f1c40f'
@@ -234,7 +237,7 @@ class ItemBrowser extends Component {
                             <Image style={styles.productImage} source={{uri: item.img}}/>
                         </TouchableHighlight>
                     </View>
-                    <Text style={styles.productPrice}>£{item.price}</Text>
+                    <Text style={[styles.productPrice]}>£{item.price}</Text>
                 </View>
             </View>
         );
@@ -247,8 +250,8 @@ class ItemBrowser extends Component {
                 <Animated.View style={[styles.browserContainer, {top: this.state.top}]}>
                     <Animated.View style={styles.infoHeaderContainer}>
                         <View style={styles.infoHeader}>
-                            <Text style={AppColors.base.black}>
-                                {'While you are shopping, any items you pick up will be added to the list below.'}
+                            <Text style={[AppColors.base.black]}>
+                                While you are shopping, any items you pick up will be added to the list below.
                             </Text>
                         </View>
                         <Image
@@ -271,8 +274,7 @@ class ItemBrowser extends Component {
                 </Animated.View>
                 {/*ProductView layer*/}
                 <View style={styles.productViewContainer}>
-                    <Product product={this.props.products[this.state.currentProductIndex]}
-                             complementaryItems={this.props.products}></Product>
+                       <Text style={[AppStyles.h1]}>Product</Text>
                 </View>
             </View>
         );

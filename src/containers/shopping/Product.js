@@ -255,4 +255,13 @@ class Product extends Component {
     }
 }
 
+Product.defaultProps = {
+    product: {
+        title: 'test title',
+        price: '£11',
+        img: ''
+    },
+    complementaryItems: []
+}
+
 export default connect(mapStateToProps)(Product);

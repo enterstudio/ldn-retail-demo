@@ -19,6 +19,7 @@ import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButt
 // Scenes
 import Cart from '@containers/shopping/Cart';
 import ItemBrowser from '@containers/shopping/ItemBrowser';
+import Product from '@containers/shopping/Product';
 import BeaconMonitor from '@containers/beacon/BeaconMonitor';
 
 
@@ -45,13 +46,26 @@ const scenes = (
         />
 
         <Scene
-            key={'itemBrowser'}
+            key={'itemBrowserTab'}
             {...navbarPropsTabs}
             title={'Browsing history'}
             component={ItemBrowser}
             icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
             analyticsDesc={'ItemBrowser: Item Browser'}
-        />
+        >
+            <Scene
+                key={'itemBrowser'}
+                {...navbarPropsTabs}
+                title={'Browsing history'}
+                component={ItemBrowser}
+            />
+            <Scene
+                key={'product'}
+                {...navbarPropsTabs}
+                title={'Product'}
+                component={Product}
+            />
+        </Scene>
 
         <Scene
             key={'ibeacon'}
