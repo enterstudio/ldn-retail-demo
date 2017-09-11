@@ -148,12 +148,11 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = state => ({});
 
-const spacerSize = 40;
+const spacerSize = 50;
 
-//TODO separate container and view
+//TODO separate container and view (like menu)
 class Product extends Component {
 
-    spacerSize = 40;
 
     slides = this.props.complementaryItems.map((item, index) => {
         return (

@@ -177,19 +177,10 @@ class ItemBrowser extends Component {
     }
 
     _toggleInfoHeader = () => {
-        if(!this.state.isInfoHeaderCollapsed) {
-            console.log('collapsing header')
-            Animated.timing(this.state.top, {
-                duration: this.props.fadeTime,
-                toValue: this.props.topCollapsed
-            }).start();
-        } else {
-            console.log('uncollapsing header')
-            Animated.timing(this.state.top, {
-                duration: this.props.fadeTime,
-                toValue: this.props.top
-            }).start();
-        }
+        Animated.timing(this.state.top, {
+            duration: this.props.fadeTime,
+            toValue: this.state.isInfoHeaderCollapsed ? this.props.top : this.props.topCollapsed
+        }).start();
     }
 
     _addToCart = () => {
@@ -245,7 +236,7 @@ class ItemBrowser extends Component {
                     </View>
                     <Text style={[styles.titleText]}>{item.title}</Text>
                     <View style={styles.productContainer}>
-                            <Image style={styles.productImage} source={{uri: item.img}}/>
+                        <Image style={styles.productImage} source={{uri: item.img}}/>
                     </View>
                     <Text style={[styles.productPrice]}>£{item.price}</Text>
                 </View>
