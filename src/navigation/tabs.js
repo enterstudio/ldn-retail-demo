@@ -5,7 +5,6 @@
  * https://github.com/mcnamee/react-native-starter-app
  */
 import React from 'react';
-
 import { Scene } from 'react-native-router-flux';
 
 // Consts and Libs
@@ -49,7 +48,6 @@ const scenes = (
             key={'itemBrowserTab'}
             {...navbarPropsTabs}
             title={'Browsing history'}
-            component={ItemBrowser}
             icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
             analyticsDesc={'ItemBrowser: Item Browser'}
         >

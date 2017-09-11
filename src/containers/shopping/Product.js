@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
 
     addToCartContainer: {
         position: 'absolute',
-        bottom: AppSizes.tabbarHeight + 65,
+        bottom: 0,
         left: 0,
         right: 0,
-        height: 65,
+        height: 50,
         flex: 2,
         flexDirection: 'row',
         backgroundColor: AppColors.base.greyLight,
@@ -250,18 +250,7 @@ class Product extends Component {
         )
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('next props: ', nextProps)
-    }
 }
 
-Product.defaultProps = {
-    product: {
-        title: 'test title',
-        price: '£11',
-        img: ''
-    },
-    complementaryItems: []
-}
 
 export default connect(mapStateToProps)(Product);

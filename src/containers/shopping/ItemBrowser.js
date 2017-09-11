@@ -184,14 +184,13 @@ class ItemBrowser extends Component {
         }).start();
     }
 
-    _addToCartCart = () => {
+    _addToCart = () => {
 
     }
 
     _removeFromCart = () => {
 
     }
-
 
 
     slides = this.props.products.map((item, index) => {
@@ -203,7 +202,15 @@ class ItemBrowser extends Component {
 
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this._slideUp()}>
+                                            onPress={() => {
+                                            Actions.product(
+                                                 {
+                                                 product: this.props.products[this._carousel.currentIndex],
+                                                 complementaryItems: this.props.products
+                                                 })
+                                            }
+                                            }>
+
                             <Image
                                 source={require('../../assets/icons/icon-zoom.png')}
                                 style={[styles.icon]}
@@ -211,10 +218,7 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => {
-                                            console.log('--> Go to product')
-                                            Actions.product()
-                                            }}>
+                                            onPress={() => this._addToCart()}>
                             <Image
                                 source={require('../../assets/icons/icon-add-to-cart.png')}
                                 style={[styles.icon]}
@@ -274,7 +278,7 @@ class ItemBrowser extends Component {
                 </Animated.View>
                 {/*ProductView layer*/}
                 <View style={styles.productViewContainer}>
-                       <Text style={[AppStyles.h1]}>Product</Text>
+                    <Text style={[AppStyles.h1]}>Product</Text>
                 </View>
             </View>
         );
