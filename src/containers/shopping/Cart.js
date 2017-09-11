@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     },
 
     titleViewText: {
-        fontSize: 17
+        fontSize: 20
     },
 
     productImage: {
@@ -57,20 +57,15 @@ const styles = StyleSheet.create({
     },
 
     productPrice: {
-        padding: 12,
+        fontSize: 20,
         fontStyle: 'italic',
         fontWeight: 'bold'
     },
 
-    btnContainer: {
-        flex: 1,
-        width: 110,
-        paddingLeft: 15,
-    },
-
-    removeBtn: {
-        paddingLeft: 15,
-
+    iconContainer: {
+        position: 'absolute',
+        top: AppSizes.paddingSml,
+        right: AppSizes.paddingSml
     },
 
     checkoutBtn: {
@@ -78,8 +73,22 @@ const styles = StyleSheet.create({
     },
 
     scrollView: {
-      backgroundColor: AppColors.base.greyLight
+        backgroundColor: AppColors.base.greyLight
+    },
+
+
+    //TODO create icon component
+    smallIcon: {
+        height: 30,
+        width: 30,
+        resizeMode: 'contain'
+    },
+
+    productInfo: {
+        flexDirection: 'column',
+        paddingLeft: AppSizes.padding
     }
+
 
 });
 
@@ -112,17 +121,9 @@ class Cart extends Component {
         this.props.showNotification({message});
     }
 
-    //displayNotification() {
-    //    Alert.alert(
-    //        'Victory Solid Polo',
-    //        'Add to cart?',
-    //        [
-    //            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-    //            {text: 'OK', onPress: () => console.log('OK Pressed')},
-    //        ],
-    //        {cancelable: false}
-    //    )
-    //}
+    _removeFromCart = (item) => {
+        console.log('remove item: ' + item.id)
+    }
 
     _keyExtractor = (item, index) => item.id;
 
@@ -162,16 +163,21 @@ class Cart extends Component {
                         }}>
                           <View style={styles.titleView} >
                             <Image style={styles.productImage} source={{uri: item.img}} />
-                            <View style={{flexDirection: 'column'}}>
+                            <View style={[styles.productInfo]}>
                              <Text style={[styles.titleViewText]}>{item.title}</Text>
                              <Text style={[styles.productPrice]}>£{item.price}</Text>
-                                 <View style={styles.btnContainer}>
-                                    <Button
-                                        title={'Remove'}
-                                        style={styles.removeBtn}
-                                    ></Button>
-                                 </View>
                             </View>
+                               <View style={[styles.iconContainer]}>
+                                   <TouchableOpacity onPress={()=>
+                            {
+                                this._removeFromCart(item);
+                            }}>
+                            <Image
+                                source={require('../../assets/icons/icon-remove.png')}
+                                style={[styles.smallIcon]}
+                            />
+                            </TouchableOpacity>
+                        </View>
                           </View>
                           </TouchableHighlight>
                         }
