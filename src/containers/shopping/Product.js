@@ -181,7 +181,6 @@ class Product extends Component {
 
 
     render = () => {
-        console.log('product: ', this.props.product);
         return (
             <View style={styles.container}>
                 <View style={styles.scrollContainer}>

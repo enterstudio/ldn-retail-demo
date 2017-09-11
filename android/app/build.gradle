@@ -106,11 +106,11 @@ android {
     }
     signingConfigs {
             release {
-                if (project.hasProperty('visa-store-key.keystore')) {
-                    storeFile file(visa-store-key.keystore)
-                    storePassword 123456
-                    keyAlias visa-store-key
-                    keyPassword 123456
+                if (project.hasProperty('VISA_DEMO_RELEASE_STORE_FILE')) {
+                    storeFile file(VISA_DEMO_RELEASE_STORE_FILE)
+                    storePassword VISA_DEMO_RELEASE_STORE_PASSWORD
+                    keyAlias VISA_DEMO_RELEASE_KEY_ALIAS
+                    keyPassword VISA_DEMO_RELEASE_KEY_PASSWORD
                 }
             }
     }
@@ -147,7 +147,6 @@ android {
 dependencies {
     compile project(':react-android-estimote-manager')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-google-analytics-bridge')
     compile project(':react-native-device-info')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

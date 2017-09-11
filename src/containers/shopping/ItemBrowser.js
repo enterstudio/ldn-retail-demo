@@ -119,27 +119,28 @@ const styles = StyleSheet.create({
     },
 
     infoHeaderContainer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 75,
+        height: 75
     },
 
     infoHeader: {
         borderBottomWidth: 1,
         paddingHorizontal: AppSizes.paddingSml,
         height: 60,
-        backgroundColor: 'yellow'
+        backgroundColor: AppColors.base.greyDark,
     },
 
-    infoIcon: {
+    infoIconContainer: {
         position: 'absolute',
         bottom: 0,
         right: AppSizes.padding,
+        zIndex: 111
+    },
+
+    infoIcon: {
         height: 30,
         width: 30,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+
     },
 
     touchable: {
@@ -158,7 +159,7 @@ const defaultProps = {
     timeout: 3000,
     fadeTime: 500,
     top: 0,
-    topHidden: -AppSizes.screen.height,
+    topCollapsed: -45,
     message: ''
 };
 
@@ -167,21 +168,28 @@ class ItemBrowser extends Component {
 
     constructor(props) {
         super(props);
-        this._slideUp = this._slideUp.bind(this);
+        this._toggleInfoHeader = this._toggleInfoHeader.bind(this);
         this.state = {
-            top: new Animated.Value(this.props.top),
+            top: new Animated.Value(this.props.topCollapsed),
+            isInfoHeaderCollapsed: true,
             currentProductIndex: 0
         };
     }
 
-    _slideUp = () => {
-        const index = this._carousel.currentIndex;
-        this.setState({currentProductIndex: index})
-        console.log('sliding up');
-        Animated.timing(this.state.top, {
-            duration: this.props.fadeTime,
-            toValue: this.props.topHidden
-        }).start();
+    _toggleInfoHeader = () => {
+        if(!this.state.isInfoHeaderCollapsed) {
+            console.log('collapsing header')
+            Animated.timing(this.state.top, {
+                duration: this.props.fadeTime,
+                toValue: this.props.topCollapsed
+            }).start();
+        } else {
+            console.log('uncollapsing header')
+            Animated.timing(this.state.top, {
+                duration: this.props.fadeTime,
+                toValue: this.props.top
+            }).start();
+        }
     }
 
     _addToCart = () => {
@@ -203,9 +211,11 @@ class ItemBrowser extends Component {
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
                                             onPress={() => {
-                                            Actions.product(
+                                            const product = this.props.products[this._carousel.currentIndex];
+                                            Actions.productBrowser(
                                                  {
-                                                 product: this.props.products[this._carousel.currentIndex],
+                                                 title: product.title,
+                                                 product: product,
                                                  complementaryItems: this.props.products
                                                  })
                                             }
@@ -235,11 +245,7 @@ class ItemBrowser extends Component {
                     </View>
                     <Text style={[styles.titleText]}>{item.title}</Text>
                     <View style={styles.productContainer}>
-                        <TouchableHighlight
-                            underlayColor='#f1c40f'
-                            onPress={() => this._slideUp()}>
                             <Image style={styles.productImage} source={{uri: item.img}}/>
-                        </TouchableHighlight>
                     </View>
                     <Text style={[styles.productPrice]}>£{item.price}</Text>
                 </View>
@@ -252,18 +258,26 @@ class ItemBrowser extends Component {
             <View style={styles.container}>
                 {/*Item browser layer*/}
                 <Animated.View style={[styles.browserContainer, {top: this.state.top}]}>
-                    <Animated.View style={styles.infoHeaderContainer}>
+                    <View style={styles.infoHeaderContainer}>
                         <View style={styles.infoHeader}>
-                            <Text style={[AppColors.base.black]}>
+                            <Text style={[{color: AppColors.base.white}]}>
                                 While you are shopping, any items you pick up will be added to the list below.
                             </Text>
                         </View>
-                        <Image
-                            source={require('../../assets/icons/icon-info.png')}
-                            style={[styles.infoIcon]}
-                        />
-                    </Animated.View>
-                    <Spacer size={100}></Spacer>
+                        <View style={styles.infoIconContainer}>
+                            <TouchableOpacity onPress={()=>
+                            {
+                                this.setState({isInfoHeaderCollapsed : !this.state.isInfoHeaderCollapsed});
+                                this._toggleInfoHeader();
+                            }}>
+                                <Image
+                                    source={require('../../assets/icons/icon-info.png')}
+                                    style={[styles.infoIcon]}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <Spacer size={30}></Spacer>
                     <Carousel
                         ref={(carousel) => { this._carousel = carousel; }}
                         sliderWidth={AppSizes.screen.width}

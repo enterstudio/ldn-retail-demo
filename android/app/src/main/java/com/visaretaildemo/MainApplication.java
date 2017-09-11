@@ -6,7 +6,6 @@ import android.util.Log;
 import com.facebook.react.ReactApplication;
 import com.visa.estimote.Package;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -31,7 +30,6 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new Package(),
             new VectorIconsPackage(),
-            new GoogleAnalyticsBridgePackage(),
             new RNDeviceInfo()
       );
     }

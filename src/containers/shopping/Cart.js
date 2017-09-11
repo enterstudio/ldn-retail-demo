@@ -151,7 +151,14 @@ class Cart extends Component {
                     hideChevron={true}
                     title={
                       <TouchableHighlight onPress={() => {
-                            this.showNotification('Notification test message')
+                            //this.showNotification('Notification test message')
+                            Actions.productCart(
+                                     {
+                                        title: item.title,
+                                        product: item,
+                                        complementaryItems: this.props.products
+                            })
+
                         }}>
                           <View style={styles.titleView} >
                             <Image style={styles.productImage} source={{uri: item.img}} />

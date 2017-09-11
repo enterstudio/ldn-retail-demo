@@ -36,20 +36,27 @@ const scenes = (
 
     <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
         <Scene
-            key={'shoppingCart'}
+            key={'shoppingCartTab'}
             {...navbarPropsTabs}
-            title={'Your shopping cart'}
-            component={Cart}
             icon={props => TabIcon({ ...props, icon: 'shopping-cart' })}
-            analyticsDesc={'ShoppingCart: Shopping Cart'}
-        />
+        >
+            <Scene
+                key={'shoppingCart'}
+                {...navbarPropsTabs}
+                title={'Your shopping cart'}
+                component={Cart}
+            />
+            <Scene
+                key={'productCart'}
+                {...navbarPropsTabs}
+                component={Product}
+            />
+        </Scene>
 
         <Scene
             key={'itemBrowserTab'}
             {...navbarPropsTabs}
-            title={'Browsing history'}
             icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
-            analyticsDesc={'ItemBrowser: Item Browser'}
         >
             <Scene
                 key={'itemBrowser'}
@@ -58,9 +65,8 @@ const scenes = (
                 component={ItemBrowser}
             />
             <Scene
-                key={'product'}
+                key={'productBrowser'}
                 {...navbarPropsTabs}
-                title={'Product'}
                 component={Product}
             />
         </Scene>
@@ -71,7 +77,6 @@ const scenes = (
             title={'Beacon Monitoring'}
             component={BeaconMonitor}
             icon={props => TabIcon({ ...props, icon: 'signal' })}
-            analyticsDesc={'iBeacon: Beacon monitoring'}
         />
 
     </Scene>
