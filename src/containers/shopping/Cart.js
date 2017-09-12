@@ -108,7 +108,6 @@ const mapStateToProps = state => ({
 //TODO seperate container and view
 class Cart extends Component {
 
-
     constructor(props) {
         super(props);
 
@@ -123,6 +122,7 @@ class Cart extends Component {
 
     _removeFromCart = (item) => {
         console.log('remove item: ' + item.id)
+        this.showNotification('Delete item from cart?')
     }
 
     _keyExtractor = (item, index) => item.id;
@@ -131,14 +131,16 @@ class Cart extends Component {
 
 
         <View>
-            {/*<Modal
+            {
+                /*<Modal
              animationType={'fade'}
              transparent={true}
              presentationStyle={'pageSheet'}
              visible={this.state.modalVisible}
              >
 
-             </Modal>*/}
+             </Modal>*/
+            }
 
             <ScrollView style={styles.scrollView}
                         automaticallyAdjustContentInsets={false}
@@ -152,7 +154,6 @@ class Cart extends Component {
                     hideChevron={true}
                     title={
                       <TouchableHighlight onPress={() => {
-                            //this.showNotification('Notification test message')
                             Actions.productCart(
                                      {
                                         title: item.title,
@@ -187,7 +188,7 @@ class Cart extends Component {
             </ScrollView>
             <View>
                 <Button
-                    title={'Go to checkout'}
+                    title={'Checkout'}
                     style={styles.checkoutBtn}
                 ></Button>
             </View>

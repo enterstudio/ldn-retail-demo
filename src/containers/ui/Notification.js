@@ -14,24 +14,26 @@ import {
 
 
 import { Button } from '@components/ui/';
-import { AppColors, AppStyles, AppSizes} from '@theme/';
 import { ButtonGroup } from 'react-native-elements';
 import { connect } from 'react-redux';
 import timer from 'react-native-timer';
+
+import { AppColors, AppStyles, AppSizes} from '@theme/';
 
 const Screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        ...Platform.select({
-            ios: {
-                top: 64,
-            },
-            android: {
-                top: 56,
-            }
-        }),
+        top: 0,
+        //...Platform.select({
+        //    ios: {
+        //        top: 64,
+        //    },
+        //    android: {
+        //        top: 56,
+        //    }
+        //}),
         width: Screen.width,
         overflow: 'hidden',
         alignItems: 'center',
@@ -55,23 +57,19 @@ const styles = StyleSheet.create({
         },
     },
     message: {
+        padding: AppSizes.paddingSml,
+        fontSize: 18,
         textAlign: 'center'
     },
-    modal: {
+    content: {
         justifyContent: 'center',
         alignItems: 'center',
         height: 150,
+        paddingBottom: AppSizes.paddingSml,
         borderColor: AppColors.base.grey,
-        overflow: 'hidden'
     },
-    modalContent: {
-        // height: 80
-    },
-    modalMsg: {
-        padding: 20,
-        fontSize: 18,
-        textAlign: 'center'
-    }
+
+
 });
 
 
@@ -85,9 +83,9 @@ const propTypes = {
 
 const defaultProps = {
     timeout: 3000,
-    fadeTime: 500,
-    heightClosed: 0,
-    heightOpen: 200,
+    fadeTime: 350,
+    top: 0,
+    topHidden: -150,
     message: ''
 };
 
@@ -109,7 +107,7 @@ class Notification extends Component {
         this.close = this.close.bind(this);
         this.state = {
             selectedIndex: 1,
-            height: new Animated.Value(this.props.heightClosed)
+            top: new Animated.Value(this.props.topHidden)
         };
     }
 
@@ -138,31 +136,28 @@ class Notification extends Component {
     }
 
     open = () => {
-        // TODO change top position instead of height
-        Animated.timing(this.state.height, {
+        Animated.timing(this.state.top, {
             duration: this.props.fadeTime,
-            toValue: this.props.heightOpen
+            toValue: this.props.top
         }).start();
     }
 
     close = () => {
-        Animated.timing(this.state.height, {
+        Animated.timing(this.state.top, {
             duration: this.props.fadeTime,
-            toValue: this.props.heightClosed
+            toValue: this.props.topHidden
         }).start();
     }
 
     render() {
         return (
             <Animated.View style={[styles.container, {
-                       height: this.state.height
+                       top: this.state.top
                        }]}>
                 <View style={styles.shadowContainer}>
-                    <Text style={styles.message}>{this.state.message}</Text>
-
-                    <View style={styles.modal}>
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalMsg}>Add to Item to cart?</Text>
+                    <View style={styles.content}>
+                        <View>
+                            <Text style={styles.message}>{this.state.message}</Text>
                         </View>
                         <ButtonGroup
                             onPress={this.updateIndex}

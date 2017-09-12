@@ -29,7 +29,6 @@ export default Actions.create(
       hideNavBar
       key={'splash'}
       component={AppLaunch}
-      analyticsDesc={'AppLaunch: Launching App'}
     />
 
     {/* Auth */}
