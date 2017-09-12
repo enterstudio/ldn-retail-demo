@@ -18,7 +18,21 @@ export function getAllProducts() {
                 }));
 
             });
-
-
     });
+}
+
+export function removeItemFromCart(itemId, dispatch, getState) {
+
+        console.log('remove item from cart: ' + itemId  + ', dispatch: ' + dispatch +  ', state: ' + getState);
+
+}
+
+//export function removeItemFromCart(itemId) {
+//    return (dispatch, getState) => {
+//         console.log('remove item from cart: ' + itemId)
+//    }
+//}
+
+export function addItemToCart(item){
+
 }

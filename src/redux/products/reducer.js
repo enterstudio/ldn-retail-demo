@@ -1,7 +1,8 @@
 import {ActionTypes} from '@constants/';
 
 const initialState = {
-    products: []
+    products: [],
+    cart: []
 };
 
 export default function productsReducer(state = initialState, action) {

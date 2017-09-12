@@ -3,15 +3,17 @@ import {ActionTypes} from '@constants/';
 const initialState = {};
 
 export default function notificationReducer(state = initialState, action) {
-  switch (action.type) {
-    case ActionTypes.SHOW_NOTIFICATION: {
-        const message = action.message;
-        return {
-          ...state,
-          message
-        };
+    switch (action.type) {
+        case ActionTypes.SHOW_NOTIFICATION:
+        {
+            return {
+                ...state,
+                message: action.message,
+                deferred: action.deferred
+
+            };
+        }
+        default:
+            return state;
     }
-    default:
-      return state;
-  }
 }

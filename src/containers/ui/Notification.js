@@ -26,14 +26,6 @@ const styles = StyleSheet.create({
     container: {
         position: 'absolute',
         top: 0,
-        //...Platform.select({
-        //    ios: {
-        //        top: 64,
-        //    },
-        //    android: {
-        //        top: 56,
-        //    }
-        //}),
         width: Screen.width,
         overflow: 'hidden',
         alignItems: 'center',
@@ -78,7 +70,6 @@ const propTypes = {
     fadeTime: PropTypes.number,
     heightClosed: PropTypes.number,
     heightOpen: PropTypes.number,
-    message: PropTypes.string
 };
 
 const defaultProps = {
@@ -89,14 +80,16 @@ const defaultProps = {
     message: ''
 };
 
-const mapStateToProps = state => ({
-    message: state.notification.message
-});
+const mapStateToProps = (state) => {
 
-const mapDispatchToProps = {};
+    return {
+        message: state.notification.message,
+        deferred: state.notification.deferred
+    }
+}
+
 
 class Notification extends Component {
-
 
     timerName = 'notificationTimer';
 
@@ -113,6 +106,11 @@ class Notification extends Component {
 
     updateIndex(selectedIndex) {
         this.setState({selectedIndex});
+        if(selectedIndex === 1) {
+            this.props.deferred.resolve();
+        } else {
+            this.props.deferred.reject();
+        }
         const resetIndex = 1;
         timer.setTimeout(this.timerName, () => {
             this.setState({resetIndex});
@@ -121,7 +119,6 @@ class Notification extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // this.setState({height: new Animated.Value(this.props.heightClosed)});
 
         if (nextProps.message && nextProps.message !== '') {
             this.setState({message: nextProps.message.message})
@@ -157,7 +154,7 @@ class Notification extends Component {
                 <View style={styles.shadowContainer}>
                     <View style={styles.content}>
                         <View>
-                            <Text style={styles.message}>{this.state.message}</Text>
+                            <Text style={styles.message}>{this.props.message}</Text>
                         </View>
                         <ButtonGroup
                             onPress={this.updateIndex}
@@ -181,4 +178,4 @@ Notification.propTypes = propTypes;
 Notification.defaultProps = defaultProps;
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notification);
+export default connect(mapStateToProps)(Notification);

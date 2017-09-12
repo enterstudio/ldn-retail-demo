@@ -15,6 +15,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as NotificationActions from '@redux/notification/actions';
+import * as ProductActions from '@redux/products/actions';
+import * as Q from 'q';
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -93,10 +95,13 @@ const styles = StyleSheet.create({
 });
 
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, getState) => {
     return ({
-        showNotification: (message) => {
-            NotificationActions.showNotification(dispatch, message)
+        showNotification: (message, deferred) => {
+            NotificationActions.showNotification(dispatch, message, deferred)
+        },
+        removeFromCart: (itemId) => {
+            ProductActions.removeFromCart(itemId);
         }
     })
 };
@@ -116,13 +121,14 @@ class Cart extends Component {
         }
     }
 
-    showNotification(message) {
-        this.props.showNotification({message});
-    }
-
-    _removeFromCart = (item) => {
-        console.log('remove item: ' + item.id)
-        this.showNotification('Delete item from cart?')
+    showRemoveDialog(item) {
+        const deferred = Q.defer();
+        const message = 'Remove from cart?';
+        this.props.showNotification(message, deferred);
+        deferred.promise.then(function () {
+            console.log('delete confirmed');
+                this.props.removeFromCart(item.id);
+        });
     }
 
     _keyExtractor = (item, index) => item.id;
@@ -171,7 +177,7 @@ class Cart extends Component {
                                <View style={[styles.iconContainer]}>
                                    <TouchableOpacity onPress={()=>
                             {
-                                this._removeFromCart(item);
+                                this.showRemoveDialog(item);
                             }}>
                             <Image
                                 source={require('../../assets/icons/icon-remove.png')}
