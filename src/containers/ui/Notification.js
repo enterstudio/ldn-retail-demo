@@ -169,7 +169,7 @@ class Notification extends Component {
     }
 
     componentWillUnmount() {
-        timer.clearTimeout(this.modalTimerName);
+        timer.clearTimeout(this.timerName);
     }
 
 }

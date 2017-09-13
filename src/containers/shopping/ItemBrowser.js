@@ -20,6 +20,9 @@ import Carousel from 'react-native-snap-carousel';
 import Product from './Product';
 import { FirebaseImgRef } from '@constants/';
 import { addToCart, removeFromProducts }  from '@redux/products/actions';
+import * as NotificationActions from '@redux/notification/actions';
+import * as Q from 'q';
+import timer from 'react-native-timer';
 
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -137,6 +140,11 @@ const styles = StyleSheet.create({
         zIndex: 111
     },
 
+    infoText: {
+        color: AppColors.base.white,
+        textAlign: 'center'
+    },
+
     infoIcon: {
         height: 30,
         width: 30,
@@ -157,11 +165,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCart : (item) => {
+        addToCart: (item) => {
             dispatch(addToCart(item));
         },
-        removeFromProducts : (item) => {
+        removeFromProducts: (item) => {
             dispatch(removeFromProducts(item));
+        },
+        showNotification: (message, deferred) => {
+            NotificationActions.showNotification(dispatch, message, deferred)
         }
     }
 };
@@ -175,19 +186,48 @@ const defaultProps = {
 };
 
 
-
 //TODO separate container and view
 class ItemBrowser extends Component {
+
+    timerName = 'ItemBrowserTimer';
 
     constructor(props) {
         super(props);
         this.toggleInfoHeader = this.toggleInfoHeader.bind(this);
+        this.showRemoveConfirmationDialog = this.showRemoveConfirmationDialog.bind(this);
+        this.showAddConfirmationDialog = this.showAddConfirmationDialog.bind(this);
         this.state = {
             top: new Animated.Value(this.props.topCollapsed),
             isInfoHeaderCollapsed: true,
             currentProductIndex: 0,
             slides: this.getSlides(props.products)
         };
+    }
+
+    showAddConfirmationDialog(product) {
+        const deferred = Q.defer();
+        const message = 'Item added to cart. Continue shopping?';
+        this.props.showNotification(message, deferred);
+        deferred.promise.then(function () {
+            },
+            function () {
+                timer.setTimeout(this.timerName, () => {
+                    Actions.shoppingCartTab();
+                }, 1000);
+            })
+    }
+
+    showRemoveConfirmationDialog(product) {
+        const deferred = Q.defer();
+        const message = 'Remove item from list?';
+        this.props.showNotification(message, deferred);
+        const self = this;
+        deferred.promise.then(function () {
+            timer.setTimeout(this.timerName, () => {
+                self.props.removeFromProducts(product)
+            }, 700);
+        });
+
     }
 
     toggleInfoHeader = () => {
@@ -198,7 +238,7 @@ class ItemBrowser extends Component {
     }
 
 
-    getSlides = (products) =>  products.map((item, index) => {
+    getSlides = (products) => products.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide} elevation={5}>
 
@@ -225,7 +265,11 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this.props.addToCart(item)}>
+                                            onPress={() => {
+                                            this.props.addToCart(item);
+                                            this.showAddConfirmationDialog(item);
+
+                                            }}>
                             <Image
                                 source={require('../../assets/icons/icon-add-to-cart.png')}
                                 style={[styles.icon]}
@@ -233,7 +277,10 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this.props.removeFromProducts(item)}>
+                                            onPress={() => {
+                                                this.showRemoveConfirmationDialog(item)
+                                            }
+                                       }>
                             <Image
                                 source={require('../../assets/icons/icon-remove.png')}
                                 style={[styles.icon]}
@@ -257,7 +304,7 @@ class ItemBrowser extends Component {
                 <Animated.View style={[styles.browserContainer, {top: this.state.top}]}>
                     <View style={styles.infoHeaderContainer}>
                         <View style={styles.infoHeader}>
-                            <Text style={[{color: AppColors.base.white}]}>
+                            <Text style={[styles.infoText]}>
                                 While you are shopping, any items you pick up will be added to the list below.
                             </Text>
                         </View>
@@ -296,9 +343,13 @@ class ItemBrowser extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-        if(nextProps.products) {
+        if (nextProps.products) {
             this.setState({slides: this.getSlides(nextProps.products)});
         }
+    }
+
+    componentWillUnmount() {
+        timer.clearTimeout(this.timerName);
     }
 }
 

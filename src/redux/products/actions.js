@@ -14,7 +14,7 @@ export function getAllProducts() {
                 const products = snapshot.val() || {};
                 return resolve(dispatch({
                     type: ActionTypes.PRODUCTS_LOADED,
-                    products,
+                    products
                 }));
 
             });

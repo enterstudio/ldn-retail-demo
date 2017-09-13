@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 import * as NotificationActions from '@redux/notification/actions';
 import * as ProductActions from '@redux/products/actions';
 import * as Q from 'q';
+import timer from 'react-native-timer';
+
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -88,6 +90,14 @@ const styles = StyleSheet.create({
     productInfo: {
         flexDirection: 'column',
         paddingLeft: AppSizes.padding
+    },
+
+    summary: {
+        width: AppSizes.screen.width,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: AppSizes.padding,
+        backgroundColor: AppColors.base.white
     }
 
 
@@ -112,9 +122,13 @@ const mapStateToProps = state => ({
 //TODO seperate container and view
 class Cart extends Component {
 
+    timerName = 'cartTimer';
+
     constructor(props) {
         super(props);
         this.showRemoveDialog = this.showRemoveDialog.bind(this);
+        this.getCartPrice = this.getCartPrice.bind(this);
+        this.getCartQuantity = this.getCartQuantity.bind(this);
         this.state = {
             selectedIndex: 1
         }
@@ -126,9 +140,24 @@ class Cart extends Component {
         this.props.showNotification(message, deferred);
         const self = this;
         deferred.promise.then(function () {
-            self.props.removeFromCart(item);
+            timer.setTimeout(this.timerName, () => {
+                self.props.removeFromCart(item);
+            }, 700);
         });
     }
+
+    getCartQuantity = () => {
+        return this.props.cart.length;
+    }
+
+    getCartPrice = () => {
+        let price = 0;
+        this.props.cart.forEach(function (item) {
+            price = price + item.price;
+        })
+        return price;
+    }
+
 
     _keyExtractor = (item, index) => item.id;
 
@@ -178,15 +207,26 @@ class Cart extends Component {
                     />
                     }
                 />
+                {this.props.cart.length > 0 &&
+                <View>
+                    <View style={styles.summary}>
+                        <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
+                        <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
+                    </View>
+                    <Button
+                        title={'Checkout'}
+                        style={styles.checkoutBtn}
+                    ></Button>
+                </View>
+                }
             </ScrollView>
-            <View>
-                <Button
-                    title={'Checkout'}
-                    style={styles.checkoutBtn}
-                ></Button>
-            </View>
+
         </View>
     )
+
+    componentWillUnmount() {
+        timer.clearTimeout(this.timerName);
+    }
 
 
 }

@@ -11,6 +11,7 @@ import { Actions } from 'react-native-router-flux';
 import  SwipeCarousel  from 'react-native-swipe-carousel';
 import { connect } from 'react-redux';
 import Dash from 'react-native-dash';
+import { addToCart }  from '@redux/products/actions';
 
 import {AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -141,14 +142,21 @@ const styles = StyleSheet.create({
 
 });
 
-
 const mapDispatchToProps = (dispatch) => {
-    return ({})
-};
+    return {
+        addToCart: (item) => {
+            dispatch(addToCart(item));
+        }
+    }
+}
 
 const mapStateToProps = state => ({});
 
 const spacerSize = 50;
+
+const defaultProps = {
+    complementaryItems: []
+}
 
 //TODO separate container and view (like menu)
 class Product extends Component {
@@ -157,7 +165,7 @@ class Product extends Component {
     slides = this.props.complementaryItems.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide}>
-                <TouchableHighlight onPress={this._slideUp}>
+                <TouchableHighlight>
                     <View style={styles.complementaryItem}>
                         <Image style={styles.complementaryImg} source={{uri: item.img}}/>
                         <View style={[styles.complementaryContainer]}>
@@ -242,7 +250,7 @@ class Product extends Component {
                     <View style={[styles.priceContainer]}>
                         <Text style={[styles.price]}>£{this.props.product.price}</Text>
                     </View>
-                    <Button raised={false} large title={'Add to cart'}></Button>
+                    <Button raised={false} large title={'Add to cart'} onPress={() => this.props.addToCart(this.props.product)}></Button>
                 </View>
             </View>
         )
@@ -250,5 +258,6 @@ class Product extends Component {
 
 }
 
+Product.defaultProps = defaultProps;
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

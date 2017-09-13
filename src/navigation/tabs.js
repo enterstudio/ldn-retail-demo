@@ -36,8 +36,6 @@ const scenes = (
 
     <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
 
-
-
         <Scene
             key={'shoppingCartTab'}
             {...navbarPropsTabs}
