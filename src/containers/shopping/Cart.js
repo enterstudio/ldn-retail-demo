@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: AppColors.base.greyLight
     },
 
-
     //TODO create icon component
     smallIcon: {
         height: 30,
@@ -95,19 +94,19 @@ const styles = StyleSheet.create({
 });
 
 
-const mapDispatchToProps = (dispatch, getState) => {
+const mapDispatchToProps = (dispatch) => {
     return ({
+        removeFromCart: (item) => {
+            dispatch(ProductActions.removeFromCart(item));
+        },
         showNotification: (message, deferred) => {
             NotificationActions.showNotification(dispatch, message, deferred)
-        },
-        removeFromCart: (itemId) => {
-            ProductActions.removeFromCart(itemId);
         }
     })
 };
 
 const mapStateToProps = state => ({
-    products: state.products.products
+    cart: state.products.cart
 });
 
 //TODO seperate container and view
@@ -115,7 +114,7 @@ class Cart extends Component {
 
     constructor(props) {
         super(props);
-
+        this.showRemoveDialog = this.showRemoveDialog.bind(this);
         this.state = {
             selectedIndex: 1
         }
@@ -125,34 +124,22 @@ class Cart extends Component {
         const deferred = Q.defer();
         const message = 'Remove from cart?';
         this.props.showNotification(message, deferred);
+        const self = this;
         deferred.promise.then(function () {
-            console.log('delete confirmed');
-                this.props.removeFromCart(item.id);
+            self.props.removeFromCart(item);
         });
     }
 
     _keyExtractor = (item, index) => item.id;
 
     render = () => (
-
-
         <View>
-            {
-                /*<Modal
-             animationType={'fade'}
-             transparent={true}
-             presentationStyle={'pageSheet'}
-             visible={this.state.modalVisible}
-             >
-
-             </Modal>*/
-            }
 
             <ScrollView style={styles.scrollView}
                         automaticallyAdjustContentInsets={false}
             >
                 <FlatList
-                    data={this.props.products}
+                    data={this.props.cart}
                     keyExtractor={this._keyExtractor}
                     renderItem={({item}) =>
                     <ListItem

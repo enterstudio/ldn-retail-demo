@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import Product from './Product';
 import { FirebaseImgRef } from '@constants/';
+import { addToCart }  from '@redux/products/actions';
 
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -154,6 +155,13 @@ const mapStateToProps = state => ({
     products: state.products.products
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCart : (item) => {
+            dispatch(addToCart(item));
+        }
+    }
+};
 
 const defaultProps = {
     timeout: 3000,
@@ -163,12 +171,14 @@ const defaultProps = {
     message: ''
 };
 
+
+
 //TODO separate container and view
 class ItemBrowser extends Component {
 
     constructor(props) {
         super(props);
-        this._toggleInfoHeader = this._toggleInfoHeader.bind(this);
+        this.toggleInfoHeader = this.toggleInfoHeader.bind(this);
         this.state = {
             top: new Animated.Value(this.props.topCollapsed),
             isInfoHeaderCollapsed: true,
@@ -176,19 +186,11 @@ class ItemBrowser extends Component {
         };
     }
 
-    _toggleInfoHeader = () => {
+    toggleInfoHeader = () => {
         Animated.timing(this.state.top, {
             duration: this.props.fadeTime,
             toValue: this.state.isInfoHeaderCollapsed ? this.props.top : this.props.topCollapsed
         }).start();
-    }
-
-    _addToCart = () => {
-
-    }
-
-    _removeFromCart = () => {
-
     }
 
 
@@ -202,14 +204,14 @@ class ItemBrowser extends Component {
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
                                             onPress={() => {
-                                            const product = this.props.products[this._carousel.currentIndex];
-                                            Actions.productBrowser(
-                                                 {
-                                                 title: product.title,
-                                                 product: product,
-                                                 complementaryItems: this.props.products
-                                                 })
-                                            }
+                                                const product = this.props.products[this._carousel.currentIndex];
+                                                Actions.productBrowser(
+                                                     {
+                                                     title: product.title,
+                                                     product: product,
+                                                     complementaryItems: this.props.products
+                                                     })
+                                                }
                                             }>
 
                             <Image
@@ -219,7 +221,7 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this._addToCart()}>
+                                            onPress={() => this.props.addToCart(item)}>
                             <Image
                                 source={require('../../assets/icons/icon-add-to-cart.png')}
                                 style={[styles.icon]}
@@ -227,7 +229,7 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this._removeFromCart()}>
+                                            onPress={() => this.removeFromList(item)}>
                             <Image
                                 source={require('../../assets/icons/icon-remove.png')}
                                 style={[styles.icon]}
@@ -259,7 +261,7 @@ class ItemBrowser extends Component {
                             <TouchableOpacity onPress={()=>
                             {
                                 this.setState({isInfoHeaderCollapsed : !this.state.isInfoHeaderCollapsed});
-                                this._toggleInfoHeader();
+                                this.toggleInfoHeader();
                             }}>
                                 <Image
                                     source={require('../../assets/icons/icon-info.png')}
@@ -291,4 +293,4 @@ class ItemBrowser extends Component {
 }
 
 ItemBrowser.defaultProps = defaultProps;
-export default connect(mapStateToProps)(ItemBrowser);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemBrowser);

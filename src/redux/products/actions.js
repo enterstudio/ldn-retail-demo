@@ -21,18 +21,31 @@ export function getAllProducts() {
     });
 }
 
-export function removeItemFromCart(itemId, dispatch, getState) {
+export function removeFromCart(itemToRemove) {
 
-        console.log('remove item from cart: ' + itemId  + ', dispatch: ' + dispatch +  ', state: ' + getState);
+    return (dispatch, getState) => {
+
+        let cart = getState().products.cart;
+        const index = cart.findIndex(function(item){
+                 return itemToRemove.id === item.id;
+            }
+        );
+        cart = [
+            ... cart.slice(0, index),
+            ... cart.slice(index + 1)
+
+        ]
+        dispatch({type: ActionTypes.UPDATE_CART, cart})
+
+    }
 
 }
 
-//export function removeItemFromCart(itemId) {
-//    return (dispatch, getState) => {
-//         console.log('remove item from cart: ' + itemId)
-//    }
-//}
+export function addToCart(item){
+    return (dispatch, getState) => {
 
-export function addItemToCart(item){
+        let cart = getState().products.cart;
+        dispatch({type: ActionTypes.UPDATE_CART, cart: [...cart, item]})
 
+    }
 }
