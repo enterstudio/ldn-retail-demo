@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import Product from './Product';
 import { FirebaseImgRef } from '@constants/';
-import { addToCart }  from '@redux/products/actions';
+import { addToCart, removeFromProducts }  from '@redux/products/actions';
 
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -159,6 +159,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addToCart : (item) => {
             dispatch(addToCart(item));
+        },
+        removeFromProducts : (item) => {
+            dispatch(removeFromProducts(item));
         }
     }
 };
@@ -182,7 +185,8 @@ class ItemBrowser extends Component {
         this.state = {
             top: new Animated.Value(this.props.topCollapsed),
             isInfoHeaderCollapsed: true,
-            currentProductIndex: 0
+            currentProductIndex: 0,
+            slides: this.getSlides(props.products)
         };
     }
 
@@ -194,7 +198,7 @@ class ItemBrowser extends Component {
     }
 
 
-    slides = this.props.products.map((item, index) => {
+    getSlides = (products) =>  products.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide} elevation={5}>
 
@@ -229,7 +233,7 @@ class ItemBrowser extends Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
-                                            onPress={() => this.removeFromList(item)}>
+                                            onPress={() => this.props.removeFromProducts(item)}>
                             <Image
                                 source={require('../../assets/icons/icon-remove.png')}
                                 style={[styles.icon]}
@@ -280,7 +284,7 @@ class ItemBrowser extends Component {
                         scrollEndDragDebounceValue={50}
                         swipeThreshold={70}
                     >
-                        { this.slides }
+                        { this.state.slides }
                     </Carousel>
                 </Animated.View>
                 {/*ProductView layer*/}
@@ -289,6 +293,12 @@ class ItemBrowser extends Component {
                 </View>
             </View>
         );
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if(nextProps.products) {
+            this.setState({slides: this.getSlides(nextProps.products)});
+        }
     }
 }
 

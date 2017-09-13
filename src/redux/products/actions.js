@@ -30,22 +30,64 @@ export function removeFromCart(itemToRemove) {
                  return itemToRemove.id === item.id;
             }
         );
-        cart = [
-            ... cart.slice(0, index),
-            ... cart.slice(index + 1)
+        if(index !== -1) {
 
-        ]
-        dispatch({type: ActionTypes.UPDATE_CART, cart})
+            dispatch({type: ActionTypes.UPDATE_CART, cart :  [
+                ... cart.slice(0, index),
+                ... cart.slice(index + 1)
 
+            ]})
+        }
     }
 
 }
 
-export function addToCart(item){
+export function addToCart(itemToAdd){
     return (dispatch, getState) => {
 
         let cart = getState().products.cart;
-        dispatch({type: ActionTypes.UPDATE_CART, cart: [...cart, item]})
+        const index = cart.findIndex(function(item){
+                return itemToAdd.id === item.id;
+            }
+        );
+        if(index === -1) {
+            dispatch({type: ActionTypes.UPDATE_CART, cart: [...cart, itemToAdd]})
+        }
+    }
+}
 
+export function removeFromProducts(itemToRemove) {
+    console.log('remove from products')
+
+    return (dispatch, getState) => {
+
+        let products = getState().products.products;
+        const index = products.findIndex(function(item){
+                return itemToRemove.id === item.id;
+            }
+        );
+        if(index !== -1) {
+
+            dispatch({type: ActionTypes.UPDATE_PRODUCTS, products:  [
+                ... products.slice(0, index),
+                ... products.slice(index + 1)
+
+            ]})
+        }
+    }
+
+}
+
+export function addToProducts(itemToAdd){
+    return (dispatch, getState) => {
+
+        let products = getState().products.products;
+        const index = products.findIndex(function(item){
+                return itemToAdd.id === item.id;
+            }
+        );
+        if(index === -1) {
+            dispatch({type: ActionTypes.UPDATE_PRODUCTS, products: [...products, itemToAdd]})
+        }
     }
 }

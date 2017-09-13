@@ -14,6 +14,13 @@ export default function productsReducer(state = initialState, action) {
                 products
             };
         }
+        case ActionTypes.UPDATE_PRODUCTS: {
+            const products = action.products;
+            return {
+                ...state,
+                products
+            };
+        }
         case ActionTypes.UPDATE_CART: {
             const cart = action.cart;
             return {
