@@ -224,7 +224,7 @@ class ItemBrowser extends Component {
         const self = this;
         deferred.promise.then(function () {
             timer.setTimeout(this.timerName, () => {
-                self.props.removeFromProducts(product)
+                self.props.removeFromProducts(product);
             }, 700);
         });
 

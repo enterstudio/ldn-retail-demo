@@ -19,6 +19,7 @@ import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButt
 import Cart from '@containers/shopping/Cart';
 import ItemBrowser from '@containers/shopping/ItemBrowser';
 import Product from '@containers/shopping/Product';
+import Locator from '@containers/location/Locator';
 import BeaconMonitor from '@containers/beacon/BeaconMonitor';
 
 
@@ -69,6 +70,12 @@ const scenes = (
                 key={'productBrowser'}
                 {...navbarPropsTabs}
                 component={Product}
+            />
+            <Scene
+                key={'locator'}
+                {...navbarPropsTabs}
+                title={'Locator'}
+                component={Locator}
             />
         </Scene>
 

@@ -164,71 +164,75 @@ class Cart extends Component {
     render = () => (
         <View>
 
-            <ScrollView style={styles.scrollView}
-                        automaticallyAdjustContentInsets={false}
-            >
+            {this.props.cart.length === 0 &&
+            <View>
+                <Text style={[AppStyles.h3, AppStyles.padding, {textAlign: 'center'}]}>Your shopping cart is currently empty</Text>
+            </View>}
+
+            < ScrollView style={styles.scrollView}
+                automaticallyAdjustContentInsets={false}
+                >
                 <FlatList
-                    data={this.props.cart}
-                    keyExtractor={this._keyExtractor}
-                    renderItem={({item}) =>
-                    <ListItem
-                    containerStyle={[styles.listItem]}
-                    hideChevron={true}
-                    title={
-                      <TouchableHighlight onPress={() => {
+                data={this.props.cart}
+                keyExtractor={this._keyExtractor}
+                renderItem={({item}) =>
+                <ListItem
+                containerStyle={[styles.listItem]}
+                hideChevron={true}
+                title={
+                <TouchableHighlight onPress={() => {
                             Actions.productCart(
                                      {
                                         title: item.title,
                                         product: item,
                                         complementaryItems: this.props.products
                             })
-
                         }}>
-                          <View style={styles.titleView} >
-                            <Image style={styles.productImage} source={{uri: item.img}} />
-                            <View style={[styles.productInfo]}>
-                             <Text style={[styles.titleViewText]}>{item.title}</Text>
-                             <Text style={[styles.productPrice]}>£{item.price}</Text>
-                            </View>
-                               <View style={[styles.iconContainer]}>
-                                   <TouchableOpacity onPress={()=>
+                    <View style={styles.titleView}>
+                        <Image style={styles.productImage} source={{uri: item.img}}/>
+                        <View style={[styles.productInfo]}>
+                            <Text style={[styles.titleViewText]}>{item.title}</Text>
+                            <Text style={[styles.productPrice]}>£{item.price}</Text>
+                        </View>
+                        <View style={[styles.iconContainer]}>
+                            <TouchableOpacity onPress={()=>
                             {
                                 this.showRemoveDialog(item);
                             }}>
-                            <Image
-                                source={require('../../assets/icons/icon-remove.png')}
-                                style={[styles.smallIcon]}
-                            />
+                                <Image
+                                    source={require('../../assets/icons/icon-remove.png')}
+                                    style={[styles.smallIcon]}
+                                />
                             </TouchableOpacity>
                         </View>
-                          </View>
-                          </TouchableHighlight>
-                        }
-                    />
-                    }
-                />
-                {this.props.cart.length > 0 &&
-                <View>
-                    <View style={styles.summary}>
-                        <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
-                        <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
                     </View>
-                    <Button
-                        title={'Checkout'}
-                        style={styles.checkoutBtn}
-                    ></Button>
+                </TouchableHighlight>
+            }
+                />
+            }
+                />
+            {this.props.cart.length > 0 &&
+                <View>
+                <View style={styles.summary}>
+                <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
+                <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
                 </View>
+                <Button
+                title={'Checkout'}
+                style={styles.checkoutBtn}
+                ></Button>
+                </View>
+            }
+                </ScrollView>
+
+                </View>
+                )
+
+                componentWillUnmount() {
+                timer.clearTimeout(this.timerName);
+            }
+
+
                 }
-            </ScrollView>
 
-        </View>
-    )
-
-    componentWillUnmount() {
-        timer.clearTimeout(this.timerName);
-    }
-
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+            export default connect(mapStateToProps, mapDispatchToProps)(Cart);

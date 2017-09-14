@@ -155,11 +155,18 @@ const mapStateToProps = state => ({});
 const spacerSize = 50;
 
 const defaultProps = {
-    complementaryItems: []
+    //complementaryItems: []
 }
 
 //TODO separate container and view (like menu)
 class Product extends Component {
+
+    constructor(props) {
+        super(props);
+        if (!this.props.complementaryItems) {
+            this.props.complementaryItems = []
+        }
+    }
 
 
     slides = this.props.complementaryItems.map((item, index) => {
@@ -225,15 +232,23 @@ class Product extends Component {
                         </View>
                         <Dash style={{width:AppSizes.screen.width, height:1}}/>
                         <Spacer size={spacerSize}></Spacer>
-                        <View style={[AppStyles.paddedRow, {justifyContent: 'space-between', backgroundColor: AppColors.base.greyLight}]}>
-                            <View style={[{justifyContent: 'center'}]}>
-                            <Text style={[AppStyles.h3]}>View in store location</Text>
-                            </View>
+                        <TouchableHighlight style={[]}
+                                            underlayColor={AppColors.base.grey}
+                                            onPress={() => {
+                                                Actions.locator();
+                                            }
+                                       }>
+                            <View
+                                style={[AppStyles.paddedRow, {justifyContent: 'space-between', backgroundColor: AppColors.base.greyLight}]}>
+                                <View style={[{justifyContent: 'center'}]}>
+                                    <Text style={[AppStyles.h3]}>View in store location</Text>
+                                </View>
                                 <Image
-                                source={require('../../assets/icons/icon-location.png')}
-                                style={[styles.largeIcon, { marginRight: 20}]}
-                            />
-                        </View>
+                                    source={require('../../assets/icons/icon-location.png')}
+                                    style={[styles.largeIcon, { marginRight: 20}]}
+                                />
+                            </View>
+                        </TouchableHighlight>
                         <Spacer size={spacerSize}></Spacer>
                         <View style={[AppStyles.containerCentered]}>
                             <Text style={[AppStyles.h3]}>Need help?</Text>
@@ -250,7 +265,8 @@ class Product extends Component {
                     <View style={[styles.priceContainer]}>
                         <Text style={[styles.price]}>£{this.props.product.price}</Text>
                     </View>
-                    <Button raised={false} large title={'Add to cart'} onPress={() => this.props.addToCart(this.props.product)}></Button>
+                    <Button raised={false} large title={'Add to cart'}
+                            onPress={() => this.props.addToCart(this.props.product)}></Button>
                 </View>
             </View>
         )
