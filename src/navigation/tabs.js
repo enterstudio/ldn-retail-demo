@@ -19,6 +19,7 @@ import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButt
 import Cart from '@containers/shopping/Cart';
 import ItemBrowser from '@containers/shopping/ItemBrowser';
 import Product from '@containers/shopping/Product';
+import Checkout from '@containers/shopping/Checkout';
 import Locator from '@containers/location/Locator';
 import BeaconMonitor from '@containers/beacon/BeaconMonitor';
 
@@ -52,6 +53,11 @@ const scenes = (
                 key={'productCart'}
                 {...navbarPropsTabs}
                 component={Product}
+            />
+            <Scene
+                key={'checkout'}
+                {...navbarPropsTabs}
+                component={Checkout}
             />
         </Scene>
 

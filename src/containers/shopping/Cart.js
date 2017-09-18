@@ -220,6 +220,7 @@ class Cart extends Component {
                 <Button
                 title={'Checkout'}
                 style={styles.checkoutBtn}
+                onPress={Actions.checkout()}
                 ></Button>
                 </View>
             }
