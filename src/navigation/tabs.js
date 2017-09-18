@@ -16,10 +16,9 @@ import { TabIcon } from '@ui/';
 import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
 
 // Scenes
-import Cart from '@containers/shopping/Cart';
-import ItemBrowser from '@containers/shopping/ItemBrowser';
-import Product from '@containers/shopping/Product';
-import Checkout from '@containers/shopping/Checkout';
+import Cart from '@containers/shop/Cart';
+import ItemBrowser from '@containers/shop/ItemBrowser';
+import Product from '@containers/shop/Product';
 import Locator from '@containers/location/Locator';
 import BeaconMonitor from '@containers/beacon/BeaconMonitor';
 
@@ -53,11 +52,6 @@ const scenes = (
                 key={'productCart'}
                 {...navbarPropsTabs}
                 component={Product}
-            />
-            <Scene
-                key={'checkout'}
-                {...navbarPropsTabs}
-                component={Checkout}
             />
         </Scene>
 
