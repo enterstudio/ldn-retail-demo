@@ -61,8 +61,6 @@ const scenes = (
             />
         </Scene>
 
-
-
         <Scene
             key={'shoppingCartTab'}
             {...navbarPropsTabs}

@@ -70,6 +70,13 @@ class CartItem extends Component {
         }).start();
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('nextProps remove: ' + JSON.stringify(nextProps.remove));
+        if (nextProps.remove) {
+            this.onRemove();
+        }
+    }
+
     onRemove = () => {
         console.log('on remove called')
         const { onRemove } = this.props;
@@ -105,12 +112,7 @@ class CartItem extends Component {
 
         return (
             <TouchableOpacity onPress={() => {
-                            Actions.productCart(
-                                     {
-                                        title: item.title,
-                                        product: item,
-                                        complementaryItems: this.props.products
-                            })
+                           this.props.onPress();
                         }}>
                 <Animated.View style={rowStyles}>
                     <View style={styles.cartItem}>

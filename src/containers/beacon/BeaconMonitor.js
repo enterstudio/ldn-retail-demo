@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 
     rangeContainer: {
       height: 200,
-        overflow: 'hidden',
+        overflow: 'hidden'
     },
 
     log: {
@@ -54,9 +54,10 @@ const styles = StyleSheet.create({
         padding: 15,
         borderBottomWidth: 1
     },
+
     listItem: {
         borderBottomWidth: 0
-    },
+    }
 
 });
 
