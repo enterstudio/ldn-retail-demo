@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 
     rangeContainer: {
       height: 200,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
 
     log: {
@@ -143,7 +143,7 @@ class BeaconMonitor extends Component {
 
     render = () => (
         <View style={styles.container}>
-            <View style={styles.rangeContainer}>
+            <View style={[styles.rangeContainer, styles.log]}>
                 <Text style={AppStyles.h2}>Beacon Range</Text>
                 <FlatList
                     data={this.state.beaconsDidRangeData}

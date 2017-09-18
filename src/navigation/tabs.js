@@ -38,24 +38,6 @@ const scenes = (
     <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
 
         <Scene
-            key={'shoppingCartTab'}
-            {...navbarPropsTabs}
-            icon={props => TabIcon({ ...props, icon: 'shopping-cart' })}
-        >
-            <Scene
-                key={'shoppingCart'}
-                {...navbarPropsTabs}
-                title={'Your shopping cart'}
-                component={Cart}
-            />
-            <Scene
-                key={'productCart'}
-                {...navbarPropsTabs}
-                component={Product}
-            />
-        </Scene>
-
-        <Scene
             key={'itemBrowserTab'}
             {...navbarPropsTabs}
             icon={props => TabIcon({ ...props, icon: 'shopping-bag' })}
@@ -78,6 +60,27 @@ const scenes = (
                 component={Locator}
             />
         </Scene>
+
+
+
+        <Scene
+            key={'shoppingCartTab'}
+            {...navbarPropsTabs}
+            icon={props => TabIcon({ ...props, icon: 'shopping-cart' })}
+        >
+            <Scene
+                key={'shoppingCart'}
+                {...navbarPropsTabs}
+                title={'Your shopping cart'}
+                component={Cart}
+            />
+            <Scene
+                key={'productCart'}
+                {...navbarPropsTabs}
+                component={Product}
+            />
+        </Scene>
+
 
         <Scene
             key={'ibeacon'}
