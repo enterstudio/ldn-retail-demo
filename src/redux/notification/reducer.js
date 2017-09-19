@@ -6,7 +6,6 @@ export default function notificationReducer(state = initialState, action) {
     switch (action.type) {
         case ActionTypes.SHOW_NOTIFICATION:
         {
-            console.log('in reducer: notication props: ' + JSON.stringify(action))
             return {
                 ...state,
                 message: action.message,

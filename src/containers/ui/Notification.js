@@ -73,7 +73,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    timeout: 4000,
+    timeout: 3000,
     animationTime: 200,
     top: 0,
     topHidden: -150,
@@ -115,10 +115,11 @@ class Notification extends Component {
             this.props.deferred.reject();
         }
         const resetIndex = 1;
+        const timeOut = selectedIndex === 0 ? 200 : 0;
         timer.setTimeout(this.timerName, () => {
-            this.setState({resetIndex});
             this.close();
-        }, 200);
+            this.setState({selectedIndex: resetIndex});
+        }, timeOut);
     }
 
     componentWillReceiveProps(nextProps) {

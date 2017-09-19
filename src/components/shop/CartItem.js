@@ -71,14 +71,12 @@ class CartItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps remove: ' + JSON.stringify(nextProps.remove));
         if (nextProps.remove) {
             this.onRemove();
         }
     }
 
     onRemove = () => {
-        console.log('on remove called')
         const { onRemove } = this.props;
         if (onRemove) {
             Animated.timing(this._animated, {
@@ -101,16 +99,11 @@ class CartItem extends Component {
                     outputRange: [0, ROW_HEIGHT],
                     extrapolate: 'clamp',
                 }),
-            },
-            {opacity: this._animated},
-            {
-                transform: [
-                    {scale: this._animated}
-                ],
-            },
+            }
         ];
 
         return (
+
             <TouchableOpacity onPress={() => {
                            this.props.onPress();
                         }}>

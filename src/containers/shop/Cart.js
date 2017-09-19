@@ -19,6 +19,7 @@ import * as ProductActions from '@redux/products/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
 import { CartItem } from '@components/shop/';
+import { InfoItem } from '@components/shop/';
 import FlipCard from 'react-native-flip-card'
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -100,10 +101,12 @@ class Cart extends Component {
         this.checkout = this.checkout.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.goToProduct = this.goToProduct.bind(this);
+        this.loadInfoItems = this.loadInfoItems.bind(this);
         this.state = {
             selectedIndex: 1,
             checkout: false,
-            doFlip: false
+            doFlip: false,
+            infoItems: []
         }
     }
 
@@ -161,6 +164,9 @@ class Cart extends Component {
         });
     }
 
+    infoAction = (type) => {
+
+    }
 
     goToProduct = (item) => {
         Actions.productCart(
@@ -178,6 +184,17 @@ class Cart extends Component {
         } else {
             return false
         }
+    }
+
+    loadInfoItems = () => {
+        console.log('Pushing infoItem');
+        let infoItems = [];
+        infoItems.push({type: InfoItem.DELIVERY});
+        this.setState({infoItems});
+        infoItems.push({type: InfoItem.LOCATION});
+        this.setState({infoItems});
+        infoItems.push({type: InfoItem.RECEIPT});
+        this.setState({infoItems});
     }
 
 
@@ -229,6 +246,7 @@ class Cart extends Component {
                     flip={this.state.doFlip}
                     alignHeight={true}
                     clickable={false}
+                    onFlipEnd= {this.loadInfoItems}
                 >
                     <View style={styles.checkout}>
                         <View style={styles.summary}>
@@ -243,15 +261,28 @@ class Cart extends Component {
                     </View>
                     <View style={[styles.checkoutSuccess, styles.checkout]}>
                         <Text
-                            style={[styles.checkoutText]}>{'Thank  you. Your items are being prepared for collection. You can pick them up from the nearest counter.'}</Text>
+                            style={[styles.checkoutText]}>{'Thank you. Your items are being prepared for collection. You can pick them up from the nearest counter.'}</Text>
                     </View>
                 </FlipCard>
                 }
             </ScrollView>
+            {this.state.checkout &&
+            <FlatList
+                data={this.state.infoItems}
+                extraData={this.state}
+                keyExtractor={(item, index) => index}
+                renderItem={({ item, index }) => (
+                          <InfoItem
+                                type = {item.type}
+                                onPress = {() => this.infoAction(item.type)}
+                            />
+                        )}
+            />
+            }
         </View>
     )
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         timer.clearTimeout(this.timerName);
     }
 }
