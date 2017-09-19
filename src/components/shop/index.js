@@ -1,5 +1,5 @@
 import CartItem from './CartItem';
-import InfoItem from './InfoItem';
+import InfoItems from './InfoItems';
 
-export { CartItem, InfoItem }
+export { CartItem, InfoItems }
 

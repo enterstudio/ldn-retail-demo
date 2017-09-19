@@ -19,7 +19,7 @@ import * as ProductActions from '@redux/products/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
 import { CartItem } from '@components/shop/';
-import { InfoItem } from '@components/shop/';
+import { InfoItems } from '@components/shop/';
 import FlipCard from 'react-native-flip-card'
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -106,7 +106,7 @@ class Cart extends Component {
             selectedIndex: 1,
             checkout: false,
             doFlip: false,
-            infoItems: []
+            showInfoItems: false
         }
     }
 
@@ -188,13 +188,8 @@ class Cart extends Component {
 
     loadInfoItems = () => {
         console.log('Pushing infoItem');
-        let infoItems = [];
-        infoItems.push({type: InfoItem.DELIVERY});
-        this.setState({infoItems});
-        infoItems.push({type: InfoItem.LOCATION});
-        this.setState({infoItems});
-        infoItems.push({type: InfoItem.RECEIPT});
-        this.setState({infoItems});
+        this.setState({showInfoItems: true})
+
     }
 
 
@@ -238,47 +233,40 @@ class Cart extends Component {
                 </View>
                 }
                 {this.state.checkout &&
-                <FlipCard
-                    friction={8}
-                    perspective={1000}
-                    flipHorizontal={true}
-                    flipVertical={false}
-                    flip={this.state.doFlip}
-                    alignHeight={true}
-                    clickable={false}
-                    onFlipEnd= {this.loadInfoItems}
-                >
-                    <View style={styles.checkout}>
-                        <View style={styles.summary}>
-                            <Text style={AppStyles.h3}>{'Total Qty: ' + this.state.quantity}</Text>
-                            <Text style={AppStyles.h3}>{'Total Price: £' + this.state.cartPrice}</Text>
+                <View>
+                    <FlipCard
+                        friction={8}
+                        perspective={1000}
+                        flipHorizontal={true}
+                        flipVertical={false}
+                        flip={this.state.doFlip}
+                        alignHeight={true}
+                        clickable={false}
+                        onFlipEnd={this.loadInfoItems}
+                    >
+                        <View style={styles.checkout}>
+                            <View style={styles.summary}>
+                                <Text style={AppStyles.h3}>{'Total Qty: ' + this.state.quantity}</Text>
+                                <Text style={AppStyles.h3}>{'Total Price: £' + this.state.cartPrice}</Text>
+                            </View>
+                            <Button
+                                title={'Checkout'}
+                                style={styles.checkoutBtn}
+                                onPress={() => {}}
+                            ></Button>
                         </View>
-                        <Button
-                            title={'Checkout'}
-                            style={styles.checkoutBtn}
-                            onPress={() => {}}
-                        ></Button>
-                    </View>
-                    <View style={[styles.checkoutSuccess, styles.checkout]}>
-                        <Text
-                            style={[styles.checkoutText]}>{'Thank you. Your items are being prepared for collection. You can pick them up from the nearest counter.'}</Text>
-                    </View>
-                </FlipCard>
+                        <View style={[styles.checkoutSuccess, styles.checkout]}>
+                            <Text
+                                style={[styles.checkoutText]}>{
+                                'Thank you. Your items are being prepared for collection. ' +
+                                'You can pick them up from the nearest counter.'}</Text>
+                        </View>
+                    </FlipCard>
+                    <InfoItems slideIn={this.state.showInfoItems}></InfoItems>
+
+                </View>
                 }
             </ScrollView>
-            {this.state.checkout &&
-            <FlatList
-                data={this.state.infoItems}
-                extraData={this.state}
-                keyExtractor={(item, index) => index}
-                renderItem={({ item, index }) => (
-                          <InfoItem
-                                type = {item.type}
-                                onPress = {() => this.infoAction(item.type)}
-                            />
-                        )}
-            />
-            }
         </View>
     )
 
