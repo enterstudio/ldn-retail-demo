@@ -67,24 +67,27 @@ const styles = StyleSheet.create({
 
 const propTypes = {
     timeout: PropTypes.number,
-    fadeTime: PropTypes.number,
+    animationTime: PropTypes.number,
     heightClosed: PropTypes.number,
     heightOpen: PropTypes.number,
 };
 
 const defaultProps = {
-    timeout: 3000,
-    fadeTime: 350,
+    timeout: 4000,
+    animationTime: 200,
     top: 0,
     topHidden: -150,
-    message: ''
+    okText: 'OK',
+    cancelText: 'Cancel'
+
 };
 
 const mapStateToProps = (state) => {
-
     return {
         message: state.notification.message,
-        deferred: state.notification.deferred
+        deferred: state.notification.deferred,
+        okText: state.notification.okText,
+        cancelText: state.notification.cancelText
     }
 }
 
@@ -100,13 +103,13 @@ class Notification extends Component {
         this.close = this.close.bind(this);
         this.state = {
             selectedIndex: 1,
-            top: new Animated.Value(this.props.topHidden)
+            top: new Animated.Value(this.props.topHidden),
         };
     }
 
     updateIndex(selectedIndex) {
         this.setState({selectedIndex});
-        if(selectedIndex === 1) {
+        if (selectedIndex === 1) {
             this.props.deferred.resolve();
         } else {
             this.props.deferred.reject();
@@ -115,33 +118,30 @@ class Notification extends Component {
         timer.setTimeout(this.timerName, () => {
             this.setState({resetIndex});
             this.close();
-        }, 300);
+        }, 200);
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('nextProps: ' + JSON.stringify(nextProps));
+        this.open();
 
-        if (nextProps.message && nextProps.message !== '') {
-            this.setState({message: nextProps.message.message})
-            this.open();
-        }
+        const timerId = setTimeout(() => {
+            this.close();
+            clearTimeout(timerId);
+        }, this.props.timeout);
 
-        //    const timerId = setTimeout(() => {
-        //        this.close();
-        //        clearTimeout(timerId);
-        //    }, this.props.timeout);
-        // }
     }
 
     open = () => {
         Animated.timing(this.state.top, {
-            duration: this.props.fadeTime,
+            duration: this.props.animationTime,
             toValue: this.props.top
         }).start();
     }
 
     close = () => {
         Animated.timing(this.state.top, {
-            duration: this.props.fadeTime,
+            duration: this.props.animationTime,
             toValue: this.props.topHidden
         }).start();
     }
@@ -159,7 +159,7 @@ class Notification extends Component {
                         <ButtonGroup
                             onPress={this.updateIndex}
                             selectedIndex={this.state.selectedIndex}
-                            buttons={['Cancel', 'OK']}
+                            buttons={[this.props.cancelText, this.props.okText]}
                             containerStyle={{height: 50, width: AppSizes.screen.width * 0.50}}
                         />
                     </View>

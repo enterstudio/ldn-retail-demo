@@ -171,15 +171,15 @@ const mapDispatchToProps = (dispatch) => {
         removeFromProducts: (item) => {
             dispatch(removeFromProducts(item));
         },
-        showNotification: (message, deferred) => {
-            NotificationActions.showNotification(dispatch, message, deferred)
+        showNotification: (message, deferred, okText, cancelText) => {
+            NotificationActions.showNotification(dispatch, message, deferred, okText, cancelText)
         }
     }
 };
 
 const defaultProps = {
     timeout: 3000,
-    fadeTime: 500,
+    animationTime: 300,
     top: 0,
     topCollapsed: -45,
     message: ''
@@ -206,8 +206,8 @@ class ItemBrowser extends Component {
 
     showAddConfirmationDialog(product) {
         const deferred = Q.defer();
-        const message = 'Item added to cart. Continue shopping?';
-        this.props.showNotification(message, deferred);
+        const message = 'Item added to cart. Continue shopping';
+        this.props.showNotification(message, deferred, 'OK', 'Checkout');
         deferred.promise.then(function () {
             },
             function () {
@@ -232,7 +232,7 @@ class ItemBrowser extends Component {
 
     toggleInfoHeader = () => {
         Animated.timing(this.state.top, {
-            duration: this.props.fadeTime,
+            duration: this.props.animationTime,
             toValue: this.state.isInfoHeaderCollapsed ? this.props.top : this.props.topCollapsed
         }).start();
     }

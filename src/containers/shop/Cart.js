@@ -37,7 +37,6 @@ import {
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
 
-
     checkoutBtn: {
         margin: 10
     },
@@ -55,12 +54,18 @@ const styles = StyleSheet.create({
     },
 
     checkout: {
-        height: 200
+        height: 150
     },
 
     checkoutSuccess: {
         width: AppSizes.screen.width,
-        backgroundColor: AppColors.base.grey
+        backgroundColor: AppColors.base.greylight,
+        padding: AppSizes.padding
+    },
+
+    checkoutText: {
+        textAlign: 'center',
+        fontSize: 20
     }
 
 
@@ -97,7 +102,8 @@ class Cart extends Component {
         this.goToProduct = this.goToProduct.bind(this);
         this.state = {
             selectedIndex: 1,
-            checkout: false
+            checkout: false,
+            doFlip: false
         }
     }
 
@@ -128,29 +134,30 @@ class Cart extends Component {
     handleRemove = (item) => {
         this.props.removeFromCart(item);
         if (this.state.checkout) {
-            console.log('handleRemove : ' + this.state.nextToBeRemoved)
             if (this.state.nextToBeRemoved > 0) {
                 this.setState({
                     nextToBeRemoved: this.state.nextToBeRemoved - 1
                 });
             }
             else {
-                //start flip animation
-                console.log('start flip')
-                this.setState({doFlip: true})
+                const self = this;
+                setTimeout(function () {
+                    self.setState({doFlip: true})
+                }, 150)
+
             }
         }
-
-        //if state.checkout => set next to delete item
     }
 
     checkout = () => {
-        console.log('checkout called')
         this.setState({
             checkout: true,
             quantity: this.getCartQuantity(),
             cartPrice: this.getCartPrice(),
-            nextToBeRemoved: this.props.cart.length - 1
+            nextToBeRemoved: this.props.cart.length - 1,
+            doFlip: false
+        }, () => {
+            //this.forceUpdate()
         });
     }
 
@@ -166,7 +173,6 @@ class Cart extends Component {
 
 
     isItemToBeRemoved = (index) => {
-        console.log('setting deleted prop checkout: ' + this.state.checkout + ', index: ' + index + ', nextToBeRemoved: ' + this.state.nextToBeRemoved)
         if (this.state.checkout) {
             return this.state.nextToBeRemoved === index
         } else {
@@ -216,7 +222,7 @@ class Cart extends Component {
                 }
                 {this.state.checkout &&
                 <FlipCard
-                    friction={6}
+                    friction={8}
                     perspective={1000}
                     flipHorizontal={true}
                     flipVertical={false}
@@ -236,7 +242,8 @@ class Cart extends Component {
                         ></Button>
                     </View>
                     <View style={[styles.checkoutSuccess, styles.checkout]}>
-                        <Text style={AppStyles.h5}>{'Checkout success'}</Text>
+                        <Text
+                            style={[styles.checkoutText]}>{'Thank  you. Your items are being prepared for collection. You can pick them up from the nearest counter.'}</Text>
                     </View>
                 </FlipCard>
                 }
