@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Animated, Easing, TouchableOpacity } from 'react-native';
 import { Text } from '@components/ui/';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
 
 })
 
-
 class CartItem extends Component {
     constructor(props) {
         super(props);
@@ -66,7 +65,7 @@ class CartItem extends Component {
     componentDidMount() {
         Animated.timing(this._animated, {
             toValue: 1,
-            duration: ANIMATION_DURATION,
+            duration: 1,
         }).start();
     }
 
@@ -82,6 +81,7 @@ class CartItem extends Component {
             Animated.timing(this._animated, {
                 toValue: 0,
                 duration: ANIMATION_DURATION,
+                easing: Easing.cubic
             }).start(() => {
                 onRemove()
             })

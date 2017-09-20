@@ -4,20 +4,26 @@ import { Text } from '@components/ui/';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
 
-
-
 /* Styles ================================= */
 const styles = StyleSheet.create({
 
+
+    container: {
+        height: 500,
+        flexDirection: 'column',
+    },
+    spacer: {
+        height: 500
+    },
     infoItem: {
-        flex: 2,
-        height: 90,
+        height: 100,
         width: '100%',
         flexDirection: 'row'
     },
     text: {
         textAlign: 'center'
-    }
+    },
+    infoContainer: {}
 })
 
 //<View style={[{height: AppSizes.screen.height}]}>
@@ -27,20 +33,19 @@ class InfoItems extends Component {
 
     constructor(props) {
         super(props);
-        this.yTranslate = new Animated.Value(1);
+        this.yTranslate = new Animated.Value(0);
     }
-
 
     componentWillReceiveProps(nextProps) {
         console.log('nextProps: ' + JSON.stringify(nextProps));
         if (nextProps.slideIn) {
             console.log('animating');
-            this.yTranslate.setValue(0);
+            this.yTranslate.setValue(1);
             Animated.spring(
                 this.yTranslate,
                 {
                     toValue: 1,
-                    friction: 5
+                    friction: 3
                 }
             ).start();
         }
@@ -51,10 +56,16 @@ class InfoItems extends Component {
 
         const translateY = this.yTranslate.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, 100]
+            outputRange: [0, -500]
         });
 
         const animatedStyles = [
+            {
+                position: 'absolute',
+                height: 500,
+                width: AppSizes.screen.width,
+                top: 500
+            },
             {
                 transform: [
                     {
@@ -65,12 +76,13 @@ class InfoItems extends Component {
         ];
 
         return (
-            <View style={[{}]}>
+            <View style={styles.container}>
+                <View style={styles.spacer}></View>
                 <Animated.View style={[animatedStyles]}>
                     <TouchableOpacity onPress={() => {
                            //this.props.onPress();
                         }}>
-                        <View>
+                        <View >
                             <View style={[styles.infoItem, { backgroundColor: AppColors.base.greyDark}]}>
                                 <Text style={[{color: AppColors.base.white}]}>
                                     {'Have your items delivered instead'}
@@ -78,12 +90,11 @@ class InfoItems extends Component {
                             </View>
                         </View>
                     </TouchableOpacity>
-
                     <TouchableOpacity onPress={() => {
                            //this.props.onPress();
                         }}>
                         <View>
-                            <View style={[styles.infoItem, { backgroundColor: AppColors.base.greyLight}]}>
+                            <View style={[styles.infoItem, { backgroundColor: AppColors.base.greyDark}]}>
                                 <Text style={[]}>
                                     {'View counter location'}
                                 </Text>

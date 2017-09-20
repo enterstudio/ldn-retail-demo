@@ -263,7 +263,6 @@ class Cart extends Component {
                         </View>
                     </FlipCard>
                     <InfoItems slideIn={this.state.showInfoItems}></InfoItems>
-
                 </View>
                 }
             </ScrollView>

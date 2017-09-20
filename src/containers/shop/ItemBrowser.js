@@ -11,6 +11,7 @@ import {
     Platform,
     Dimensions,
     Animated,
+    Easing,
     TouchableOpacity,
     TouchableHighlight,
 } from 'react-native';
@@ -233,7 +234,8 @@ class ItemBrowser extends Component {
     toggleInfoHeader = () => {
         Animated.timing(this.state.top, {
             duration: this.props.animationTime,
-            toValue: this.state.isInfoHeaderCollapsed ? this.props.top : this.props.topCollapsed
+            toValue: this.state.isInfoHeaderCollapsed ? this.props.top : this.props.topCollapsed,
+            easing: Easing.quad
         }).start();
     }
 
