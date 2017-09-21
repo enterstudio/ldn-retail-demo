@@ -3,8 +3,7 @@ import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
   flipCard: {
-    flex: 1,
-    borderWidth: 4
+    flex: 1
   },
 
   face: {

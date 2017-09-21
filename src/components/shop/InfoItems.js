@@ -34,7 +34,6 @@ class InfoItems extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.slideIn) {
-            this.yTranslate.setValue(1);
             Animated.spring(
                 this.yTranslate,
                 {
