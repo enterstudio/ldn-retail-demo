@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingHorizontal: AppSizes.paddingSml,
         height: 60,
-        backgroundColor: AppColors.base.greyDark,
+        backgroundColor: AppColors.brand.primary,
     },
 
     infoIconContainer: {

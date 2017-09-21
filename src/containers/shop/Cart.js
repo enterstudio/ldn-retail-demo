@@ -38,10 +38,6 @@ import {
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
 
-    checkoutBtn: {
-        margin: 10
-    },
-
     scrollView: {
         backgroundColor: AppColors.base.greyLight
     },
@@ -51,7 +47,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: AppSizes.padding,
-        backgroundColor: AppColors.base.grey
+        backgroundColor: AppColors.base.greyLight
     },
 
     checkout: {
@@ -226,8 +222,9 @@ class Cart extends Component {
                         <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
                     </View>
                     <Button
+                        large
+                        backgroundColor={AppColors.brand.tertiary}
                         title={'Checkout'}
-                        style={styles.checkoutBtn}
                         onPress={() => {this.checkout()}}
                     ></Button>
                 </View>
@@ -235,7 +232,7 @@ class Cart extends Component {
                 {this.state.checkout &&
                 <View>
                     <FlipCard
-                        friction={8}
+                        friction={6}
                         perspective={1000}
                         flipHorizontal={true}
                         flipVertical={false}
@@ -250,8 +247,9 @@ class Cart extends Component {
                                 <Text style={AppStyles.h3}>{'Total Price: £' + this.state.cartPrice}</Text>
                             </View>
                             <Button
+                                large
+                                backgroundColor={AppColors.brand.tertiary}
                                 title={'Checkout'}
-                                style={styles.checkoutBtn}
                                 onPress={() => {}}
                             ></Button>
                         </View>

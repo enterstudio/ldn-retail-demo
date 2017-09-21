@@ -7,13 +7,12 @@ import {
     View,
     Platform,
     StyleSheet,
-    Text,
     Animated,
     Dimensions
 } from 'react-native';
 
 
-import { Button } from '@components/ui/';
+import { Button, Text } from '@components/ui/';
 import { ButtonGroup } from 'react-native-elements';
 import { connect } from 'react-redux';
 import timer from 'react-native-timer';
@@ -23,6 +22,7 @@ import { AppColors, AppStyles, AppSizes} from '@theme/';
 const Screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+
     container: {
         position: 'absolute',
         top: 0,
@@ -36,16 +36,16 @@ const styles = StyleSheet.create({
         padding: 6,
         width: '100%',
         height: '90%',
-        backgroundColor: AppColors.base.greyLight,
-        shadowColor: '#000',
+        backgroundColor: AppColors.base.white,
+        shadowColor: AppColors.base.greyDark,
         shadowOpacity: 0.5,
         borderBottomWidth: 1,
-        borderBottomColor: AppColors.base.greyDark,
+        borderBottomColor: AppColors.base.grey,
 
-        // shadowRadius: 1,
+        //shadowRadius: 1,
         shadowOffset: {
-            width: 0,
-            height: 1
+            width: 3,
+            height: 3
         },
     },
     message: {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 150,
         paddingBottom: AppSizes.paddingSml,
-        borderColor: AppColors.base.grey,
+        //borderColor: AppColors.base.grey,
     },
 
 

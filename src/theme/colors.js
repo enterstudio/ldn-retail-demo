@@ -23,17 +23,17 @@ const base = {
 
 const brand = {
     brand: {
-        primary: base.base.greyDark,
-        secondary: base.base.grey,
-        tertiary: base.base.greyLight,
+        primary: '#1A1F71',
+        secondary: '#003ea9',
+        tertiary: '#F7B600'
     },
 };
 
 const text = {
-    textPrimary: base.black,
-    textSecondary: '#777777',
-    headingPrimary: brand.brand.primary,
-    headingSecondary: brand.brand.primary,
+    textPrimary: base.base.black,
+    textSecondary: base.base.black,
+    headingPrimary: base.base.greyDark,
+    headingSecondary: base.base.black,
 };
 
 const borders = {
@@ -42,9 +42,9 @@ const borders = {
 
 const tabbar = {
     tabbar: {
-        background: '#ffffff',
-        iconDefault: '#BABDC2',
-        iconSelected: brand.brand.primary,
+        background: base.base.greyDark,
+        iconSelected: base.base.greyLight,
+        iconDefault: base.base.black,
     },
 };
 

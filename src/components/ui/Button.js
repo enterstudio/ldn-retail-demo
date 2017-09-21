@@ -79,7 +79,8 @@ class CustomButton extends Component {
     }
     if (this.props.large) {
       props.fontSize = 20;
-      props.buttonStyle.padding = 15;
+      props.buttonStyle.padding = 20;
+      props.color = AppColors.base.black;
 
       if (props.icon && props.icon.name) {
         props.icon = {
@@ -93,13 +94,13 @@ class CustomButton extends Component {
     if (this.props.outlined) {
       props.raised = false;
       props.backgroundColor = this.props.backgroundColor || 'transparent';
-      props.color = AppColors.brand.primary;
+      props.color = AppColors.brand.tertiary;
       props.buttonStyle.borderWidth = 1;
-      props.buttonStyle.borderColor = AppColors.brand.primary;
+      props.buttonStyle.borderColor = AppColors.brand.tertiary;
 
       if (props.icon && props.icon.name) {
         props.icon = {
-          color: AppColors.brand.primary,
+          color: AppColors.brand.tertiary,
           ...props.icon,
         };
       }
