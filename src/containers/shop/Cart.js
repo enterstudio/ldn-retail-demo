@@ -20,7 +20,7 @@ import * as Q from 'q';
 import timer from 'react-native-timer';
 import { CartItem } from '@components/shop/';
 import { InfoItems } from '@components/shop/';
-import FlipCard from 'react-native-flip-card'
+import {FlipCard} from '@lib/flipcard/';
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -238,6 +238,7 @@ class Cart extends Component {
                         friction={8}
                         perspective={1000}
                         flipHorizontal={true}
+                        flipVertical={false}
                         flip={this.state.doFlip}
                         alignHeight={true}
                         clickable={false}
