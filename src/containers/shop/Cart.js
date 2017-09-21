@@ -238,7 +238,6 @@ class Cart extends Component {
                         friction={8}
                         perspective={1000}
                         flipHorizontal={true}
-                        flipVertical={false}
                         flip={this.state.doFlip}
                         alignHeight={true}
                         clickable={false}
@@ -259,7 +258,8 @@ class Cart extends Component {
                             <Text
                                 style={[styles.checkoutText]}>{
                                 'Thank you. Your items are being prepared for collection. ' +
-                                'You can pick them up from the nearest counter.'}</Text>
+                                'You can pick them up from the nearest counter.'
+                            }</Text>
                         </View>
                     </FlipCard>
                     <InfoItems slideIn={this.state.showInfoItems}></InfoItems>

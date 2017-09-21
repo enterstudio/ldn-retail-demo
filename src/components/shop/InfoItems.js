@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Animated, Easing, TouchableOpacity } from 'react-native';
 import { Text } from '@components/ui/';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
@@ -10,24 +10,20 @@ const styles = StyleSheet.create({
 
     container: {
         height: 500,
-        flexDirection: 'column',
-    },
-    spacer: {
-        height: 500
+        flexDirection: 'column'
     },
     infoItem: {
-        height: 100,
+         height: 100,
         width: '100%',
         flexDirection: 'row'
     },
     text: {
         textAlign: 'center'
     },
-    infoContainer: {}
+    infoContainer: {
+
+    }
 })
-
-//<View style={[{height: AppSizes.screen.height}]}>
-
 
 class InfoItems extends Component {
 
@@ -37,9 +33,7 @@ class InfoItems extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps: ' + JSON.stringify(nextProps));
         if (nextProps.slideIn) {
-            console.log('animating');
             this.yTranslate.setValue(1);
             Animated.spring(
                 this.yTranslate,
@@ -62,9 +56,9 @@ class InfoItems extends Component {
         const animatedStyles = [
             {
                 position: 'absolute',
+                bottom: -500,
                 height: 500,
-                width: AppSizes.screen.width,
-                top: 500
+                width: AppSizes.screen.width
             },
             {
                 transform: [
@@ -77,7 +71,6 @@ class InfoItems extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.spacer}></View>
                 <Animated.View style={[animatedStyles]}>
                     <TouchableOpacity onPress={() => {
                            //this.props.onPress();
