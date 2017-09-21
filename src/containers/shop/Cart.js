@@ -9,6 +9,8 @@ import {
     FlatList,
     ScrollView,
     StyleSheet,
+    Animated,
+    Easing,
     TouchableOpacity,
     TouchableHighlight,
 } from 'react-native';
@@ -67,9 +69,20 @@ const styles = StyleSheet.create({
     checkoutText: {
         textAlign: 'center',
         fontSize: 20
+    },
+
+    infoContainer: {
+        height: 500,
+        flexDirection: 'column'
+    },
+    infoItem: {
+        height: 100,
+        width: '100%',
+        flexDirection: 'row'
+    },
+    infoText: {
+        textAlign: 'center'
     }
-
-
 });
 
 
@@ -101,13 +114,23 @@ class Cart extends Component {
         this.checkout = this.checkout.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.goToProduct = this.goToProduct.bind(this);
-        this.loadInfoItems = this.loadInfoItems.bind(this);
+        this.yTranslate = new Animated.Value(0);
         this.state = {
             selectedIndex: 1,
             checkout: false,
             doFlip: false,
             showInfoItems: false
         }
+    }
+
+    animateInfoItems = () => {
+            Animated.spring(
+                this.yTranslate,
+                {
+                    toValue: 1,
+                    friction: 7
+                }
+            ).start();
     }
 
     showRemoveDialog(item) {
@@ -158,9 +181,11 @@ class Cart extends Component {
             quantity: this.getCartQuantity(),
             cartPrice: this.getCartPrice(),
             nextToBeRemoved: this.props.cart.length - 1,
-            doFlip: false
+
         }, () => {
-            //this.forceUpdate()
+             setTimeout(() => {
+                 this.animateInfoItems()
+             }, 1000)
         });
     }
 
@@ -186,30 +211,49 @@ class Cart extends Component {
         }
     }
 
-    loadInfoItems = () => {
-        console.log('Pushing infoItem');
-        this.setState({showInfoItems: true})
-
-    }
 
 
-    render = () => (
-        <View>
+    render = () => {
 
-            {this.props.cart.length === 0 && !this.state.checkout &&
+        const translateY = this.yTranslate.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -500]
+        });
+
+        const animatedStyles = [
+            {
+                position: 'absolute',
+                bottom: -500,
+                height: 500,
+                width: AppSizes.screen.width
+            },
+            {
+                transform: [
+                    {
+                        translateY: translateY
+                    }
+                ]
+            }
+        ];
+
+        return (
             <View>
-                <Text style={[AppStyles.h3, AppStyles.padding, {textAlign: 'center'}]}>Your shopping cart is currently
-                    empty</Text>
 
-            </View>}
-            < ScrollView style={styles.scrollView}
-                         automaticallyAdjustContentInsets={false}
-            >
-                <FlatList
-                    data={this.props.cart}
-                    extraData={this.state}
-                    keyExtractor={(item, index) => item.id}
-                    renderItem={({ item, index }) => (
+                {this.props.cart.length === 0 && !this.state.checkout &&
+                <View>
+                    <Text style={[AppStyles.h3, AppStyles.padding, {textAlign: 'center'}]}>Your shopping cart is
+                        currently
+                        empty</Text>
+
+                </View>}
+                < ScrollView style={styles.scrollView}
+                             automaticallyAdjustContentInsets={false}
+                >
+                    <FlatList
+                        data={this.props.cart}
+                        extraData={this.state}
+                        keyExtractor={(item, index) => item.id}
+                        renderItem={({ item, index }) => (
                       <CartItem
                             item = {item}
                             remove = {this.isItemToBeRemoved(index)}
@@ -218,57 +262,94 @@ class Cart extends Component {
                             onPress = {() => this.goToProduct(item)}
                         />
                     )}
-                />
-                {this.props.cart.length > 0 && !this.state.checkout &&
-                <View style={styles.checkout}>
-                    <View style={styles.summary}>
-                        <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
-                        <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
+                    />
+                    {this.props.cart.length > 0 && !this.state.checkout &&
+                    <View style={styles.checkout}>
+                        <View style={styles.summary}>
+                            <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
+                            <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
+                        </View>
+                        <Button
+                            title={'Checkout'}
+                            style={styles.checkoutBtn}
+                            onPress={() => {this.checkout()}}>
+                        </Button>
                     </View>
-                    <Button
-                        title={'Checkout'}
-                        style={styles.checkoutBtn}
-                        onPress={() => {this.checkout()}}
-                    ></Button>
-                </View>
-                }
-                {this.state.checkout &&
-                <View>
-                    <FlipCard
-                        friction={8}
-                        perspective={1000}
-                        flipHorizontal={true}
-                        flipVertical={false}
-                        flip={this.state.doFlip}
-                        alignHeight={true}
-                        clickable={false}
-                        onFlipEnd={this.loadInfoItems}
-                    >
-                        <View style={styles.checkout}>
-                            <View style={styles.summary}>
-                                <Text style={AppStyles.h3}>{'Total Qty: ' + this.state.quantity}</Text>
-                                <Text style={AppStyles.h3}>{'Total Price: £' + this.state.cartPrice}</Text>
+                    }
+                    {this.state.checkout &&
+                    <View>
+                        <FlipCard
+                            perspective={1000}
+                            flipHorizontal={true}
+                            flipVertical={false}
+                            flip={this.state.doFlip}
+                            alignHeight={true}
+                            clickable={false}
+                        >
+                            <View style={styles.checkout}>
+                                <View style={styles.summary}>
+                                    <Text style={AppStyles.h3}>{'Total Qty: ' + this.state.quantity}</Text>
+                                    <Text style={AppStyles.h3}>{'Total Price: £' + this.state.cartPrice}</Text>
+                                </View>
+                                <Button
+                                    title={'Checkout'}
+                                    style={styles.checkoutBtn}
+                                    onPress={() => {}}>
+                                </Button>
                             </View>
-                            <Button
-                                title={'Checkout'}
-                                style={styles.checkoutBtn}
-                                onPress={() => {}}
-                            ></Button>
+                            <View style={[styles.checkoutSuccess, styles.checkout]}>
+                                <Text
+                                    style={[styles.checkoutText]}>{
+                                    'Thank you. Your items are being prepared for collection. ' +
+                                    'You can pick them up from the nearest counter.'
+                                }</Text>
+                            </View>
+                        </FlipCard>
+                        <View style={styles.infoContainer}>
+                            <Animated.View style={[animatedStyles]}>
+                                <TouchableOpacity onPress={() => {
+                           //this.props.onPress();
+                        }}>
+                                    <View >
+                                        <View style={[styles.infoItem, { backgroundColor: AppColors.base.greyDark}]}>
+                                            <Text style={[styles.infoText]}>
+                                                {'Have your items delivered instead'}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                           //this.props.onPress();
+                        }}>
+                                    <View>
+                                        <View style={[styles.infoItem, { backgroundColor: AppColors.base.greyDark}]}>
+                                            <Text style={[styles.infoText]}>
+                                                {'View counter location'}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => {
+                           //this.props.onPress();
+                        }}>
+                                    <View>
+                                        <View style={[styles.infoItem, { backgroundColor: AppColors.base.grey}]}>
+                                            <Text style={[styles.infoText]}>
+                                                {'View receipt'}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            </Animated.View>
                         </View>
-                        <View style={[styles.checkoutSuccess, styles.checkout]}>
-                            <Text
-                                style={[styles.checkoutText]}>{
-                                'Thank you. Your items are being prepared for collection. ' +
-                                'You can pick them up from the nearest counter.'
-                            }</Text>
-                        </View>
-                    </FlipCard>
-                    <InfoItems slideIn={this.state.showInfoItems}></InfoItems>
-                </View>
-                }
-            </ScrollView>
-        </View>
-    )
+                    </View>
+                    }
+                </ScrollView>
+            </View>
+        )
+
+    }
 
     componentWillUnmount = () => {
         timer.clearTimeout(this.timerName);
