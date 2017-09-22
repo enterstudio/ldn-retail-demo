@@ -31,9 +31,9 @@ const brand = {
 
 const text = {
     textPrimary: base.base.black,
-    textSecondary: base.base.black,
-    headingPrimary: base.base.greyDark,
-    headingSecondary: base.base.black,
+    textSecondary: base.base.greyDark,
+    headingPrimary: base.base.black,
+    headingSecondary: base.base.greyDark,
 };
 
 const borders = {

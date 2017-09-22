@@ -24,6 +24,7 @@ import { addToCart, removeFromProducts }  from '@redux/products/actions';
 import * as NotificationActions from '@redux/notification/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
+import LSText from 'react-native-letter-spacing';
 
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
 
     slide: {
@@ -55,32 +56,51 @@ const styles = StyleSheet.create({
         height: AppSizes.screen.height - 250,
         borderBottomColor: AppColors.base.grey,
         borderBottomWidth: 1,
-        backgroundColor: AppColors.base.greyLight
+        backgroundColor: AppColors.base.white
     },
 
     productContainer: {
-        alignItems: 'center'
+        width: '100%',
+        height: '100%'
     },
 
-    titleText: {
-        textAlign: 'center',
-        fontSize: 17,
-        fontWeight: 'bold',
-        padding: 15
+    productDetails: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 150,
+        paddingTop: AppSizes.padding,
+        paddingLeft: AppSizes.padding * 2,
+        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        zIndex: 9
     },
 
     productImage: {
-        width: AppSizes.screen.widthThreeQuarters - 50,
-        height: AppSizes.screen.height - 300,
-        resizeMode: 'center'
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        opacity: 0.9,
+        width: AppSizes.screen.width,
+        height: AppSizes.screen.height,
+        resizeMode: 'contain'
+    },
+
+    productText: {
+        fontSize: 17,
+        color: AppColors.base.black
+    },
+
+    productTitle: {
+        fontWeight: 'bold'
     },
 
     productPrice: {
-        position: 'absolute',
-        bottom: 30,
-        right: 30,
         fontStyle: 'italic',
         fontWeight: 'bold'
+    },
+
+    productSize: {
     },
 
     card: {
@@ -92,7 +112,7 @@ const styles = StyleSheet.create({
         top: 0,
         height: AppSizes.screen.height,
         width: Screen.width,
-        backgroundColor: AppColors.base.white,
+        backgroundColor: AppColors.base.greyLight,
         overflow: 'hidden',
         // borderRadius: 12,
         zIndex: 13,
@@ -111,16 +131,24 @@ const styles = StyleSheet.create({
 
     iconContainer: {
         position: 'absolute',
-        top: 15,
+        top: 25,
         right: 15,
         zIndex: 2
     },
 
     icon: {
-        height: 30,
-        width: 30,
+        height: 45,
+        width: 45,
         resizeMode: 'contain',
-        marginBottom: 15
+        marginBottom: 20
+    },
+
+    touchable: {
+        borderRadius: 30,
+        //backgroundColor: AppColors.base.white,
+        height: 45,
+        width: 45,
+        marginBottom: 10
     },
 
     infoHeaderContainer: {
@@ -147,16 +175,11 @@ const styles = StyleSheet.create({
     },
 
     infoIcon: {
-        height: 30,
-        width: 30,
-        resizeMode: 'contain',
-
+        height: 35,
+        width: 35,
+        resizeMode: 'contain'
     },
 
-    touchable: {
-        height: 40,
-        width: 40
-    }
 
 });
 
@@ -182,7 +205,7 @@ const defaultProps = {
     timeout: 3000,
     animationTime: 300,
     top: 0,
-    topCollapsed: -45,
+    topCollapsed: -40,
     message: ''
 };
 
@@ -289,11 +312,15 @@ class ItemBrowser extends Component {
                             />
                         </TouchableHighlight>
                     </View>
-                    <Text style={[styles.titleText]}>{item.title}</Text>
+
                     <View style={styles.productContainer}>
+                        <View style={styles.productDetails}>
+                            <LSText letterSpacing={2} style={[styles.productText, styles.productTitle]}>{item.title.toUpperCase()}</LSText>
+                            <LSText letterSpacing={2} style={[styles.productText, styles.productPrice]}>{'£' + item.price}</LSText>
+                            <LSText letterSpacing={2} style={[styles.productText, styles.productSize]}>{'Size: M'}</LSText>
+                        </View>
                         <Image style={styles.productImage} source={{uri: item.img}}/>
                     </View>
-                    <Text style={[styles.productPrice]}>£{item.price}</Text>
                 </View>
             </View>
         );
@@ -317,7 +344,7 @@ class ItemBrowser extends Component {
                                 this.toggleInfoHeader();
                             }}>
                                 <Image
-                                    source={require('../../assets/icons/icon-info.png')}
+                                    source={require('../../assets/icons/icon-info-color.png')}
                                     style={[styles.infoIcon]}
                                 />
                             </TouchableOpacity>
@@ -336,10 +363,6 @@ class ItemBrowser extends Component {
                         { this.state.slides }
                     </Carousel>
                 </Animated.View>
-                {/*ProductView layer*/}
-                <View style={styles.productViewContainer}>
-                    <Text style={[AppStyles.h1]}>Product</Text>
-                </View>
             </View>
         );
     }

@@ -1,7 +1,7 @@
 /**
  * Buttons
  *
-     <Button text={'Server is down'} />
+ <Button text={'Server is down'} />
  *
  * React Native Starter App
  * https://github.com/mcnamee/react-native-starter-app
@@ -15,101 +15,101 @@ import { AppColors, AppFonts, AppSizes } from '@theme/';
 
 /* Component ==================================================================== */
 class CustomButton extends Component {
-  static propTypes = {
-    small: PropTypes.bool,
-    large: PropTypes.bool,
-    outlined: PropTypes.bool,
-    backgroundColor: PropTypes.string,
-    onPress: PropTypes.func,
-    icon: PropTypes.shape({
-      name: PropTypes.string,
-    }),
-  }
-
-  static defaultProps = {
-    small: false,
-    large: false,
-    outlined: false,
-    icon: {},
-    backgroundColor: null,
-    onPress: null,
-  }
-
-  buttonProps = () => {
-    // Defaults
-    const props = {
-      title: 'Coming Soon...',
-      color: '#fff',
-      fontWeight: 'bold',
-      onPress: this.props.onPress,
-      fontFamily: AppFonts.base.family,
-      fontSize: AppFonts.base.size,
-      borderRadius: AppSizes.borderRadius,
-      raised: true,
-      buttonStyle: {
-        padding: 12,
-      },
-      containerViewStyle: {
-        marginLeft: 0,
-        marginRight: 0,
-      },
-      ...this.props,
-      backgroundColor: this.props.backgroundColor || AppColors.brand.primary,
-      small: false,
-      large: false,
-      icon: (this.props.icon && this.props.icon.name)
-        ? {
-          size: 24,
-          ...this.props.icon,
-        } : null,
-    };
-
-    // Overrides
-    // Size
-    if (this.props.small) {
-      props.fontSize = 12;
-      props.buttonStyle.padding = 8;
-
-      if (props.icon && props.icon.name) {
-        props.icon = {
-          size: 14,
-          ...props.icon,
-        };
-      }
-    }
-    if (this.props.large) {
-      props.fontSize = 20;
-      props.buttonStyle.padding = 20;
-      props.color = AppColors.base.black;
-
-      if (props.icon && props.icon.name) {
-        props.icon = {
-          size: 20,
-          ...props.icon,
-        };
-      }
+    static propTypes = {
+        small: PropTypes.bool,
+        large: PropTypes.bool,
+        outlined: PropTypes.bool,
+        backgroundColor: PropTypes.string,
+        onPress: PropTypes.func,
+        icon: PropTypes.shape({
+            name: PropTypes.string,
+        }),
     }
 
-    // Outlined
-    if (this.props.outlined) {
-      props.raised = false;
-      props.backgroundColor = this.props.backgroundColor || 'transparent';
-      props.color = AppColors.brand.tertiary;
-      props.buttonStyle.borderWidth = 1;
-      props.buttonStyle.borderColor = AppColors.brand.tertiary;
-
-      if (props.icon && props.icon.name) {
-        props.icon = {
-          color: AppColors.brand.tertiary,
-          ...props.icon,
-        };
-      }
+    static defaultProps = {
+        small: false,
+        large: false,
+        outlined: false,
+        icon: {},
+        backgroundColor: null,
+        onPress: null,
     }
 
-    return props;
-  }
+    buttonProps = () => {
+        // Defaults
+        const props = {
+            title: 'Coming Soon...',
+            color: '#fff',
+            fontWeight: 'bold',
+            onPress: this.props.onPress,
+            fontFamily: AppFonts.base.family,
+            fontSize: AppFonts.base.size,
+            borderRadius: AppSizes.borderRadius,
+            raised: true,
+            buttonStyle: {
+                padding: 12,
+            },
+            containerViewStyle: {
+                marginLeft: 0,
+                marginRight: 0,
+            },
+            ...this.props,
+            backgroundColor: this.props.backgroundColor || AppColors.brand.primary,
+            small: false,
+            large: false,
+            icon: (this.props.icon && this.props.icon.name)
+                ? {
+                size: 24,
+                ...this.props.icon,
+            } : null,
+        };
 
-  render = () => <Button {...this.buttonProps()} />;
+        // Overrides
+        // Size
+        if (this.props.small) {
+            props.fontSize = 12;
+            props.buttonStyle.padding = 8;
+
+            if (props.icon && props.icon.name) {
+                props.icon = {
+                    size: 14,
+                    ...props.icon,
+                };
+            }
+        }
+        if (this.props.large) {
+            props.fontSize = 20;
+            props.buttonStyle.padding = 20;
+            props.color = this.props.color || AppColors.base.black;
+
+            if (props.icon && props.icon.name) {
+                props.icon = {
+                    size: 20,
+                    ...props.icon,
+                };
+            }
+        }
+
+        // Outlined
+        if (this.props.outlined) {
+            props.raised = false;
+            props.backgroundColor = this.props.backgroundColor || 'transparent';
+            props.color = AppColors.brand.tertiary;
+            props.buttonStyle.borderWidth = 1;
+            props.buttonStyle.borderColor = AppColors.brand.tertiary;
+
+            if (props.icon && props.icon.name) {
+                props.icon = {
+                    color: AppColors.brand.tertiary,
+                    ...props.icon,
+                };
+            }
+        }
+
+        return props;
+    }
+
+    render = () => <Button {...this.buttonProps()} />;
 }
 
 /* Export Component ==================================================================== */

@@ -3,7 +3,6 @@ import {
     View,
     Image,
     Modal,
-    Text,
     Alert,
     ListView,
     FlatList,
@@ -25,6 +24,7 @@ import {FlipCard} from '@lib/flipcard/';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
 import {
+    Text,
     Alerts,
     Button,
     Card,
@@ -38,9 +38,7 @@ import {
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
 
-    scrollView: {
-        backgroundColor: AppColors.base.greyLight
-    },
+    scrollView: {},
 
     summary: {
         width: AppSizes.screen.width,
@@ -56,13 +54,26 @@ const styles = StyleSheet.create({
 
     checkoutSuccess: {
         width: AppSizes.screen.width,
-        backgroundColor: AppColors.base.greylight,
-        padding: AppSizes.padding
+        backgroundColor: AppColors.base.white,
+        padding: AppSizes.padding,
+        borderWidth: 7,
+        borderBottomWidth: 10,
+        borderColor: AppColors.brand.primary,
     },
 
     checkoutText: {
         textAlign: 'center',
         fontSize: 20
+    },
+
+    basketIcon: {
+        width: 70,
+        height: 60,
+        resizeMode: 'contain'
+    },
+
+    emptyBasketContainer: {
+        backgroundColor: AppColors.base.white
     }
 
 
@@ -97,7 +108,6 @@ class Cart extends Component {
         this.checkout = this.checkout.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.goToProduct = this.goToProduct.bind(this);
-        this.loadInfoItems = this.loadInfoItems.bind(this);
         this.state = {
             selectedIndex: 1,
             checkout: false,
@@ -142,7 +152,12 @@ class Cart extends Component {
                 const self = this;
                 setTimeout(function () {
                     self.setState({doFlip: true})
-                }, 150)
+                }, 250)
+
+                setTimeout(function () {
+                    self.loadInfoItems();
+                }, 650)
+
 
             }
         }
@@ -193,10 +208,15 @@ class Cart extends Component {
         <View>
 
             {this.props.cart.length === 0 && !this.state.checkout &&
-            <View>
+            <View style={styles.emptyBasketContainer}>
                 <Text style={[AppStyles.h3, AppStyles.padding, {textAlign: 'center'}]}>Your shopping cart is currently
                     empty</Text>
-
+                <View style={[AppStyles.containerCentered, AppStyles.padding]}>
+                    <Image
+                        source={require('../../assets/icons/icon-basket-empty.png')}
+                        style={[styles.basketIcon]}
+                    />
+                </View>
             </View>}
             < ScrollView style={styles.scrollView}
                          automaticallyAdjustContentInsets={false}
@@ -239,7 +259,6 @@ class Cart extends Component {
                         flip={this.state.doFlip}
                         alignHeight={true}
                         clickable={false}
-                        onFlipEnd={this.loadInfoItems}
                     >
                         <View style={styles.checkout}>
                             <View style={styles.summary}>

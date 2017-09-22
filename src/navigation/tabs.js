@@ -45,7 +45,7 @@ const scenes = (
             <Scene
                 key={'itemBrowser'}
                 {...navbarPropsTabs}
-                title={'Browsing history'}
+                title={'BROWSING HISTORY'}
                 component={ItemBrowser}
             />
             <Scene
@@ -56,7 +56,7 @@ const scenes = (
             <Scene
                 key={'locator'}
                 {...navbarPropsTabs}
-                title={'Locator'}
+                title={'LOCATOR'}
                 component={Locator}
             />
         </Scene>
@@ -69,7 +69,7 @@ const scenes = (
             <Scene
                 key={'shoppingCart'}
                 {...navbarPropsTabs}
-                title={'Your shopping cart'}
+                title={'YOUR SHOPPING CART'}
                 component={Cart}
             />
             <Scene
@@ -83,7 +83,7 @@ const scenes = (
         <Scene
             key={'ibeacon'}
             {...navbarPropsTabs}
-            title={'Beacon Monitoring'}
+            title={'BEACON MONITORING'}
             component={BeaconMonitor}
             icon={props => TabIcon({ ...props, icon: 'signal' })}
         />

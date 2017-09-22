@@ -244,7 +244,21 @@ export default {
   // TabBar
   tabbar: {
     backgroundColor: Colors.tabbar.background,
-    borderTopColor: Colors.border,
+    borderTopColor: Colors.tabbar.background,
     borderTopWidth: 1,
   },
+
+  //Icons
+  smallIcon: {
+    height: 30,
+    width: 30,
+    resizeMode: 'contain'
+  },
+
+  largeIcon: {
+    height: 70,
+    width: 70,
+    resizeMode: 'contain'
+  }
+
 };

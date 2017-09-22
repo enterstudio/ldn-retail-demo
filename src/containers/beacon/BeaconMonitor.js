@@ -168,7 +168,7 @@ class BeaconMonitor extends Component {
                 <Text style={AppStyles.h2}>Beacon Did Exit</Text>
                 <Text>Identifier: {this.state.regionExitData.identifier}</Text>
             </View>
-            <Button style={{margin: 15}} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
+            <Button large backgroundColor={AppColors.base.greyDark} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
         </View>
     )
 

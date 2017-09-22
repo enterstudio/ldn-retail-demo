@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     },
 
     imageContainer: {
-        paddingVertical: AppSizes.paddingSml
+        paddingVertical: AppSizes.paddingSml,
+        backgroundColor: AppColors.base.greyLight
     },
 
     productImage: {
@@ -64,14 +65,14 @@ const styles = StyleSheet.create({
         height: 50,
         flex: 2,
         flexDirection: 'row',
-        backgroundColor: AppColors.base.greyLight,
-        zIndex: 99999
+        backgroundColor: AppColors.brand.tertiary,
+        zIndex: 99
     },
 
     addToCartBtn: {
         width: 400,
         padding: 30,
-        color: AppColors.base.grey
+        color: AppColors.base.black
     },
 
     priceContainer: {
@@ -124,21 +125,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: AppSizes.paddingSml,
         right: AppSizes.paddingSml
-    },
-
-    //TODO create icon component
-    smallIcon: {
-        height: 30,
-        width: 30,
-        resizeMode: 'contain'
-    },
-
-    largeIcon: {
-        height: 70,
-        width: 70,
-        resizeMode: 'contain'
     }
-
 
 });
 
@@ -152,7 +139,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = state => ({});
 
-const spacerSize = 50;
+const spacerSize = 80;
 
 const defaultProps = {
     //complementaryItems: []
@@ -184,7 +171,7 @@ class Product extends Component {
                         <View style={[styles.iconContainer]}>
                             <Image
                                 source={require('../../assets/icons/icon-pin.png')}
-                                style={[styles.smallIcon]}
+                                style={[AppStyles.smallIcon]}
                             />
                         </View>
                     </View>
@@ -211,7 +198,6 @@ class Product extends Component {
                             <View style={[AppStyles.paddedRow, {justifyContent: 'space-between'}]}>
                                 <Text upperCase={true} style={[styles.header]}>{'complementary items'}</Text>
                                 <View>
-                                    <Text style={[AppStyles.h5]}>{'----'}</Text>
                                 </View>
                             </View>
                             <ScrollView
@@ -245,7 +231,7 @@ class Product extends Component {
                                 </View>
                                 <Image
                                     source={require('../../assets/icons/icon-location.png')}
-                                    style={[styles.largeIcon, { marginRight: 20}]}
+                                    style={[AppStyles.largeIcon, { marginRight: 20}]}
                                 />
                             </View>
                         </TouchableHighlight>
@@ -254,9 +240,14 @@ class Product extends Component {
                             <Text style={[AppStyles.h3]}>Need help?</Text>
                             <Image
                                 source={require('../../assets/icons/icon-assistant.png')}
-                                style={[styles.largeIcon]}
+                                style={[AppStyles.largeIcon]}
                             />
-                            <Button raised={false} title={'Ask an assistant'}></Button>
+                            <Button raised={false}
+                                    title={'Ask An Assistant'}
+                                    backgroundColor={AppColors.base.black}
+                                    color={AppColors.base.white}
+                                    buttonStyle={{paddingHorizontal: 40 }}
+                            ></Button>
                         </View>
                         <Spacer size={230}></Spacer>
                     </ScrollView>
@@ -265,8 +256,15 @@ class Product extends Component {
                     <View style={[styles.priceContainer]}>
                         <Text style={[styles.price]}>£{this.props.product.price}</Text>
                     </View>
-                    <Button raised={false} large title={'Add to cart'}
+                    <View style={{backgroundColor: AppColors.base.black}}>
+                    <Button raised={false}
+                            title={'Add To Cart'}
+                            backgroundColor={'transparent'}
+                            fontSize={20}
+                            color={AppColors.base.white}
+                            buttonStyle={{paddingHorizontal: 30 }}
                             onPress={() => this.props.addToCart(this.props.product)}></Button>
+                        </View>
                 </View>
             </View>
         )

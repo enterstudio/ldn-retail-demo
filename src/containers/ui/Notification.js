@@ -8,6 +8,7 @@ import {
     Platform,
     StyleSheet,
     Animated,
+    Easing,
     Dimensions
 } from 'react-native';
 
@@ -74,7 +75,7 @@ const propTypes = {
 
 const defaultProps = {
     timeout: 3000,
-    animationTime: 200,
+    animationTime: 300,
     top: 0,
     topHidden: -150,
     okText: 'OK',
@@ -136,14 +137,16 @@ class Notification extends Component {
     open = () => {
         Animated.timing(this.state.top, {
             duration: this.props.animationTime,
-            toValue: this.props.top
+            toValue: this.props.top,
+            easing: Easing.cubic
         }).start();
     }
 
     close = () => {
         Animated.timing(this.state.top, {
             duration: this.props.animationTime,
-            toValue: this.props.topHidden
+            toValue: this.props.topHidden,
+            easing: Easing.cubic
         }).start();
     }
 
