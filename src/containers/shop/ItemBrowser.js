@@ -230,7 +230,7 @@ class ItemBrowser extends Component {
 
     showAddConfirmationDialog(product) {
         const deferred = Q.defer();
-        const message = 'Item added to cart. Continue shopping';
+        const message = 'Item added to cart. Continue shopping?';
         this.props.showNotification(message, deferred, 'OK', 'Checkout');
         deferred.promise.then(function () {
             },
@@ -276,7 +276,7 @@ class ItemBrowser extends Component {
                                                 const product = this.props.products[this._carousel.currentIndex];
                                                 Actions.productBrowser(
                                                      {
-                                                     title: product.title,
+                                                     title: product.title.toUppercase(),
                                                      product: product,
                                                      complementaryItems: this.props.products
                                                      })

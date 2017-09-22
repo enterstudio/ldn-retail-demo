@@ -110,12 +110,12 @@ class InfoItems extends Component {
                            //this.props.onPress();
                         }}>
                         <View style={[styles.infoItem]}>
-                            <View style={[styles.iconTriangleRight]}>
+                            {/*<View style={[styles.iconTriangleRight]}>
                                 <Image
                                     source={require('../../assets/icons/icon-triangle-left.png')}
                                     style={[AppStyles.smallIcon]}
                                 />
-                            </View>
+                            </View>*/}
                             <View
                                 style={[AppStyles.paddedRow, {justifyContent: 'space-between', width:'100%'}]}>
                                 <Image
@@ -135,12 +135,12 @@ class InfoItems extends Component {
                            //this.props.onPress();
                         }}>
                         <View style={[styles.infoItem]}>
-                            <View style={[styles.iconTriangleLeft]}>
+                            {/*<View style={[styles.iconTriangleLeft]}>
                                 <Image
                                     source={require('../../assets/icons/icon-triangle-right.png')}
                                     style={[AppStyles.smallIcon]}
                                 />
-                            </View>
+                            </View>*/}
                             <View
                                 style={[AppStyles.paddedRow, {justifyContent: 'space-between', width:'100%'}]}>
                                 <View style={[{justifyContent: 'center', width: '70%'}]}>

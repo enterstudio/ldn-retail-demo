@@ -12,7 +12,9 @@ import  SwipeCarousel  from 'react-native-swipe-carousel';
 import { connect } from 'react-redux';
 import Dash from 'react-native-dash';
 import { addToCart }  from '@redux/products/actions';
-
+import * as NotificationActions from '@redux/notification/actions';
+import * as Q from 'q';
+import timer from 'react-native-timer';
 import {AppColors, AppStyles, AppSizes} from '@theme/';
 
 import {
@@ -133,6 +135,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addToCart: (item) => {
             dispatch(addToCart(item));
+        },
+        showNotification: (message, deferred, okText, cancelText) => {
+            NotificationActions.showNotification(dispatch, message, deferred, okText, cancelText)
         }
     }
 }
@@ -148,11 +153,26 @@ const defaultProps = {
 //TODO separate container and view (like menu)
 class Product extends Component {
 
+    timerName = 'ProductTimer'
+
     constructor(props) {
         super(props);
         if (!this.props.complementaryItems) {
             this.props.complementaryItems = []
         }
+    }
+
+    showAddConfirmationDialog(product) {
+        const deferred = Q.defer();
+        const message = 'Item added to cart. Continue shopping?';
+        this.props.showNotification(message, deferred, 'OK', 'Checkout');
+        deferred.promise.then(function () {
+            },
+            function () {
+                timer.setTimeout(this.timerName, () => {
+                    Actions.shoppingCartTab();
+                }, 1000);
+            })
     }
 
 
@@ -263,11 +283,18 @@ class Product extends Component {
                             fontSize={20}
                             color={AppColors.base.white}
                             buttonStyle={{paddingHorizontal: 30 }}
-                            onPress={() => this.props.addToCart(this.props.product)}></Button>
+                            onPress={() => {
+                                this.props.addToCart(this.props.product);
+                                this.showAddConfirmationDialog(this.props.product)}
+                            }></Button>
                         </View>
                 </View>
             </View>
         )
+    }
+
+    componentWillUnmount() {
+        timer.clearTimeout(this.timerName);
     }
 
 }
