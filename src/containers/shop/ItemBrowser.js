@@ -80,9 +80,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         top: 0,
-        opacity: 0.9,
-        width: AppSizes.screen.width,
-        height: AppSizes.screen.height,
+        //opacity: 0.9,
+        width: AppSizes.screen.width -100,
+        height: AppSizes.screen.height -100,
         resizeMode: 'contain'
     },
 

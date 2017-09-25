@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Animated, Easing, TouchableOpacity } from 'rea
 import { Text } from '@components/ui/';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 
-const ANIMATION_DURATION = 250;
+const ANIMATION_DURATION = 200;
 const ROW_HEIGHT = 110;
 
 
@@ -81,7 +81,7 @@ class CartItem extends Component {
             Animated.timing(this._animated, {
                 toValue: 0,
                 duration: ANIMATION_DURATION,
-                easing: Easing.cubic
+                easing: Easing.linear
             }).start(() => {
                 onRemove()
             })
@@ -99,7 +99,13 @@ class CartItem extends Component {
                     outputRange: [0, ROW_HEIGHT],
                     extrapolate: 'clamp',
                 }),
-            }
+            },
+            {opacity: this._animated},
+            {
+                transform: [
+                    {scale: this._animated}
+                ],
+            },
         ];
 
         return (

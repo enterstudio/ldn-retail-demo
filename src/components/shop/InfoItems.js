@@ -69,7 +69,8 @@ class InfoItems extends Component {
                 position: 'absolute',
                 bottom: -500,
                 height: 500,
-                width: AppSizes.screen.width
+                width: AppSizes.screen.width,
+                backgroundColor: AppColors.base.white
             },
             {
                 transform: [

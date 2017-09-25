@@ -115,18 +115,15 @@ class Notification extends Component {
         } else {
             this.props.deferred.reject();
         }
-        const resetIndex = 1;
         const timeOut = selectedIndex === 0 ? 200 : 0;
         timer.setTimeout(this.timerName, () => {
             this.close();
-            this.setState({selectedIndex: resetIndex});
         }, timeOut);
     }
 
     componentWillReceiveProps(nextProps) {
         console.log('nextProps: ' + JSON.stringify(nextProps));
         this.open();
-
         const timerId = setTimeout(() => {
             this.close();
             clearTimeout(timerId);
@@ -147,7 +144,9 @@ class Notification extends Component {
             duration: this.props.animationTime,
             toValue: this.props.topHidden,
             easing: Easing.cubic
-        }).start();
+        }).start(() => {
+            this.setState({selectedIndex: 1});
+        });
     }
 
     render() {
@@ -165,6 +164,7 @@ class Notification extends Component {
                             selectedIndex={this.state.selectedIndex}
                             buttons={[this.props.cancelText, this.props.okText]}
                             containerStyle={{height: 50, width: AppSizes.screen.width * 0.50}}
+                            selectedBackgroundColor={AppColors.base.green}
                         />
                     </View>
                 </View>

@@ -45,11 +45,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: AppSizes.padding,
-        backgroundColor: AppColors.base.greyLight
+        backgroundColor: AppColors.base.greyLight,
+        height: 70
     },
 
     checkout: {
-        height: 150
+
     },
 
     checkoutSuccess: {
@@ -108,6 +109,7 @@ class Cart extends Component {
         this.checkout = this.checkout.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.goToProduct = this.goToProduct.bind(this);
+        this.shouldSummaryRender =  this.shouldSummaryRender.bind(this);
         this.state = {
             selectedIndex: 1,
             checkout: false,
@@ -201,6 +203,17 @@ class Cart extends Component {
         console.log('Pushing infoItem');
         this.setState({showInfoItems: true})
 
+    };
+
+
+    shouldSummaryRender = () => {
+        if(this.state.checkout) {
+            return true;
+        } else if (this.props.cart.length === 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
@@ -235,21 +248,7 @@ class Cart extends Component {
                         />
                     )}
                 />
-                {this.props.cart.length > 0 && !this.state.checkout &&
-                <View style={styles.checkout}>
-                    <View style={styles.summary}>
-                        <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
-                        <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
-                    </View>
-                    <Button
-                        large
-                        backgroundColor={AppColors.brand.tertiary}
-                        title={'Checkout'}
-                        onPress={() => {this.checkout()}}
-                    ></Button>
-                </View>
-                }
-                {this.state.checkout &&
+                {this.shouldSummaryRender() &&
                 <View>
                     <FlipCard
                         friction={6}
@@ -262,14 +261,14 @@ class Cart extends Component {
                     >
                         <View style={styles.checkout}>
                             <View style={styles.summary}>
-                                <Text style={AppStyles.h3}>{'Total Qty: ' + this.state.quantity}</Text>
-                                <Text style={AppStyles.h3}>{'Total Price: £' + this.state.cartPrice}</Text>
+                                <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
+                                <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
                             </View>
                             <Button
                                 large
                                 backgroundColor={AppColors.brand.tertiary}
                                 title={'Checkout'}
-                                onPress={() => {}}
+                                onPress={() => {this.checkout()}}
                             ></Button>
                         </View>
                         <View style={[styles.checkoutSuccess, styles.checkout]}>
