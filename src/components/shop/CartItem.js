@@ -76,6 +76,7 @@ class CartItem extends Component {
     }
 
     onRemove = () => {
+        //TODO show confirmation dialog
         const { onRemove } = this.props;
         if (onRemove) {
             Animated.timing(this._animated, {
@@ -124,7 +125,7 @@ class CartItem extends Component {
                             <TouchableOpacity onPress={()=>
                             {
                                  this.onRemove();
-                                //this.showRemoveDialog(item);
+
                             }}>
                                 <Image
                                     source={require('../../assets/icons/icon-remove.png')}

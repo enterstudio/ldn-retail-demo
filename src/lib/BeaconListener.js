@@ -12,7 +12,7 @@ const region = {
 
 class BeaconListener {
 
-    init(beaconsDidRangeCb, regionMonitoringCb ) {
+    init(beaconsDidRangeCb, regionMonitoringCb, telemetryCb, nearablesCb ) {
 
         DeviceEventEmitter.addListener(
             'Monitoring',
@@ -25,16 +25,30 @@ class BeaconListener {
             beaconsDidRangeCb
         );
 
-        this.startRanging();
-        EstimoteManager.startBeaconMonitoringScan('[ {"identifier": "d03d68a8d18a", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE2A" } ]');
+        //DeviceEventEmitter.addListener(
+        //    'Telemetry',
+        //    telemetryCb
+        //);
 
+        DeviceEventEmitter.addListener(
+            'Nearable', nearablesCb
+        );
 
     }
 
     startRanging() {
 
         if(Platform.OS  === 'android') {
-            EstimoteManager.startBeaconRangingScan('[ {"identifier": "Estimote", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D" }, {"identifier": "d03d68a8d18a", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE2A" }]');
+          // EstimoteManager.startBeaconRangingScan('[ {"identifier": "Estimote", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D" }, {"identifier": "d03d68a8d18a", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE2A" }]');
+           ;
+        }
+    }
+
+
+    startNearableScanning() {
+
+        if(Platform.OS  === 'android') {
+            EstimoteManager.startBeaconNearableScan();
 
         }
     }
@@ -42,13 +56,15 @@ class BeaconListener {
     stopRanging() {
 
         if(Platform.OS  === 'android') {
-            EstimoteManager.stopBeaconRangingScan();
 
-            // DeviceEventEmitter.removeListener('Ranging');
-            //DeviceEventEmitter.removeListener('Monitoring');
+            EstimoteManager.stopBeaconNearableScan();
+           // EstimoteManager.stopBeaconRangingScan();
+            //DeviceEventEmitter.removeListener('Ranging');
+
         }
-
     }
+
+
 
 
 }

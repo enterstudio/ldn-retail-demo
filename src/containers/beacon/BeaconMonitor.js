@@ -87,6 +87,7 @@ class BeaconMonitor extends Component {
         this.toggleRanging = this.toggleRanging.bind(this);
         this.beaconsDidRangeCb = this.beaconsDidRangeCb.bind(this);
         this.regionMonitoringCb = this.regionMonitoringCb.bind(this);
+        this.telemetryMonitoringCb = this.telemetryMonitoringCb.bind(this);
         this.state = {
             isRanging: false,
             beaconsDidRangeData: [],
@@ -97,15 +98,26 @@ class BeaconMonitor extends Component {
 
     toggleRanging() {
         if (!this.state.isRanging) {
-          //  this.beaconListener.startRanging();
+            this.beaconListener.startNearableScanning();
         } else {
-           // this.beaconListener.stopRanging();
+            this.beaconListener.stopRanging();
         }
         this.setState({isRanging: !this.state.isRanging});
     }
 
+
+    telemetryMonitoringCb(data) {
+        console.log('telemetry - data: ', data);
+
+    }
+
+    nearablesMonitoringCb(data) {
+        console.log('nearables - data: ', data);
+
+    }
+
     beaconsDidRangeCb(data) {
-        //console.log('ranging - data: ', data);
+        console.log('ranging - data: ', data);
         if(this.state.isRanging) {
             this.setState({beaconsDidRangeData: JSON.parse(data)});
         }
@@ -153,7 +165,7 @@ class BeaconMonitor extends Component {
                     <ListItem
                         containerStyle={styles.listItem}
                         hideChevron={true}
-                        title={'UUID: ' + item.proximityUUID.split('-')[4]}
+                        title={JSON.stringify(item)}
                         subtitle={'Minor: ' + item.minor + ', rssi: ' + item.rssi + ', accuracy: ' + item.accuracy }
                         subtitleStyle={{fontSize: 15}}
                     />
@@ -173,8 +185,8 @@ class BeaconMonitor extends Component {
     )
 
     componentDidMount() {
-        this.beaconListener.init(this.beaconsDidRangeCb, this.regionMonitoringCb);
-        this.setState({isRanging: true});
+        this.beaconListener.init(this.beaconsDidRangeCb, this.regionMonitoringCb, this.telemetryMonitoringCb, this.nearablesMonitoringCb);
+       // this.beaconListener.startNearableScanning();
     }
 
 

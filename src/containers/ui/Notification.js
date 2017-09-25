@@ -157,7 +157,7 @@ class Notification extends Component {
                 <View style={styles.shadowContainer}>
                     <View style={styles.content}>
                         <View>
-                            <Text style={styles.message}>{this.props.message}</Text>
+                            <Text style={[styles.message]}>{this.props.message}</Text>
                         </View>
                         <ButtonGroup
                             onPress={this.updateIndex}

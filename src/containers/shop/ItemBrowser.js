@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     },
 
     card: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        borderRadius: 20
     },
 
     browserContainer: {
@@ -114,7 +115,6 @@ const styles = StyleSheet.create({
         width: Screen.width,
         backgroundColor: AppColors.base.greyLight,
         overflow: 'hidden',
-        // borderRadius: 12,
         zIndex: 13,
     },
 
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
         width: Screen.width,
         backgroundColor: AppColors.base.white,
         overflow: 'hidden',
-        // borderRadius: 12,
+        borderRadius: 20,
         zIndex: 1
     },
 
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingHorizontal: AppSizes.paddingSml,
         height: 60,
-        backgroundColor: AppColors.brand.primary,
+        backgroundColor: AppColors.brand.primary
     },
 
     infoIconContainer: {
@@ -359,6 +359,7 @@ class ItemBrowser extends Component {
                         enableMomentum={false}
                         scrollEndDragDebounceValue={50}
                         swipeThreshold={70}
+                        contentContainerCustomStyle={{borderRadius: 20}}
                     >
                         { this.state.slides }
                     </Carousel>
