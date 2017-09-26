@@ -46,12 +46,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: AppSizes.padding,
         backgroundColor: AppColors.base.greyLight,
-        height: 70
+        height: 80
     },
 
-    checkout: {
-
-    },
+    checkout: {},
 
     checkoutSuccess: {
         width: AppSizes.screen.width,
@@ -109,7 +107,7 @@ class Cart extends Component {
         this.checkout = this.checkout.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.goToProduct = this.goToProduct.bind(this);
-        this.shouldSummaryRender =  this.shouldSummaryRender.bind(this);
+        this.shouldSummaryRender = this.shouldSummaryRender.bind(this);
         this.state = {
             selectedIndex: 1,
             checkout: false,
@@ -207,9 +205,9 @@ class Cart extends Component {
 
 
     shouldSummaryRender = () => {
-        if(this.state.checkout) {
+        if (this.state.checkout) {
             return true;
-        } else if (this.props.cart.length === 0){
+        } else if (this.props.cart.length === 0) {
             return false;
         } else {
             return true;
@@ -250,35 +248,38 @@ class Cart extends Component {
                 />
                 {this.shouldSummaryRender() &&
                 <View>
-                    <FlipCard
-                        friction={6}
-                        perspective={1000}
-                        flipHorizontal={true}
-                        flipVertical={false}
-                        flip={this.state.doFlip}
-                        alignHeight={true}
-                        clickable={false}
-                    >
-                        <View style={styles.checkout}>
-                            <View style={styles.summary}>
-                                <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
-                                <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
+                    <View style={{height: 180}}>
+                        <FlipCard
+                            friction={6}
+                            perspective={1000}
+                            flipHorizontal={true}
+                            flipVertical={false}
+                            flip={this.state.doFlip}
+                            alignHeight={true}
+                            clickable={false}
+                        >
+                            <View style={styles.checkout}>
+                                <View style={styles.summary}>
+                                    <Text style={AppStyles.h3}>{'Total Qty: ' + this.getCartQuantity()}</Text>
+                                    <Text style={AppStyles.h3}>{'Total Price: £' + this.getCartPrice()}</Text>
+                                </View>
+                                <Button
+                                    large
+                                    backgroundColor={AppColors.brand.tertiary}
+                                    buttonStyle={{height: 100}}
+                                    title={'Checkout'}
+                                    onPress={() => {this.checkout()}}
+                                ></Button>
                             </View>
-                            <Button
-                                large
-                                backgroundColor={AppColors.brand.tertiary}
-                                title={'Checkout'}
-                                onPress={() => {this.checkout()}}
-                            ></Button>
-                        </View>
-                        <View style={[styles.checkoutSuccess, styles.checkout]}>
-                            <Text
-                                style={[styles.checkoutText]}>{
-                                'Thank you. Your items are being prepared for collection. ' +
-                                'You can pick them up from the nearest counter.'
-                            }</Text>
-                        </View>
-                    </FlipCard>
+                            <View style={[styles.checkoutSuccess, styles.checkout]}>
+                                <Text
+                                    style={[styles.checkoutText]}>{
+                                    'Thank you. Your items are being prepared for collection. ' +
+                                    'You can pick them up from the nearest counter.'
+                                }</Text>
+                            </View>
+                        </FlipCard>
+                    </View>
                     <InfoItems slideIn={this.state.showInfoItems}></InfoItems>
                 </View>
                 }

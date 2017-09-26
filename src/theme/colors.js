@@ -24,8 +24,9 @@ const base = {
 
 const brand = {
     brand: {
-        primary: '#1A1F71',
-        secondary: '#003ea9',
+        primary: '#003ea9',
+        //primary: '#1A1F71',
+        secondary: '#1A1F71',
         tertiary: '#F7B600'
     },
 };

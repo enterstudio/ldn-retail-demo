@@ -45,12 +45,13 @@ class InfoItems extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.slideIn) {
-            Animated.timing(
+            Animated.spring(
                 this.yTranslate,
                 {
                     toValue: 1,
-                    duration: 300,
-                    easing: Easing.elastic(1)
+                    friction: 6
+                    //duration: 300,
+                    //easing: Easing.elastic(1)
                 }
             ).start();
         }

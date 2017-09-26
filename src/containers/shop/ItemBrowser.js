@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
         height: AppSizes.screen.height - 250,
         borderBottomColor: AppColors.base.grey,
         borderBottomWidth: 1,
-        backgroundColor: AppColors.base.white
+        backgroundColor: AppColors.base.white,
+        borderRadius: 15
     },
 
     productContainer: {
@@ -105,7 +106,6 @@ const styles = StyleSheet.create({
 
     card: {
         flexDirection: 'column',
-        borderRadius: 20
     },
 
     browserContainer: {
@@ -263,6 +263,14 @@ class ItemBrowser extends Component {
     }
 
 
+    getProductTitle = (title) => {
+        if(title) {
+            return title.toUpperCase();
+        } else {
+            return 'undefined'
+        }
+    }
+
     getSlides = (products) => products.map((item, index) => {
         return (
             <View key={`entry-${index}`} style={styles.slide} elevation={5}>
@@ -276,7 +284,7 @@ class ItemBrowser extends Component {
                                                 const product = this.props.products[this._carousel.currentIndex];
                                                 Actions.productBrowser(
                                                      {
-                                                     title: product.title.toUppercase(),
+                                                     title: this.getProductTitle(product.title),
                                                      product: product,
                                                      complementaryItems: this.props.products
                                                      })
@@ -315,7 +323,7 @@ class ItemBrowser extends Component {
 
                     <View style={styles.productContainer}>
                         <View style={styles.productDetails}>
-                            <LSText letterSpacing={2} style={[styles.productText, styles.productTitle]}>{item.title.toUpperCase()}</LSText>
+                            <LSText letterSpacing={2} style={[styles.productText, styles.productTitle]}>{item.title ? item.title.toUpperCase(): 'undefined'}</LSText>
                             <LSText letterSpacing={2} style={[styles.productText, styles.productPrice]}>{'£' + item.price}</LSText>
                             <LSText letterSpacing={2} style={[styles.productText, styles.productSize]}>{'Size: M'}</LSText>
                         </View>

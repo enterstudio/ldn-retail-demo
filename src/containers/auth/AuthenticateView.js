@@ -23,7 +23,7 @@ import { Spacer, Text, Button } from '@ui/';
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: AppColors.brand.secondary,
+        backgroundColor: AppColors.brand.primary,
         height: AppSizes.screen.height,
         width: AppSizes.screen.width,
     },
@@ -67,7 +67,7 @@ class Authenticate extends Component {
                         title={'Login'}
                         icon={{ name: 'user', type: 'entypo' }}
                         onPress={Actions.login}
-                        backgroundColor={AppColors.brand.primary}
+                        backgroundColor={AppColors.brand.secondary}
                     />
                 </View>
             </View>
@@ -81,7 +81,7 @@ class Authenticate extends Component {
                         title={'Sign up'}
                         icon={{ name: 'add-user', type: 'entypo'}}
                         onPress={Actions.signUp}
-                        backgroundColor={AppColors.brand.primary}
+                        backgroundColor={AppColors.brand.secondary}
                     />
                 </View>
             </View>

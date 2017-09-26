@@ -88,6 +88,7 @@ class BeaconMonitor extends Component {
         this.beaconsDidRangeCb = this.beaconsDidRangeCb.bind(this);
         this.regionMonitoringCb = this.regionMonitoringCb.bind(this);
         this.telemetryMonitoringCb = this.telemetryMonitoringCb.bind(this);
+        this.nearablesMonitoringCb = this.nearablesMonitoringCb.bind(this);
         this.state = {
             isRanging: false,
             beaconsDidRangeData: [],
@@ -98,7 +99,7 @@ class BeaconMonitor extends Component {
 
     toggleRanging() {
         if (!this.state.isRanging) {
-            this.beaconListener.startNearableScanning();
+            this.beaconListener.startRanging();
         } else {
             this.beaconListener.stopRanging();
         }
@@ -113,13 +114,16 @@ class BeaconMonitor extends Component {
 
     nearablesMonitoringCb(data) {
         console.log('nearables - data: ', data);
+        if(this.state.isRanging) {
+            this.setState({beaconsDidRangeData: JSON.parse(data)});
+        }
 
     }
 
     beaconsDidRangeCb(data) {
         console.log('ranging - data: ', data);
         if(this.state.isRanging) {
-            this.setState({beaconsDidRangeData: JSON.parse(data)});
+          //  this.setState({beaconsDidRangeData: JSON.parse(data)});
         }
     }
 

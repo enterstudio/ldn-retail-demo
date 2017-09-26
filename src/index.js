@@ -13,6 +13,7 @@ import { connect, Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import { Router } from 'react-native-router-flux';
+import { AppColors} from '@theme/';
 
 // Consts and Libs
 import { AppStyles } from '@theme/';
@@ -46,7 +47,7 @@ const store = compose(
 // Wrap App in Redux provider (makes Redux available to all sub-components)
 export default function AppContainer() {
   StatusBar.setBarStyle('light-content', true);
-  StatusBar.setBackgroundColor('#1A1F71', true);
+  StatusBar.setBackgroundColor(AppColors.brand.primary, true);
   console.ignoredYellowBox = ['Warning:', 'Setting a timer'];
   return (
     <Provider store={store}>

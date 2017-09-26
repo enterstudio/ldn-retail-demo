@@ -253,7 +253,6 @@ class AuthForm extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.state.resultMsg.success}
             error={this.state.resultMsg.error}
           />
 
@@ -285,11 +284,11 @@ class AuthForm extends Component {
 
           {this.props.formType === 'login' &&
             <View>
-              <TouchableOpacity onPress={Actions.passwordReset}>
+              {/* <TouchableOpacity onPress={Actions.passwordReset}>
                 <Text p style={[AppStyles.textCenterAligned, AppStyles.link]}>
                   Forgot Password
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity>*/}
 
               <Spacer size={10} />
 
