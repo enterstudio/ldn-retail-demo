@@ -198,7 +198,6 @@ class Cart extends Component {
     }
 
     loadInfoItems = () => {
-        console.log('Pushing infoItem');
         this.setState({showInfoItems: true})
 
     };
