@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
 
     rangeContainer: {
-      height: 200,
+        height: 200,
         overflow: 'hidden'
     },
 
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     },
 
     listItem: {
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        height: 120
     }
 
 });
@@ -114,7 +115,7 @@ class BeaconMonitor extends Component {
 
     nearablesMonitoringCb(data) {
         console.log('nearables - data: ', data);
-        if(this.state.isRanging) {
+        if (this.state.isRanging) {
             this.setState({beaconsDidRangeData: JSON.parse(data)});
         }
 
@@ -122,33 +123,33 @@ class BeaconMonitor extends Component {
 
     beaconsDidRangeCb(data) {
         console.log('ranging - data: ', data);
-        if(this.state.isRanging) {
-          //  this.setState({beaconsDidRangeData: JSON.parse(data)});
+        if (this.state.isRanging) {
+            //  this.setState({beaconsDidRangeData: JSON.parse(data)});
         }
     }
 
     regionMonitoringCb(data) {
 
-        const event  = JSON.parse(data);
+        const event = JSON.parse(data);
         console.log('monitoring - data: ', data);
 
-        if(event.type === 'enter'){
+        if (event.type === 'enter') {
 
-        this.props.dispatchUserInRange(this.props.user);
+            this.props.dispatchUserInRange(this.props.user);
 
-        this.setState({
-            regionEnterData: {
-                identifier: event.region_identifier  + ': ' + moment(new Date()).format('h:mm:ss')
-            },
-            regionExitData : {
-                identifier: ''
-            }
-        });
+            this.setState({
+                regionEnterData: {
+                    identifier: event.region_identifier + ': ' + moment(new Date()).format('h:mm:ss')
+                },
+                regionExitData: {
+                    identifier: ''
+                }
+            });
         }
-        else if(event.type === 'exit'){
+        else if (event.type === 'exit') {
             this.setState({
                 regionExitData: {
-                    identifier: event.region_identifier  + ': ' + moment(new Date()).format('h:mm:ss')
+                    identifier: event.region_identifier + ': ' + moment(new Date()).format('h:mm:ss')
                 },
                 regionEnterData: {
                     identifier: ''
@@ -166,13 +167,10 @@ class BeaconMonitor extends Component {
                     data={this.state.beaconsDidRangeData}
                     keyExtractor={this._keyExtractor}
                     renderItem={({item}) =>
-                    <ListItem
-                        containerStyle={styles.listItem}
-                        hideChevron={true}
-                        title={JSON.stringify(item)}
-                        subtitle={'Minor: ' + item.minor + ', rssi: ' + item.rssi + ', accuracy: ' + item.accuracy }
-                        subtitleStyle={{fontSize: 15}}
-                    />
+                       <View style={styles.listItem}>
+                            <Text>ID: {item.identifier}  ,type: {item.type} , color: {item.color}</Text>
+                            <Text>x_acceleration: {item.x_acceleration} , y_acceleration:  {item.y_acceleration}, z_acceleration: {item.y_acceleration} </Text>
+                    </View>
                     }
                 />
             </View>
@@ -184,13 +182,15 @@ class BeaconMonitor extends Component {
                 <Text style={AppStyles.h2}>Beacon Did Exit</Text>
                 <Text>Identifier: {this.state.regionExitData.identifier}</Text>
             </View>
-            <Button large backgroundColor={AppColors.base.greyDark} title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}  onPress={this.toggleRanging}></Button>
+            <Button large backgroundColor={AppColors.base.greyDark}
+                    title={this.state.isRanging ? 'Stop Ranging' : 'Start Ranging'}
+                    onPress={this.toggleRanging}></Button>
         </View>
     )
 
     componentDidMount() {
         this.beaconListener.init(this.beaconsDidRangeCb, this.regionMonitoringCb, this.telemetryMonitoringCb, this.nearablesMonitoringCb);
-       // this.beaconListener.startNearableScanning();
+        // this.beaconListener.startNearableScanning();
     }
 
 

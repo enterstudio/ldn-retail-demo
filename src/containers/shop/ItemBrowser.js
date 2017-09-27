@@ -24,7 +24,8 @@ import { addToCart, removeFromProducts }  from '@redux/products/actions';
 import * as NotificationActions from '@redux/notification/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
-import LSText from 'react-native-letter-spacing';
+
+import { ProductItem } from '@components/shop/';
 
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -43,68 +44,13 @@ import {
 
 const Screen = Dimensions.get('window');
 
+
+
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        flexDirection: 'column',
-    },
-
-    slide: {
-        width: AppSizes.screen.widthThreeQuarters,
-        height: AppSizes.screen.height - 250,
-        borderBottomColor: AppColors.base.grey,
-        borderBottomWidth: 1,
-        backgroundColor: AppColors.base.white,
-        borderRadius: 15
-    },
-
-    productContainer: {
-        width: '100%',
-        height: '100%'
-    },
-
-    productDetails: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 150,
-        paddingTop: AppSizes.padding,
-        paddingLeft: AppSizes.padding * 2,
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
-        zIndex: 9
-    },
-
-    productImage: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        //opacity: 0.9,
-        width: AppSizes.screen.width -100,
-        height: AppSizes.screen.height -100,
-        resizeMode: 'contain'
-    },
-
-    productText: {
-        fontSize: 17,
-        color: AppColors.base.black
-    },
-
-    productTitle: {
-        fontWeight: 'bold'
-    },
-
-    productPrice: {
-        fontStyle: 'italic',
-        fontWeight: 'bold'
-    },
-
-    productSize: {
-    },
-
-    card: {
         flexDirection: 'column',
     },
 
@@ -115,41 +61,9 @@ const styles = StyleSheet.create({
         width: Screen.width,
         backgroundColor: AppColors.base.greyLight,
         overflow: 'hidden',
-        zIndex: 13,
+        zIndex: 1,
     },
 
-    productViewContainer: {
-        position: 'absolute',
-        top: 0,
-        height: AppSizes.screen.height,
-        width: Screen.width,
-        backgroundColor: AppColors.base.white,
-        overflow: 'hidden',
-        borderRadius: 20,
-        zIndex: 1
-    },
-
-    iconContainer: {
-        position: 'absolute',
-        top: 25,
-        right: 15,
-        zIndex: 2
-    },
-
-    icon: {
-        height: 45,
-        width: 45,
-        resizeMode: 'contain',
-        marginBottom: 20
-    },
-
-    touchable: {
-        borderRadius: 30,
-        //backgroundColor: AppColors.base.white,
-        height: 45,
-        width: 45,
-        marginBottom: 10
-    },
 
     infoHeaderContainer: {
         height: 75
@@ -166,7 +80,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         right: AppSizes.padding,
-        zIndex: 111
+        zIndex: 1
     },
 
     infoText: {
@@ -179,6 +93,8 @@ const styles = StyleSheet.create({
         width: 35,
         resizeMode: 'contain'
     },
+
+
 
 
 });
@@ -205,8 +121,7 @@ const defaultProps = {
     timeout: 3000,
     animationTime: 300,
     top: 0,
-    topCollapsed: -40,
-    message: ''
+    topCollapsed: -40
 };
 
 
@@ -262,7 +177,6 @@ class ItemBrowser extends Component {
         }).start();
     }
 
-
     getProductTitle = (title) => {
         if(title) {
             return title.toUpperCase();
@@ -273,64 +187,7 @@ class ItemBrowser extends Component {
 
     getSlides = (products) => products.map((item, index) => {
         return (
-            <View key={`entry-${index}`} style={styles.slide} elevation={5}>
-
-                <View style={styles.card}>
-                    <View style={[styles.iconContainer]}>
-
-                        <TouchableHighlight style={styles.touchable}
-                                            underlayColor={AppColors.base.grey}
-                                            onPress={() => {
-                                                const product = this.props.products[this._carousel.currentIndex];
-                                                Actions.productBrowser(
-                                                     {
-                                                     title: this.getProductTitle(product.title),
-                                                     product: product,
-                                                     complementaryItems: this.props.products
-                                                     })
-                                                }
-                                            }>
-
-                            <Image
-                                source={require('../../assets/icons/icon-zoom.png')}
-                                style={[styles.icon]}
-                            />
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.touchable}
-                                            underlayColor={AppColors.base.grey}
-                                            onPress={() => {
-                                            this.props.addToCart(item);
-                                            this.showAddConfirmationDialog(item);
-
-                                            }}>
-                            <Image
-                                source={require('../../assets/icons/icon-add-to-cart.png')}
-                                style={[styles.icon]}
-                            />
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.touchable}
-                                            underlayColor={AppColors.base.grey}
-                                            onPress={() => {
-                                                this.showRemoveConfirmationDialog(item)
-                                            }
-                                       }>
-                            <Image
-                                source={require('../../assets/icons/icon-remove.png')}
-                                style={[styles.icon]}
-                            />
-                        </TouchableHighlight>
-                    </View>
-
-                    <View style={styles.productContainer}>
-                        <View style={styles.productDetails}>
-                            <LSText letterSpacing={2} style={[styles.productText, styles.productTitle]}>{item.title ? item.title.toUpperCase(): 'undefined'}</LSText>
-                            <LSText letterSpacing={2} style={[styles.productText, styles.productPrice]}>{'£' + item.price}</LSText>
-                            <LSText letterSpacing={2} style={[styles.productText, styles.productSize]}>{'Size: M'}</LSText>
-                        </View>
-                        <Image style={styles.productImage} source={{uri: item.img}}/>
-                    </View>
-                </View>
-            </View>
+            <ProductItem index={index} item={item}></ProductItem>
         );
     });
 
