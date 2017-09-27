@@ -48,7 +48,19 @@ const styles = StyleSheet.create({
 
     productImage: {
         height: 300,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        zIndex: 2
+    },
+
+    swoosh: {
+       position: 'absolute',
+       bottom: 40,
+       left: 60,
+       width: 310,
+       height: 150,
+       resizeMode: 'contain',
+       opacity: 0.2,
+       zIndex: 1
     },
 
     descriptionContainer: {
@@ -208,6 +220,10 @@ class Product extends Component {
                     <ScrollView>
                         <View style={styles.imageContainer}>
                             <Image style={styles.productImage} source={{uri: this.props.product.img}}/>
+                            <Image
+                                style={styles.swoosh}
+                                source={require('../../assets/images/nike-swoosh.png')}
+                            />
                         </View>
                         <Spacer size={50}/>
                         <View style={[styles.descriptionContainer]}>

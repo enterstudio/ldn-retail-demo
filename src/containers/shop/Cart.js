@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: AppSizes.padding,
         backgroundColor: AppColors.base.greyLight,
-        height: 80
+        height: 70
     },
 
     checkout: {},
@@ -247,7 +247,7 @@ class Cart extends Component {
                 />
                 {this.shouldSummaryRender() &&
                 <View>
-                    <View style={{height: 180}}>
+                    <View style={{height: 140, backgroundColor: AppColors.base.white}}>
                         <FlipCard
                             friction={6}
                             perspective={1000}
@@ -265,7 +265,7 @@ class Cart extends Component {
                                 <Button
                                     large
                                     backgroundColor={AppColors.brand.tertiary}
-                                    buttonStyle={{height: 100}}
+                                    buttonStyle={{height: 70}}
                                     title={'Checkout'}
                                     onPress={() => {this.checkout()}}
                                 ></Button>

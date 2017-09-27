@@ -85,7 +85,7 @@ class InfoItems extends Component {
         return (
             <View style={styles.container}>
                 <Animated.View style={[animatedStyles]}>
-                    <Spacer size={20}></Spacer>
+                    <Spacer size={10}></Spacer>
                     <TouchableOpacity onPress={() => {
                            //this.props.onPress();
                         }}>
