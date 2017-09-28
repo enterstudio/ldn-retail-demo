@@ -177,13 +177,7 @@ class ItemBrowser extends Component {
         }).start();
     }
 
-    getProductTitle = (title) => {
-        if(title) {
-            return title.toUpperCase();
-        } else {
-            return 'undefined'
-        }
-    }
+
 
     getSlides = (products) => products.map((item, index) => {
         return (

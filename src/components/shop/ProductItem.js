@@ -3,21 +3,21 @@ import { View, Image, StyleSheet, Animated, Easing, TouchableHighlight} from 're
 import { Text } from '@components/ui/';
 import LSText from 'react-native-letter-spacing';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
+import { Actions } from 'react-native-router-flux';
 
-const ANIMATION_DURATION = 550;
-
-
-const layerIndexes = {
+const LAYER_INDEXES = {
     productDetails: 9,
-    iconContainer: 10,
-    productAnimate: 6,
-    productViewContainer: 1
+    iconContainer: 6001,
+    productAnimate: 6000,
+    basketIcon: 60001,
+    productViewContainer: 1,
+    
 }
 
-const conf = {
-        timeout: 3000,
-        animationTime: 300,
-        imageTop: 0,
+const CONF = {
+    timeout: 3000,
+    animationTime: 400,
+    imageTop: 0,
 
 }
 
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         paddingTop: AppSizes.padding,
         paddingLeft: AppSizes.padding * 2,
         backgroundColor: 'rgba(255, 255, 255, 0.4)',
-        zIndex: layerIndexes.productDetails
+        zIndex: LAYER_INDEXES.productDetails
     },
 
     productImage: {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     productAnimate: {
         position: 'absolute',
         left: 0,
-        zIndex: layerIndexes.productAnimate,
+        zIndex: LAYER_INDEXES.productAnimate,
         width: AppSizes.screen.width,
         height: AppSizes.screen.height,
 
@@ -97,14 +97,14 @@ const styles = StyleSheet.create({
         backgroundColor: AppColors.base.white,
         overflow: 'hidden',
         borderRadius: 20,
-        zIndex: layerIndexes.productViewContainer
+        zIndex: LAYER_INDEXES.productViewContainer
     },
 
     iconContainer: {
         position: 'absolute',
         top: 25,
         right: 15,
-        zIndex: layerIndexes.iconContainer
+        zIndex: LAYER_INDEXES.iconContainer
     },
 
     icon: {
@@ -120,9 +120,18 @@ const styles = StyleSheet.create({
         height: 45,
         width: 45,
         marginBottom: 10
+    },
+
+    iconBasketEmpty: {
+        position: 'absolute',
+        left: AppSizes.screen.width/2 - 40,
+        bottom: 0,
+        width: 80,
+        height: 60,
+        resizeMode: 'contain',
+        zIndex: LAYER_INDEXES.basketIcon
     }
 })
-
 
 
 class ProductItem extends Component {
@@ -131,18 +140,49 @@ class ProductItem extends Component {
         super(props);
         this.animateAddToCart = this.animateAddToCart.bind(this);
         this.state = {
-            imageTop: new Animated.Value(conf.imageTop),
+            imageScale: new Animated.Value(1),
+            imageTop: new Animated.Value(0),
         }
     }
 
     animateAddToCart = () => {
 
         console.log('animate to cart');
-        Animated.timing(this.state.imageTop, {
-            duration: conf.animationTime,
-            toValue: 100,
-            easing: Easing.quad
-        }).start();
+        Animated.sequence([
+            Animated.timing(this.state.imageScale, {
+                duration: CONF.animationTime,
+                toValue: 1.1,
+                easing: Easing.quad
+            }),
+
+            Animated.parallel([
+                Animated.timing(this.state.imageScale, {
+                    duration: 200,
+                    toValue: 0.2,
+                    easing: Easing.quad
+                }),
+                Animated.timing(this.state.imageTop, {
+                    duration: 200,
+                    toValue: -50,
+                    easing: Easing.quad
+                })
+            ]),
+
+            Animated.timing(this.state.imageTop, {
+                duration: CONF.animationTime,
+                toValue: 50,
+                easing: Easing.quad
+            })
+        ]).start();
+    }
+
+
+    getProductTitle = (title) => {
+        if(title) {
+            return title.toUpperCase();
+        } else {
+            return 'undefined'
+        }
     }
 
 
@@ -212,11 +252,19 @@ class ProductItem extends Component {
 
                         <Image style={styles.productImage} source={{uri: this.props.item.img}}/>
 
-                        <Animated.View style={[styles.productAnimate, {top: this.state.imageTop}]}>
+                        <Animated.View style={[styles.productAnimate,
+                        {
+                            top: this.state.imageTop,
+                            transform:[{scale:this.state.imageScale}]}
+                         ]}>
                             <Image style={styles.productImage} source={{uri: this.props.item.img}}/>
                         </Animated.View>
                     </View>
                 </View>
+                <Image
+                    source={require('../../assets/icons/icon-basket-empty.png')}
+                    style={[styles.iconBasketEmpty]}
+                />
             </View>
         );
 
