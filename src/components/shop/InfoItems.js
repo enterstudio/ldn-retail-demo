@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         height: 100,
         width: '100%',
         backgroundColor: AppColors.base.grey,
-        marginTop: 10
+        marginBottom: 13
     },
     infoText: {
         textAlign: 'center',
@@ -88,7 +88,7 @@ class InfoItems extends Component {
         return (
             <View style={styles.container}>
                 <Animated.View style={[animatedStyles]}>
-                    <Spacer size={15}></Spacer>
+                    <Spacer size={13} />
                     <TouchableOpacity onPress={() => {
                            //this.props.onPress();
                         }}>

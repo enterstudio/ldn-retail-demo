@@ -65,11 +65,12 @@ const styles = StyleSheet.create({
         borderWidth: 7,
         borderBottomWidth: 10,
         borderColor: AppColors.brand.primary,
+        height: 140
     },
 
     checkoutText: {
         textAlign: 'center',
-        fontSize: 17
+        fontSize: 16
     },
 
     basketIcon: {
@@ -173,11 +174,11 @@ class Cart extends Component {
             else {
 
                 const self = this;
-                setTimeout(() =>  {
+                setTimeout(() => {
                     self.setState({doFlip: true})
                 }, 250)
 
-                setTimeout(()  => {
+                setTimeout(() => {
                     self.loadInfoItems();
                     this.setState({checkoutInProgress: false})
                 }, 650)
@@ -188,7 +189,7 @@ class Cart extends Component {
     }
 
     hideProgressOverlay = () => {
-        let self  = this;
+        let self = this;
         this.setState({showprogressOverlay: false}, () => {
             setTimeout(() => {
                 self.setState({
@@ -203,7 +204,7 @@ class Cart extends Component {
     }
 
     checkout = () => {
-        let self  = this;
+        let self = this;
         this.setState({showprogressOverlay: true}, () => {
             setTimeout(() => {
                 self.hideProgressOverlay();
@@ -250,7 +251,7 @@ class Cart extends Component {
 
     render = () => (
         <View>
-            <ProgressOverlay color={AppColors.brand.tertiary} size={100} visible={this.state.showprogressOverlay} />
+            <ProgressOverlay color={AppColors.brand.tertiary} size={100} visible={this.state.showprogressOverlay}/>
 
             {this.props.cart.length === 0 && !this.state.checkout &&
             <View style={styles.emptyBasketContainer}>
@@ -314,7 +315,9 @@ class Cart extends Component {
                             </View>
                         </FlipCard>
                     </View>
-                    <InfoItems slideIn={this.state.showInfoItems}></InfoItems>
+                    <View>
+                        <InfoItems slideIn={this.state.showInfoItems}></InfoItems>
+                    </View>
                 </View>
                 }
             </ScrollView>
@@ -327,7 +330,7 @@ class Cart extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { cart } = nextProps;
-        if(this.props.cart.length === 0 && cart.length > 0){
+        if (this.props.cart.length === 0 && cart.length > 0) {
             this.setState({
                 checkout: false,
                 doFlip: false,

@@ -45,13 +45,12 @@ import {
 const Screen = Dimensions.get('window');
 
 
-
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
 
     browserContainer: {
@@ -94,8 +93,11 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
 
-
-
+    emptyListIcon: {
+        width: 70,
+        height: 60,
+        resizeMode: 'contain'
+    }
 
 });
 
@@ -177,7 +179,6 @@ class ItemBrowser extends Component {
     }
 
 
-
     getSlides = (products) => products.map((item, index) => {
         return (
             <ProductSlide index={index} item={item} addToCart={this.props.addToCart}
@@ -212,7 +213,19 @@ class ItemBrowser extends Component {
                         </View>
                     </View>
                     <Spacer size={30}></Spacer>
-                    <Carousel
+                    {this.state.slides.length === 0 &&
+                    <View style={{backgroundColor: AppColors.base.white}}>
+                        <Text style={[AppStyles.h3, AppStyles.padding, {textAlign: 'center'}]}>
+                            You currently don't have any browsed items </Text>
+                        <View style={[AppStyles.containerCentered, AppStyles.padding]}>
+                            <Image
+                                source={require('../../assets/icons/icon-list-empty.png')}
+                                style={[styles.emptyListIcon]}
+                            />
+                        </View>
+                    </View>
+                    }
+                    < Carousel
                         ref={(carousel) => { this._carousel = carousel; }}
                         sliderWidth={AppSizes.screen.width}
                         itemWidth={AppSizes.screen.widthThreeQuarters}
