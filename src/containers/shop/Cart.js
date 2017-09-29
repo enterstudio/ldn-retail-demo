@@ -10,6 +10,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     TouchableHighlight,
+    ActivityIndicator
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -33,9 +34,15 @@ import {
     ListItem,
     FormInput,
     FormLabel,
+    ProgressOverlay
 } from '@components/ui/';
 
 /* Styles ==================================================================== */
+
+const LAYER_INDEXES = {
+    overlay: 9
+}
+
 const styles = StyleSheet.create({
 
     scrollView: {},
@@ -73,10 +80,26 @@ const styles = StyleSheet.create({
 
     emptyBasketContainer: {
         backgroundColor: AppColors.base.white
+    },
+
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: AppSizes.screen.innerHeight,
+        width: AppSizes.screen.width,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        zIndex: LAYER_INDEXES.overlay
+    },
+
+    spinnerIcon: {
+        width: 100,
+        height: 60,
+        resizeMode: 'contain'
     }
-
-
 });
+
+
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -112,7 +135,8 @@ class Cart extends Component {
             selectedIndex: 1,
             checkout: false,
             doFlip: false,
-            showInfoItems: false
+            showInfoItems: false,
+            showprogressOverlay: false
         }
     }
 
@@ -150,11 +174,11 @@ class Cart extends Component {
             }
             else {
                 const self = this;
-                setTimeout(function () {
+                setTimeout(() =>  {
                     self.setState({doFlip: true})
                 }, 250)
 
-                setTimeout(function () {
+                setTimeout(()  => {
                     self.loadInfoItems();
                 }, 650)
 
@@ -163,16 +187,29 @@ class Cart extends Component {
         }
     }
 
+    hideProgressOverlay = () => {
+        let self  = this;
+        this.setState({showprogressOverlay: false}, () => {
+            setTimeout(() => {
+                self.setState({
+                    checkout: true,
+                    nextToBeRemoved: this.props.cart.length - 1,
+                    doFlip: false
+                });
+            }, 200);
+        })
+
+    }
+
     checkout = () => {
-        this.setState({
-            checkout: true,
-            quantity: this.getCartQuantity(),
-            cartPrice: this.getCartPrice(),
-            nextToBeRemoved: this.props.cart.length - 1,
-            doFlip: false
-        }, () => {
-            //this.forceUpdate()
-        });
+        let self  = this;
+        this.setState({showprogressOverlay: true}, () => {
+            setTimeout(() => {
+                self.hideProgressOverlay();
+            }, 1700);
+        })
+
+
     }
 
     infoAction = (type) => {
@@ -216,6 +253,7 @@ class Cart extends Component {
 
     render = () => (
         <View>
+            <ProgressOverlay color={AppColors.brand.tertiary} size="100" visible={this.state.showprogressOverlay}></ProgressOverlay>
 
             {this.props.cart.length === 0 && !this.state.checkout &&
             <View style={styles.emptyBasketContainer}>

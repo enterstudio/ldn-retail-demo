@@ -1,6 +1,6 @@
 import CartItem from './CartItem';
 import InfoItems from './InfoItems';
-import ProductItem from './ProductItem';
+import ProductSlide from './ProductSlide';
 
-export { CartItem, InfoItems, ProductItem }
+export { CartItem, InfoItems, ProductSlide }
 
