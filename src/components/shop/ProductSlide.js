@@ -6,10 +6,8 @@ import { AppColors, AppStyles, AppSizes} from '@theme/';
 import { Actions } from 'react-native-router-flux';
 
 const LAYER_INDEXES = {
-    productDetails: 9,
-    iconContainer: 6001,
-    productAnimate: 6000,
-    basketIcon: 60001,
+    productDetails: 3,
+    iconContainer: 2,
     productViewContainer: 1,
     
 }
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
 
     productDetails: {
         position: 'absolute',
-        bottom: 0,
+        bottom: -5,
         left: 0,
         right: 0,
         height: 150,
@@ -58,15 +56,6 @@ const styles = StyleSheet.create({
         width: AppSizes.screen.width - 100,
         height: AppSizes.screen.height - 100,
         resizeMode: 'contain'
-    },
-
-    productAnimate: {
-        position: 'absolute',
-        left: 0,
-        zIndex: LAYER_INDEXES.productAnimate,
-        width: AppSizes.screen.width,
-        height: AppSizes.screen.height,
-
     },
 
     productText: {
@@ -122,19 +111,11 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
 
-    iconBasketEmpty: {
-        position: 'absolute',
-        left: AppSizes.screen.width/2 - 40,
-        bottom: 0,
-        width: 80,
-        height: 60,
-        resizeMode: 'contain',
-        zIndex: LAYER_INDEXES.basketIcon
-    }
+
 })
 
 
-class ProductItem extends Component {
+class ProductSlide extends Component {
 
     constructor(props) {
         super(props);
@@ -216,10 +197,8 @@ class ProductItem extends Component {
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
                                             onPress={() => {
-                                            //this.props.addToCart(this.props.item);
-                                            console.log('add to cart pressed')
-                                            this.animateAddToCart();
-                                            //this.showAddConfirmationDialog(this.props.item);
+                                             this.props.addToCart(this.props.item);
+                                             this.props.showAddConfirmationDialog(this.props.item);
 
                                             }}>
                             <Image
@@ -230,7 +209,7 @@ class ProductItem extends Component {
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
                                             onPress={() => {
-                                                this.showRemoveConfirmationDialog(this.props.item)
+                                                this.props.showRemoveConfirmationDialog(this.props.item)
                                             }
                                        }>
                             <Image
@@ -252,19 +231,9 @@ class ProductItem extends Component {
 
                         <Image style={styles.productImage} source={{uri: this.props.item.img}}/>
 
-                        <Animated.View style={[styles.productAnimate,
-                        {
-                            top: this.state.imageTop,
-                            transform:[{scale:this.state.imageScale}]}
-                         ]}>
-                            <Image style={styles.productImage} source={{uri: this.props.item.img}}/>
-                        </Animated.View>
                     </View>
                 </View>
-                <Image
-                    source={require('../../assets/icons/icon-basket-empty.png')}
-                    style={[styles.iconBasketEmpty]}
-                />
+
             </View>
         );
 
@@ -273,4 +242,4 @@ class ProductItem extends Component {
 }
 
 
-export default ProductItem;
+export default ProductSlide;

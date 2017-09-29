@@ -25,7 +25,7 @@ import * as NotificationActions from '@redux/notification/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
 
-import { ProductItem } from '@components/shop/';
+import { ProductSlide } from '@components/shop/';
 
 
 import { AppColors, AppStyles, AppSizes} from '@theme/';
@@ -166,7 +166,6 @@ class ItemBrowser extends Component {
                 self.props.removeFromProducts(product);
             }, 700);
         });
-
     }
 
     toggleInfoHeader = () => {
@@ -181,7 +180,10 @@ class ItemBrowser extends Component {
 
     getSlides = (products) => products.map((item, index) => {
         return (
-            <ProductItem index={index} item={item}></ProductItem>
+            <ProductSlide index={index} item={item} addToCart={this.props.addToCart}
+                          showAddConfirmationDialog={this.showAddConfirmationDialog}
+                          showRemoveConfirmationDialog={this.showRemoveConfirmationDialog}
+            ></ProductSlide>
         );
     });
 
