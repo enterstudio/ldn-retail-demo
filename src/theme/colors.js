@@ -32,9 +32,9 @@ const brand = {
 };
 
 const text = {
-    textPrimary: base.base.black,
+    textPrimary: '#191919',
     textSecondary: base.base.greyDark,
-    headingPrimary: base.base.black,
+    headingPrimary: '#191919',
     headingSecondary: base.base.greyDark,
 };
 

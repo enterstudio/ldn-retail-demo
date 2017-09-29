@@ -100,8 +100,6 @@ const styles = StyleSheet.create({
 });
 
 
-
-
 const mapDispatchToProps = (dispatch) => {
     return ({
         removeFromCart: (item) => {
@@ -166,13 +164,14 @@ class Cart extends Component {
 
     handleRemove = (item) => {
         this.props.removeFromCart(item);
-        if (this.state.checkout) {
+        if (this.state.checkoutInProgress) {
             if (this.state.nextToBeRemoved > 0) {
                 this.setState({
                     nextToBeRemoved: this.state.nextToBeRemoved - 1
                 });
             }
             else {
+
                 const self = this;
                 setTimeout(() =>  {
                     self.setState({doFlip: true})
@@ -180,6 +179,7 @@ class Cart extends Component {
 
                 setTimeout(()  => {
                     self.loadInfoItems();
+                    this.setState({checkoutInProgress: false})
                 }, 650)
 
 
@@ -193,6 +193,7 @@ class Cart extends Component {
             setTimeout(() => {
                 self.setState({
                     checkout: true,
+                    checkoutInProgress: true,
                     nextToBeRemoved: this.props.cart.length - 1,
                     doFlip: false
                 });
@@ -212,10 +213,6 @@ class Cart extends Component {
 
     }
 
-    infoAction = (type) => {
-
-    }
-
     goToProduct = (item) => {
         Actions.productCart(
             {
@@ -227,7 +224,7 @@ class Cart extends Component {
 
 
     isItemToBeRemoved = (index) => {
-        if (this.state.checkout) {
+        if (this.state.checkoutInProgress) {
             return this.state.nextToBeRemoved === index
         } else {
             return false
@@ -253,7 +250,7 @@ class Cart extends Component {
 
     render = () => (
         <View>
-            <ProgressOverlay color={AppColors.brand.tertiary} size="100" visible={this.state.showprogressOverlay}></ProgressOverlay>
+            <ProgressOverlay color={AppColors.brand.tertiary} size={100} visible={this.state.showprogressOverlay} />
 
             {this.props.cart.length === 0 && !this.state.checkout &&
             <View style={styles.emptyBasketContainer}>
@@ -326,6 +323,17 @@ class Cart extends Component {
 
     componentWillUnmount = () => {
         timer.clearTimeout(this.timerName);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { cart } = nextProps;
+        if(this.props.cart.length === 0 && cart.length > 0){
+            this.setState({
+                checkout: false,
+                doFlip: false,
+                showInfoItems: false
+            })
+        }
     }
 }
 

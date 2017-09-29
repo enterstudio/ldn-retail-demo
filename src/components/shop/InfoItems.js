@@ -44,6 +44,7 @@ class InfoItems extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('nextProps: ' + JSON.stringify(nextProps))
         if (nextProps.slideIn) {
             Animated.spring(
                 this.yTranslate,
@@ -54,6 +55,8 @@ class InfoItems extends Component {
                     //easing: Easing.elastic(1)
                 }
             ).start();
+        } else {
+            this.yTranslate = new Animated.Value(0);
         }
     }
 

@@ -77,7 +77,7 @@ export default class Spinner extends React.Component {
                     ]}>
                     <ActivityIndicator
                         color={this.props.color}
-                        size={100}
+                        size={this.props.size}
                         style={{ flex: 1 }}
                     />
                 </View>
