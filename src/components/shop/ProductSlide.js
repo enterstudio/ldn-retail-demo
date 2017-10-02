@@ -9,7 +9,7 @@ const LAYER_INDEXES = {
     productDetails: 3,
     iconContainer: 2,
     productViewContainer: 1,
-    
+
 }
 
 const CONF = {
@@ -108,11 +108,37 @@ const styles = StyleSheet.create({
         //backgroundColor: AppColors.base.white,
         height: 45,
         width: 45,
+        marginBottom: 10,
+        alignSelf: 'flex-end'
+    },
+
+    actionContainer: {
+        height: 45,
+        width: 45,
+        backgroundColor: AppColors.base.black,
+        borderRadius: 30,
         marginBottom: 10
     },
 
+    stepperContainer: {
+        width: 300,
+        height: 100,
+        flexDirection: 'row',
+        backgroundColor: AppColors.brand.tertiary
 
-})
+    },
+
+    stepperIcon: {
+        height: 30,
+        width: 30,
+        resizeMode: 'contain'
+    },
+
+    stepperCounter: {
+        color: AppColors.base.greyDark
+    }
+
+});
 
 
 class ProductSlide extends Component {
@@ -123,6 +149,7 @@ class ProductSlide extends Component {
         this.state = {
             imageScale: new Animated.Value(1),
             imageTop: new Animated.Value(0),
+            stepperCounter:  1
         }
     }
 
@@ -159,7 +186,7 @@ class ProductSlide extends Component {
 
 
     getProductTitle = (title) => {
-        if(title) {
+        if (title) {
             return title.toUpperCase();
         } else {
             return 'undefined'
@@ -194,18 +221,40 @@ class ProductSlide extends Component {
                                 style={[styles.icon]}
                             />
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.touchable}
-                                            underlayColor={AppColors.base.grey}
-                                            onPress={() => {
+
+                        <View style={styles.actionContainer}>
+                            <TouchableHighlight style={styles.touchable}
+                                                underlayColor={AppColors.base.grey}
+                                                onPress={() => {
                                              this.props.addToCart(this.props.item);
                                              this.props.showAddConfirmationDialog(this.props.item);
 
                                             }}>
-                            <Image
-                                source={require('../../assets/icons/icon-add-to-cart.png')}
-                                style={[styles.icon]}
-                            />
-                        </TouchableHighlight>
+                                <Image
+                                    source={require('../../assets/icons/icon-add-to-cart.png')}
+                                    style={[styles.icon]}
+                                />
+                            </TouchableHighlight>
+                            <View style={styles.stepperContainer}>
+                                {/* <Image
+                                    source={require('../../assets/icons/icon-minus-white.png')}
+                                    style={[styles.stepperIcon]}
+                                />*/}
+
+                               <Text style={styles.stepperCounter}>{this.state.stepperCounter}</Text>
+
+                                {/*
+                                <Image
+                                    source={require('../../assets/icons/icon-plus-white.png')}
+                                    style={[styles.stepperIcon]}
+                                    />
+                                */}
+
+                            </View>
+
+
+                        </View>
+
                         <TouchableHighlight style={styles.touchable}
                                             underlayColor={AppColors.base.grey}
                                             onPress={() => {
