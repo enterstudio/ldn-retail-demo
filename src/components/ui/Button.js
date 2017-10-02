@@ -44,8 +44,7 @@ class CustomButton extends Component {
             onPress: this.props.onPress,
             fontFamily: AppFonts.base.family,
             fontSize: AppFonts.base.size,
-            borderRadius: AppSizes.borderRadius,
-            raised: true,
+            raised: false,
             buttonStyle: {
                 padding: 12,
             },

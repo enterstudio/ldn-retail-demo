@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
 
     checkoutText: {
         textAlign: 'center',
-        fontSize: 16
+        fontSize: 18,
+        color: AppColors.brand.secondary
     },
 
     basketIcon: {

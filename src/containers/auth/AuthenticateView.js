@@ -63,7 +63,6 @@ class Authenticate extends Component {
             <View style={[AppStyles.row, AppStyles.paddingHorizontal]}>
                 <View style={[AppStyles.flex1]}>
                     <Button
-                        raised
                         title={'Login'}
                         icon={{ name: 'user', type: 'entypo' }}
                         onPress={Actions.login}
@@ -77,7 +76,7 @@ class Authenticate extends Component {
             <View style={[AppStyles.row, AppStyles.paddingHorizontal]}>
                 <View style={[AppStyles.flex1]}>
                     <Button
-                        raised
+
                         title={'Sign up'}
                         icon={{ name: 'add-user', type: 'entypo'}}
                         onPress={Actions.signUp}

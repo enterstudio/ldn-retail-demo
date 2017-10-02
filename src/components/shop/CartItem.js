@@ -65,7 +65,7 @@ class CartItem extends Component {
     componentDidMount() {
         Animated.timing(this._animated, {
             toValue: 1,
-            duration: 1,
+            duration: ANIMATION_DURATION,
         }).start();
     }
 
@@ -76,7 +76,6 @@ class CartItem extends Component {
     }
 
     onRemove = () => {
-        //TODO show confirmation dialog
         const { onRemove } = this.props;
         if (onRemove) {
             Animated.timing(this._animated, {

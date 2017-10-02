@@ -17,6 +17,9 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import { AppColors, AppStyles, AppSizes} from '@theme/';
+
+
 // Components
 import { Spacer, Text } from '@ui/';
 
@@ -54,11 +57,11 @@ const styles = StyleSheet.create({
 
   // Status
   msgStatus: {
-    borderColor: '#408491',
-    backgroundColor: '#8EDBE5',
+    backgroundColor: AppColors.brand.tertiary,
+    borderColor: AppColors.brand.tertiary,
   },
   msgStatus_text: {
-    color: '#2f606a',
+    color: AppColors.base.black,
   },
 });
 
