@@ -24,7 +24,6 @@ import { addToCart, removeFromProducts }  from '@redux/products/actions';
 import * as NotificationActions from '@redux/notification/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
-
 import { ProductSlide } from '@components/shop/';
 
 

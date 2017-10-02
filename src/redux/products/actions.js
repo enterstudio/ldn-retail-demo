@@ -11,10 +11,10 @@ export function getAllProducts() {
 
         return ref.once('value')
             .then(function(snapshot) {
-                const products = snapshot.val() || {};
+                const allProducts = snapshot.val() || {};
                 return resolve(dispatch({
                     type: ActionTypes.PRODUCTS_LOADED,
-                    products
+                    allProducts
                 }));
 
             });
@@ -57,7 +57,6 @@ export function addToCart(itemToAdd){
 }
 
 export function removeFromProducts(itemToRemove) {
-    console.log('remove from products')
 
     return (dispatch, getState) => {
 
@@ -78,16 +77,17 @@ export function removeFromProducts(itemToRemove) {
 
 }
 
-export function addToProducts(itemToAdd){
+export function addToProducts(itemId){
     return (dispatch, getState) => {
 
         let products = getState().products.products;
-        const index = products.findIndex(function(item){
-                return itemToAdd.id === item.id;
+        let allProducts = getState().products.allProducts;
+        const product = allProducts.find(function(item){
+                return itemId === item.id;
             }
         );
-        if(index === -1) {
-            dispatch({type: ActionTypes.UPDATE_PRODUCTS, products: [...products, itemToAdd]})
+        if(product) {
+            dispatch({type: ActionTypes.UPDATE_PRODUCTS, products: [...products, product]})
         }
     }
 }

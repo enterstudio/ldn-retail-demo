@@ -17,7 +17,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import BeaconListener from '../../lib/BeaconListener';
 import * as BeaconActions from '@redux/beacon/actions';
-
+import { addToProducts }  from '@redux/products/actions';
 
 import moment from 'moment';
 
@@ -67,6 +67,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchUserInRange: (user) => {
             BeaconActions.sendUserInRangeEvent(user);
+        },
+        addToProducts: (itemId) => {
+            dispatch(addToProducts(itemId));
         }
     }
 };
@@ -81,6 +84,7 @@ class BeaconMonitor extends Component {
     _keyExtractor = (item, index) => 'item'.concat(index);
 
     beaconListener;
+    counter = 0;
 
     constructor(props) {
         super(props);
@@ -100,6 +104,7 @@ class BeaconMonitor extends Component {
 
     toggleRanging() {
         if (!this.state.isRanging) {
+            this.props.addToProducts(++this.counter);
             this.beaconListener.startRanging();
         } else {
             this.beaconListener.stopRanging();

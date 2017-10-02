@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
         height: 100,
         flexDirection: 'row',
         backgroundColor: AppColors.brand.tertiary
-
     },
 
     stepperIcon: {
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
     },
 
     stepperCounter: {
-        color: AppColors.base.greyDark
+        color: AppColors.base.white
     }
 
 });
@@ -145,7 +144,6 @@ class ProductSlide extends Component {
 
     constructor(props) {
         super(props);
-        this.animateAddToCart = this.animateAddToCart.bind(this);
         this.state = {
             imageScale: new Animated.Value(1),
             imageTop: new Animated.Value(0),
@@ -153,36 +151,36 @@ class ProductSlide extends Component {
         }
     }
 
-    animateAddToCart = () => {
-
-        console.log('animate to cart');
-        Animated.sequence([
-            Animated.timing(this.state.imageScale, {
-                duration: CONF.animationTime,
-                toValue: 1.1,
-                easing: Easing.quad
-            }),
-
-            Animated.parallel([
-                Animated.timing(this.state.imageScale, {
-                    duration: 200,
-                    toValue: 0.2,
-                    easing: Easing.quad
-                }),
-                Animated.timing(this.state.imageTop, {
-                    duration: 200,
-                    toValue: -50,
-                    easing: Easing.quad
-                })
-            ]),
-
-            Animated.timing(this.state.imageTop, {
-                duration: CONF.animationTime,
-                toValue: 50,
-                easing: Easing.quad
-            })
-        ]).start();
-    }
+    //animateAddToCart = () => {
+    //
+    //    console.log('animate to cart');
+    //    Animated.sequence([
+    //        Animated.timing(this.state.imageScale, {
+    //            duration: CONF.animationTime,
+    //            toValue: 1.1,
+    //            easing: Easing.quad
+    //        }),
+    //
+    //        Animated.parallel([
+    //            Animated.timing(this.state.imageScale, {
+    //                duration: 200,
+    //                toValue: 0.2,
+    //                easing: Easing.quad
+    //            }),
+    //            Animated.timing(this.state.imageTop, {
+    //                duration: 200,
+    //                toValue: -50,
+    //                easing: Easing.quad
+    //            })
+    //        ]),
+    //
+    //        Animated.timing(this.state.imageTop, {
+    //            duration: CONF.animationTime,
+    //            toValue: 50,
+    //            easing: Easing.quad
+    //        })
+    //    ]).start();
+    //}
 
 
     getProductTitle = (title) => {
@@ -241,7 +239,7 @@ class ProductSlide extends Component {
                                     style={[styles.stepperIcon]}
                                 />*/}
 
-                               <Text style={styles.stepperCounter}>{this.state.stepperCounter}</Text>
+                                {/* <Text style={styles.stepperCounter}>{this.state.stepperCounter}</Text>*/}
 
                                 {/*
                                 <Image

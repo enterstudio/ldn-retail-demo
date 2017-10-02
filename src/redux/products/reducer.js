@@ -2,16 +2,17 @@ import {ActionTypes} from '@constants/';
 
 const initialState = {
     products: [],
+    allProducts: [],
     cart: []
 };
 
 export default function productsReducer(state = initialState, action) {
     switch (action.type) {
         case ActionTypes.PRODUCTS_LOADED: {
-            const products = action.products;
+            const allProducts = action.allProducts;
             return {
                 ...state,
-                products
+                allProducts
             };
         }
         case ActionTypes.UPDATE_PRODUCTS: {
