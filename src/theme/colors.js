@@ -18,7 +18,8 @@ const base = {
         grey: '#C5C5C5',
         greyDark: '#5D5D5D',
         black: '#000000',
-        green: '#098d47'
+        green: '#098d47',
+        red: '#c90000'
     }
 }
 

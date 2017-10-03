@@ -12,7 +12,8 @@ const LAYER_INDEXES = {
     iconContainer: 2,
     productViewContainer: 1,
     stepperContainer: 1,
-    actionContainer: 99
+    actionContainer: 4,
+    stepperIndicator: 5
 }
 
 const styles = StyleSheet.create({
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 25,
         right: 15,
-        width: 170,
+        width: 200,
         zIndex: LAYER_INDEXES.iconContainer
     },
 
@@ -137,21 +138,43 @@ const styles = StyleSheet.create({
 
     stepperCounter: {
         color: AppColors.base.white,
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginHorizontal: 15
+        marginHorizontal: 25
     },
 
     containerRight: {
         alignSelf: 'flex-end'
+    },
+
+    stepperHightlight: {
+        //width: 40
+    },
+
+    stepperIndicator: {
+        position: 'absolute',
+        right: 5,
+        top: 5,
+        borderRadius: 20,
+        backgroundColor: AppColors.base.white,
+        zIndex: LAYER_INDEXES.stepperIndicator
+    },
+
+    indicatorText: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: AppColors.base.red
     }
+
 });
 
 
 const defaultProps = {
+
     animationTime: 150,
-    addToCartActive: 155,
-    addToCartInActive: 45
+    addToCartActive: 190,
+    addToCartInActive: 45,
+    indicatorSize: 20
 };
 
 
@@ -160,6 +183,7 @@ class ProductSlide extends Component {
     constructor(props) {
         super(props);
         this.toggleAddToCartAction = this.toggleAddToCartAction.bind(this);
+        this.indicatorScale = new Animated.Value(0);
         this.state = {
             imageScale: new Animated.Value(1),
             imageTop: new Animated.Value(0),
@@ -202,6 +226,7 @@ class ProductSlide extends Component {
 
 
     toggleAddToCartAction = () => {
+        this.resetIndicator();
         this.setState({isAddToCartActive: !this.state.isAddToCartActive}, () => {
             Animated.timing(this.state.addToCartActionWith, {
                 duration: this.props.animationTime,
@@ -223,14 +248,51 @@ class ProductSlide extends Component {
 
     removeProductFromCart = () => {
         if (this.state.stepperCounter > 0) {
-            this.setState({stepperCounter: this.state.stepperCounter - 1});
-            this.props.removeFromCart(this.props.item);
+            const self = this;
+            Animated.timing(this.indicatorScale, {
+                toValue: 0,
+                duration: 1
+            }).start(() => {
+                self.setState({stepperCounter: self.state.stepperCounter - 1});
+                self.props.removeFromCart(self.props.item);
+                self.animateIndicator();
+            });
         }
     }
 
     addProductToCart = () => {
-        this.setState({stepperCounter: this.state.stepperCounter + 1});
-        this.props.addToCart(this.props.item);
+        const self = this;
+        Animated.timing(this.indicatorScale, {
+            toValue: 0,
+            duration: 1
+        }).start(() => {
+            self.setState({stepperCounter: self.state.stepperCounter + 1});
+            self.props.addToCart(self.props.item);
+            self.animateIndicator();
+        });
+
+    }
+
+    resetIndicator = () => {
+        Animated.timing(this.indicatorScale, {
+            toValue: 0,
+            duration: 1
+        }).start();
+    }
+
+    animateIndicator = () => {
+        setTimeout(() => {
+            Animated.sequence([
+                Animated.timing(this.indicatorScale, {
+                    toValue: 1.4,
+                    duration: 400
+                }),
+                Animated.timing(this.indicatorScale, {
+                    toValue: 1,
+                    duration: 200
+                }),
+            ]).start();
+        }, 100);
     }
 
     render() {
@@ -262,20 +324,45 @@ class ProductSlide extends Component {
                             </TouchableHighlight>
                         </View>
                         <View style={styles.containerRight}>
+                            <Animated.View style={[styles.stepperIndicator, AppStyles.containerCentered,
+                                {
+                                   height: this.indicatorScale.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [0, this.props.indicatorSize],
+                                    extrapolate: 'clamp',
+                                   }),
+                                   width: this.indicatorScale.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [0, this.props.indicatorSize],
+                                    extrapolate: 'clamp',
+                                   })
+                                },
+                                {opacity: this.indicatorScale},
+                                {
+                                    transform: [
+                                        {scale: this.indicatorScale}
+                                    ]
+                                 }
+                                ]
+                            }>
+                                <Text style={styles.indicatorText}>{this.state.stepperCounter}</Text>
+                            </Animated.View>
                             <Animated.View style={[styles.actionContainer, {width: this.state.addToCartActionWith}] }>
                                 <View style={[styles.stepperContainer]}>
-                                    <TouchableHighlight style={[]}
+
+                                    <TouchableHighlight style={[styles.stepperHightlight]}
                                                         underlayColor={AppColors.base.grey}
                                                         onPress={() => {this.removeProductFromCart()}}>
                                         <Image
                                             source={require('../../assets/icons/icon-minus-white.png')}
                                             style={[styles.stepperIcon]}
                                         />
+
                                     </TouchableHighlight>
 
                                     <Text style={styles.stepperCounter}>{this.state.stepperCounter}</Text>
 
-                                    <TouchableHighlight style={[]}
+                                    <TouchableHighlight style={[styles.stepperHightlight]}
                                                         underlayColor={AppColors.base.grey}
                                                         onPress={() => {this.addProductToCart()}}>
                                         <Image
