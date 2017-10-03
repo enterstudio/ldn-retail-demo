@@ -100,6 +100,7 @@ class BeaconMonitor extends Component {
             regionEnterData: {},
             regionExitData: {}
         }
+        this.props.addToProducts(++this.counter);
     }
 
     toggleRanging() {

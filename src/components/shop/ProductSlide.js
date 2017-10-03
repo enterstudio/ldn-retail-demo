@@ -5,21 +5,16 @@ import LSText from 'react-native-letter-spacing';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 import { Actions } from 'react-native-router-flux';
 
+/* Styles ================================= */
+
 const LAYER_INDEXES = {
     productDetails: 3,
     iconContainer: 2,
     productViewContainer: 1,
-
+    stepperContainer: 1,
+    actionContainer: 99
 }
 
-const CONF = {
-    timeout: 3000,
-    animationTime: 400,
-    imageTop: 0,
-
-}
-
-/* Styles ================================= */
 const styles = StyleSheet.create({
 
     slide: {
@@ -93,6 +88,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 25,
         right: 15,
+        width: 170,
         zIndex: LAYER_INDEXES.iconContainer
     },
 
@@ -105,49 +101,71 @@ const styles = StyleSheet.create({
 
     touchable: {
         borderRadius: 30,
-        //backgroundColor: AppColors.base.white,
         height: 45,
         width: 45,
+        backgroundColor: AppColors.base.black,
         marginBottom: 10,
-        alignSelf: 'flex-end'
+
     },
 
     actionContainer: {
         height: 45,
-        width: 45,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
         backgroundColor: AppColors.base.black,
         borderRadius: 30,
-        marginBottom: 10
+        marginBottom: 10,
+        zIndex: LAYER_INDEXES.actionContainer,
+        overflow: 'hidden'
     },
 
     stepperContainer: {
-        width: 300,
-        height: 100,
+        height: 45,
         flexDirection: 'row',
-        backgroundColor: AppColors.brand.tertiary
+        alignItems: 'center',
+        backgroundColor: AppColors.base.black,
+        borderRadius: 30,
+        paddingHorizontal: AppSizes.padding,
+        zIndex: LAYER_INDEXES.stepperContainer
     },
 
     stepperIcon: {
-        height: 30,
-        width: 30,
+        height: 15,
+        width: 15,
         resizeMode: 'contain'
     },
 
     stepperCounter: {
-        color: AppColors.base.white
-    }
+        color: AppColors.base.white,
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginHorizontal: 15
+    },
 
+    containerRight: {
+        alignSelf: 'flex-end'
+    }
 });
+
+
+const defaultProps = {
+    animationTime: 150,
+    addToCartActive: 155,
+    addToCartInActive: 45
+};
 
 
 class ProductSlide extends Component {
 
     constructor(props) {
         super(props);
+        this.toggleAddToCartAction = this.toggleAddToCartAction.bind(this);
         this.state = {
             imageScale: new Animated.Value(1),
             imageTop: new Animated.Value(0),
-            stepperCounter:  1
+            stepperCounter: 1,
+            isAddToCartActive: false,
+            addToCartActionWith: new Animated.Value(this.props.addToCartInActive)
         }
     }
 
@@ -183,6 +201,18 @@ class ProductSlide extends Component {
     //}
 
 
+    toggleAddToCartAction = () => {
+        this.setState({isAddToCartActive: !this.state.isAddToCartActive}, () => {
+            Animated.timing(this.state.addToCartActionWith, {
+                duration: this.props.animationTime,
+                toValue: this.state.isAddToCartActive ? this.props.addToCartInActive : this.props.addToCartActive,
+                easing: Easing.linear
+            }).start();
+        })
+
+    }
+
+
     getProductTitle = (title) => {
         if (title) {
             return title.toUpperCase();
@@ -191,6 +221,17 @@ class ProductSlide extends Component {
         }
     }
 
+    removeProductFromCart = () => {
+        if (this.state.stepperCounter > 0) {
+            this.setState({stepperCounter: this.state.stepperCounter - 1});
+            this.props.removeFromCart(this.props.item);
+        }
+    }
+
+    addProductToCart = () => {
+        this.setState({stepperCounter: this.state.stepperCounter + 1});
+        this.props.addToCart(this.props.item);
+    }
 
     render() {
 
@@ -200,10 +241,10 @@ class ProductSlide extends Component {
 
                 <View style={styles.card}>
                     <View style={[styles.iconContainer]}>
-
-                        <TouchableHighlight style={styles.touchable}
-                                            underlayColor={AppColors.base.grey}
-                                            onPress={() => {
+                        <View style={styles.containerRight}>
+                            <TouchableHighlight style={styles.touchable}
+                                                underlayColor={AppColors.base.grey}
+                                                onPress={() => {
 
                                                 Actions.productBrowser(
                                                      {
@@ -214,56 +255,62 @@ class ProductSlide extends Component {
                                                 }
                                             }>
 
-                            <Image
-                                source={require('../../assets/icons/icon-zoom.png')}
-                                style={[styles.icon]}
-                            />
-                        </TouchableHighlight>
-
-                        <View style={styles.actionContainer}>
-                            <TouchableHighlight style={styles.touchable}
-                                                underlayColor={AppColors.base.grey}
-                                                onPress={() => {
-                                             this.props.addToCart(this.props.item);
-                                             this.props.showAddConfirmationDialog(this.props.item);
-
-                                            }}>
                                 <Image
-                                    source={require('../../assets/icons/icon-add-to-cart.png')}
+                                    source={require('../../assets/icons/icon-zoom.png')}
                                     style={[styles.icon]}
                                 />
                             </TouchableHighlight>
-                            <View style={styles.stepperContainer}>
-                                {/* <Image
-                                    source={require('../../assets/icons/icon-minus-white.png')}
-                                    style={[styles.stepperIcon]}
-                                />*/}
-
-                                {/* <Text style={styles.stepperCounter}>{this.state.stepperCounter}</Text>*/}
-
-                                {/*
-                                <Image
-                                    source={require('../../assets/icons/icon-plus-white.png')}
-                                    style={[styles.stepperIcon]}
-                                    />
-                                */}
-
-                            </View>
-
-
                         </View>
+                        <View style={styles.containerRight}>
+                            <Animated.View style={[styles.actionContainer, {width: this.state.addToCartActionWith}] }>
+                                <View style={[styles.stepperContainer]}>
+                                    <TouchableHighlight style={[]}
+                                                        underlayColor={AppColors.base.grey}
+                                                        onPress={() => {this.removeProductFromCart()}}>
+                                        <Image
+                                            source={require('../../assets/icons/icon-minus-white.png')}
+                                            style={[styles.stepperIcon]}
+                                        />
+                                    </TouchableHighlight>
 
-                        <TouchableHighlight style={styles.touchable}
-                                            underlayColor={AppColors.base.grey}
-                                            onPress={() => {
+                                    <Text style={styles.stepperCounter}>{this.state.stepperCounter}</Text>
+
+                                    <TouchableHighlight style={[]}
+                                                        underlayColor={AppColors.base.grey}
+                                                        onPress={() => {this.addProductToCart()}}>
+                                        <Image
+                                            source={require('../../assets/icons/icon-plus-white.png')}
+                                            style={[styles.stepperIcon]}
+                                        />
+                                    </TouchableHighlight>
+
+                                </View>
+                                <TouchableHighlight style={styles.touchable}
+                                                    underlayColor={AppColors.base.grey}
+                                                    onPress={() => {
+                                                 this.toggleAddToCartAction();
+                                            }}>
+                                    <Image
+                                        source={require('../../assets/icons/icon-add-to-cart.png')}
+                                        style={[styles.icon]}
+                                    />
+                                </TouchableHighlight>
+
+                            </Animated.View>
+                        </View>
+                        <View style={styles.containerRight}>
+                            <TouchableHighlight style={styles.touchable}
+                                                underlayColor={AppColors.base.grey}
+                                                onPress={() => {
                                                 this.props.showRemoveConfirmationDialog(this.props.item)
                                             }
                                        }>
-                            <Image
-                                source={require('../../assets/icons/icon-remove.png')}
-                                style={[styles.icon]}
-                            />
-                        </TouchableHighlight>
+                                <Image
+                                    source={require('../../assets/icons/icon-remove.png')}
+                                    style={[styles.icon]}
+                                />
+                            </TouchableHighlight>
+                        </View>
                     </View>
 
                     <View style={styles.productContainer}>
@@ -288,5 +335,5 @@ class ProductSlide extends Component {
     }
 }
 
-
+ProductSlide.defaultProps = defaultProps;
 export default ProductSlide;

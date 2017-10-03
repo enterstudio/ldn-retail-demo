@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import Product from './Product';
 import { FirebaseImgRef } from '@constants/';
-import { addToCart, removeFromProducts }  from '@redux/products/actions';
+import { addToCart, removeFromCart, removeFromProducts }  from '@redux/products/actions';
 import * as NotificationActions from '@redux/notification/actions';
 import * as Q from 'q';
 import timer from 'react-native-timer';
@@ -109,6 +109,9 @@ const mapDispatchToProps = (dispatch) => {
         addToCart: (item) => {
             dispatch(addToCart(item));
         },
+        removeFromCart: (item) => {
+            dispatch(removeFromCart(item));
+        },
         removeFromProducts: (item) => {
             dispatch(removeFromProducts(item));
         },
@@ -180,8 +183,10 @@ class ItemBrowser extends Component {
 
     getSlides = (products) => products.map((item, index) => {
         return (
-            <ProductSlide index={index} item={item} addToCart={this.props.addToCart}
-                          showAddConfirmationDialog={this.showAddConfirmationDialog}
+            <ProductSlide index={index}
+                          item={item}
+                          addToCart={this.props.addToCart}
+                          removeFromCart={this.props.removeFromCart}
                           showRemoveConfirmationDialog={this.showRemoveConfirmationDialog}
             ></ProductSlide>
         );
