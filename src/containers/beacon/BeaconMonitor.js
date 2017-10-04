@@ -92,20 +92,18 @@ class BeaconMonitor extends Component {
         this.toggleRanging = this.toggleRanging.bind(this);
         this.beaconsDidRangeCb = this.beaconsDidRangeCb.bind(this);
         this.regionMonitoringCb = this.regionMonitoringCb.bind(this);
-        this.telemetryMonitoringCb = this.telemetryMonitoringCb.bind(this);
-        this.nearablesMonitoringCb = this.nearablesMonitoringCb.bind(this);
+        this.movingCb = this.movingCb.bind(this);
+
         this.state = {
             isRanging: false,
             beaconsDidRangeData: [],
             regionEnterData: {},
             regionExitData: {}
         }
-        this.props.addToProducts(++this.counter);
     }
 
     toggleRanging() {
         if (!this.state.isRanging) {
-            this.props.addToProducts(++this.counter);
             this.beaconListener.startRanging();
         } else {
             this.beaconListener.stopRanging();
@@ -114,24 +112,35 @@ class BeaconMonitor extends Component {
     }
 
 
-    telemetryMonitoringCb(data) {
-        console.log('telemetry - data: ', data);
+    movingCb(data) {
+        console.log('moving - data: ', data);
+        const beacon = JSON.parse(data);
 
-    }
-
-    nearablesMonitoringCb(data) {
-        console.log('nearables - data: ', data);
-        if (this.state.isRanging) {
-            this.setState({beaconsDidRangeData: JSON.parse(data)});
+        if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('aa') ) {
+            this.props.addToProducts(1);
         }
 
+        else if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('bb') ) {
+            this.props.addToProducts(2);
+        }
+
+        else if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('cc') ) {
+            this.props.addToProducts(3);
+        }
+
+        else if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('dd') ) {
+            this.props.addToProducts(4);
+        }
     }
+
 
     beaconsDidRangeCb(data) {
         console.log('ranging - data: ', data);
         if (this.state.isRanging) {
-            //  this.setState({beaconsDidRangeData: JSON.parse(data)});
+            this.setState({beaconsDidRangeData: JSON.parse(data)});
+            this.props.dispatchUserInRange(this.props.user);
         }
+
     }
 
     regionMonitoringCb(data) {
@@ -195,8 +204,8 @@ class BeaconMonitor extends Component {
     )
 
     componentDidMount() {
-        this.beaconListener.init(this.beaconsDidRangeCb, this.regionMonitoringCb, this.telemetryMonitoringCb, this.nearablesMonitoringCb);
-        // this.beaconListener.startNearableScanning();
+        console.log('init beaconListener');
+        this.beaconListener.init(this.beaconsDidRangeCb, this.movingCb);
     }
 
 

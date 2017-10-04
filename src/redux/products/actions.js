@@ -81,13 +81,20 @@ export function addToProducts(itemId){
     return (dispatch, getState) => {
 
         let products = getState().products.products;
-        let allProducts = getState().products.allProducts;
-        const product = allProducts.find(function(item){
+        const index = products.findIndex(function(item){
                 return itemId === item.id;
             }
         );
-        if(product) {
-            dispatch({type: ActionTypes.UPDATE_PRODUCTS, products: [...products, product]})
+        if(index === -1) {
+
+            let allProducts = getState().products.allProducts;
+            const product = allProducts.find(function (item) {
+                    return itemId === item.id;
+                }
+            );
+            if (product) {
+                dispatch({type: ActionTypes.UPDATE_PRODUCTS, products: [...products, product]})
+            }
         }
     }
 }

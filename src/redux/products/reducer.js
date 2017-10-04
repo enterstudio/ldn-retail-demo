@@ -12,7 +12,8 @@ export default function productsReducer(state = initialState, action) {
             const allProducts = action.allProducts;
             return {
                 ...state,
-                allProducts
+                allProducts,
+                products: allProducts
             };
         }
         case ActionTypes.UPDATE_PRODUCTS: {

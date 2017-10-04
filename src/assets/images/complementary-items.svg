@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="603px" height="208px" viewBox="0 0 603 208" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0.5" width="603" height="207"></rect>
+        <pattern id="pattern-2" width="12.7941176" height="12.7941176" x="-12.7941176" y="-12.2941176" patternUnits="userSpaceOnUse">
+            <use xlink:href="#image-3" transform="scale(0.266544118,0.266544118)"></use>
+        </pattern>
+        <image id="image-3" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABGdBTUEAA1teXP8meAAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAgFJREFUeAHtnLENwlAUxBJ2+vsPkKFALHCuXEQy7Z3uIZt0Efc553uJn+d5bnH+evv3/5hw2mYCCWBGaiMBKl4eTwAzUhsJUPHyeAKYkdpIgIqXxxPAjNRGAlS8PJ4AZqQ2EqDi5fEEMCO1kQAVL48ngBmpjQSoeHk8AcxIbSRAxcvjCWBGaiMBKl4eTwAzUhsJUPHyeAKYkdpIgIqXx9V3dv7n3/7ejv39ewL4R6o2EqDi5fEEMCO1kQAVL48ngBmpjQSoeHk8AcxIbSRAxcvjCWBGaiMBKl4eTwAzUhsJUPHyeAKYkdpIgIqXxxPAjNRGAlS8PJ4AZqQ2EqDi5fEEMCO1kQAVL48ngBmpjQSoeHk8AcxIbdz2ey/9X9D21xOw+ehpAnTE+0ACNh89TYCOeB9IwOajpwnQEe8DCdh89DQBOuJ9IAGbj54mQEe8DyRg89HTBOiI94EEbD56mgAd8T6QgM1HTxOgI94HErD56GkCdMT7QAI2Hz1NgI54H0jA5qOnCdAR7wMJ2Hz0tP8LAsT2e1M9ASDAjhNgE4b9BAAgO06ATRj2EwCA7DgBNmHYTwAAsuME2IRhPwEAyI4TYBOG/QQAIDtOgE0Y9hMAgOw4ATZh2E8AALLjBNiEYT8BAMiOE2AThv0EACA7ToBNGPYTAIDsOAE2YdhPAACy4x+nuRv5cp/iCAAAAABJRU5ErkJggg=="></image>
+        <rect id="path-4" x="0" y="0" width="602" height="207"></rect>
+    </defs>
+    <g id="Light-Theme" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0.2_Product-Detail" transform="translate(0.000000, -1557.000000)">
+            <g id="Complementay-items" transform="translate(0.000000, 1485.000000)">
+                <g id="product-1" transform="translate(0.000000, 72.000000)">
+                    <g id="Group-5">
+                        <g id="Rectangle-5">
+                            <use fill="url(#pattern-2)" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <rect stroke="#979797" stroke-width="1" x="0.5" y="1" width="602" height="206"></rect>
+                        </g>
+                        <g id="Rectangle-3">
+                            <use fill-opacity="0.730000019" fill="#D8D8D8" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="601" height="206"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

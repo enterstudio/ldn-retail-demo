@@ -186,6 +186,7 @@ class ItemBrowser extends Component {
             <ProductSlide index={index}
                           item={item}
                           addToCart={this.props.addToCart}
+                          complementaryItems= {products}
                           removeFromCart={this.props.removeFromCart}
                           showRemoveConfirmationDialog={this.showRemoveConfirmationDialog}
             ></ProductSlide>

@@ -261,18 +261,21 @@ class Product extends Component {
                                             }
                                        }>
                             <View
-                                style={[AppStyles.paddedRow, {justifyContent: 'space-between', backgroundColor: AppColors.base.greyLight}]}>
+                                style={[AppStyles.paddedRow, {paddingHorizontal: 50, justifyContent: 'space-between', backgroundColor: AppColors.base.greyDark}]}>
                                 <View style={[{justifyContent: 'center'}]}>
-                                    <Text style={[AppStyles.h3]}>View in store location</Text>
+                                    <Text style={[AppStyles.h3, {color: AppColors.base.white}]}>View in store location</Text>
                                 </View>
                                 <Image
-                                    source={require('../../assets/icons/icon-location.png')}
+                                    source={require('../../assets/icons/icon-location-white.png')}
                                     style={[AppStyles.largeIcon, { marginRight: 20}]}
                                 />
                             </View>
                         </TouchableHighlight>
-                        <Spacer size={spacerSize}></Spacer>
-                        <View style={[AppStyles.containerCentered]}>
+                        <View style={[AppStyles.containerCentered,
+                            {
+                                backgroundColor: AppColors.base.greyLight,
+                                paddingVertical: AppSizes.padding * 2}
+                            ]}>
                             <Text style={[AppStyles.h3]}>Need help?</Text>
                             <Image
                                 source={require('../../assets/icons/icon-assistant.png')}
@@ -284,8 +287,9 @@ class Product extends Component {
                                     color={AppColors.base.white}
                                     buttonStyle={{paddingHorizontal: 40 }}
                             ></Button>
+                            <Spacer size={180}></Spacer>
                         </View>
-                        <Spacer size={230}></Spacer>
+
                     </ScrollView>
                 </View>
                 <View style={[styles.addToCartContainer]}>
@@ -298,7 +302,7 @@ class Product extends Component {
                             backgroundColor={'transparent'}
                             fontSize={20}
                             color={AppColors.base.white}
-                            buttonStyle={{paddingHorizontal: 30 }}
+                            buttonStyle={{paddingHorizontal: 30}}
                             onPress={() => {
                                 this.props.addToCart(this.props.product);
                                 this.showAddConfirmationDialog(this.props.product)}

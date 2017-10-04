@@ -312,7 +312,7 @@ class ProductSlide extends Component {
                                                      {
                                                      title: this.getProductTitle(this.props.item.title),
                                                      product: this.props.item,
-                                                     complementaryItems: []
+                                                     complementaryItems: this.props.complementaryItems
                                                      })
                                                 }
                                             }>
