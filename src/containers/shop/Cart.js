@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     checkoutSuccess: {
         width: AppSizes.screen.width,
         backgroundColor: AppColors.base.white,
-        padding: AppSizes.padding,
+        padding: AppSizes.paddingSml,
         borderWidth: 7,
         borderBottomWidth: 10,
         borderColor: AppColors.brand.primary,

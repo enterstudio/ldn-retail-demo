@@ -188,7 +188,7 @@ class ItemBrowser extends Component {
                           addToCart={this.props.addToCart}
                           complementaryItems= {products}
                           removeFromCart={this.props.removeFromCart}
-                          showRemoveConfirmationDialog={this.showRemoveConfirmationDialog}
+                          removeFromList={this.props.removeFromProducts}
             ></ProductSlide>
         );
     });

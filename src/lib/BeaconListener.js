@@ -11,17 +11,15 @@ const region = {
 class BeaconListener {
 
 
-    init(beaconsDidRangeCb, movingCb ) {
-
-        //DeviceEventEmitter.addListener(
-        //    'Ranging',
-        //    beaconsDidRangeCb
-        //);
+    init(foundCb, movingCb  ) {
 
         DeviceEventEmitter.addListener(
             'Moving', movingCb
         );
 
+        DeviceEventEmitter.addListener(
+            'Found', foundCb
+        );
     }
 
     startRanging() {
@@ -29,8 +27,12 @@ class BeaconListener {
         if(Platform.OS  === 'android') {
            // EstimoteManager.startBeaconRangingScan('[ {"identifier": "Estimote", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D" }, {"identifier": "d03d68a8d18a", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE2A" }]');
 
-            EstimoteManager.startBeaconMovingScan('[{"identifier": "long-sleeve", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEDD" },  {"identifier": "polo", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FECC"}]');
-            //,{"identifier": "hoodie", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEBB" }, {"identifier": "polo", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEEE" },
+            EstimoteManager.startBeaconMovingScan('[' +
+                '{"name": "TARGET_BEACON", "identifier": "ice02", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEBB"}, ' +
+                '{"name": "long-sleeve-polo", "identifier": "mint01", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEFF"}, ' +
+                '{"name": "hoodie", "identifier": "blueberry", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEDD" },' +
+                '{"name": "mens-polo", "identifier": "blueberry01","uuid": "B9407F30-F5F8-466E-AFF9-25556B57FECC"},' +
+                '{"name": "womens-polo", "identifier": "mint02", "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FEEE"}]');
 
         }
 

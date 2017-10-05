@@ -90,7 +90,7 @@ class BeaconMonitor extends Component {
         super(props);
         this.beaconListener = new BeaconListener();
         this.toggleRanging = this.toggleRanging.bind(this);
-        this.beaconsDidRangeCb = this.beaconsDidRangeCb.bind(this);
+        this.foundCb = this.foundCb.bind(this);
         this.regionMonitoringCb = this.regionMonitoringCb.bind(this);
         this.movingCb = this.movingCb.bind(this);
 
@@ -116,28 +116,28 @@ class BeaconMonitor extends Component {
         console.log('moving - data: ', data);
         const beacon = JSON.parse(data);
 
-        if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('aa') ) {
-            this.props.addToProducts(1);
-        }
-
-        else if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('bb') ) {
-            this.props.addToProducts(2);
-        }
-
-        else if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('cc') ) {
-            this.props.addToProducts(3);
-        }
-
-        else if(beacon.proximity_uuid && beacon.proximity_uuid.endsWith('dd') ) {
-            this.props.addToProducts(4);
-        }
+        //switch(beacon.name){
+        //    case 'long-sleeve-polo':
+        //        this.props.addToProducts(1);
+        //        break;
+        //    case 'hoodie':
+        //        this.props.addToProducts(2);
+        //        break;
+        //    case 'mens-polo':
+        //        this.props.addToProducts(3);
+        //        break;
+        //    case 'womens-polo':
+        //        this.props.addToProducts(4);
+        //        break;
+        //    default:
+        //        console.log('no such name defined: ' + beacon.name)
+        //}
     }
 
-
-    beaconsDidRangeCb(data) {
-        console.log('ranging - data: ', data);
+    foundCb(data) {
+        console.log('found calback - data: ', data);
         if (this.state.isRanging) {
-            this.setState({beaconsDidRangeData: JSON.parse(data)});
+           // this.setState({beaconsDidRangeData: JSON.parse(data)});
             this.props.dispatchUserInRange(this.props.user);
         }
 
@@ -205,7 +205,7 @@ class BeaconMonitor extends Component {
 
     componentDidMount() {
         console.log('init beaconListener');
-        this.beaconListener.init(this.beaconsDidRangeCb, this.movingCb);
+        this.beaconListener.init(this.foundCb, this.movingCb);
     }
 
 

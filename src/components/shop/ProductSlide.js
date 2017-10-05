@@ -4,10 +4,12 @@ import { Text } from '@components/ui/';
 import LSText from 'react-native-letter-spacing';
 import { AppColors, AppStyles, AppSizes} from '@theme/';
 import { Actions } from 'react-native-router-flux';
+import timer from 'react-native-timer';
 
 /* Styles ================================= */
 
 const LAYER_INDEXES = {
+    TOP: 9,
     productDetails: 3,
     iconContainer: 2,
     productViewContainer: 1,
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 25,
         right: 15,
-        width: 200,
+        width: AppSizes.screen.widthThreeQuarters - 50,
         zIndex: LAYER_INDEXES.iconContainer
     },
 
@@ -164,6 +166,26 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         color: AppColors.base.red
+    },
+
+    deleteActionContainer: {
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        right: 50,
+        top: 0,
+        height: 45,
+        borderRadius: 45,
+        backgroundColor: AppColors.base.black,
+        zIndex: LAYER_INDEXES.stepperIndicator
+    },
+
+    removeText: {
+        paddingRight: 10,
+        color: AppColors.base.white,
+        fontSize: 14,
+        fontWeight: 'bold'
     }
 
 });
@@ -180,15 +202,21 @@ const defaultProps = {
 
 class ProductSlide extends Component {
 
+    timerName = 'ProductSlideTimer';
+
     constructor(props) {
         super(props);
         this.toggleAddToCartAction = this.toggleAddToCartAction.bind(this);
+        this.toggleRemoveFromListAction = this.toggleRemoveFromListAction.bind(this);
+        this.removeProductFromList = this.removeProductFromList.bind(this);
         this.indicatorScale = new Animated.Value(0);
+        this.animatedRemove = new Animated.Value(0);
         this.state = {
             imageScale: new Animated.Value(1),
             imageTop: new Animated.Value(0),
-            stepperCounter: 1,
+            stepperCounter: 0,
             isAddToCartActive: false,
+            isRemoveFromListActive: false,
             addToCartActionWith: new Animated.Value(this.props.addToCartInActive)
         }
     }
@@ -235,6 +263,44 @@ class ProductSlide extends Component {
             }).start();
         })
 
+    }
+
+
+    toggleRemoveFromListAction = (callback) => {
+        console.log('toggleRemoveFromListAction');
+        this.setState({isRemoveFromListActive: !this.state.isRemoveFromListActive}, () => {
+            Animated.timing(this.animatedRemove, {
+                duration: this.props.animationTime,
+                toValue: this.state.isRemoveFromListActive ? 0 : 1,
+                easing: Easing.linear
+            }).start(callback);
+        })
+
+    }
+
+
+    removeProductFromList = () => {
+        console.log('removeProductFromList');
+        const self = this;
+        this.toggleRemoveFromListAction(() => {
+            timer.setTimeout(this.timerName, () => {
+                self.props.removeFromList(self.props.item);
+            }, 300);
+
+        })
+
+
+    }
+
+    closeCartAction = () => {
+        this.resetIndicator();
+        this.setState({isAddToCartActive: false}, () => {
+            Animated.timing(this.state.addToCartActionWith, {
+                duration: this.props.animationTime,
+                toValue: this.props.addToCartInActive,
+                easing: Easing.linear
+            }).start();
+        });
     }
 
 
@@ -386,10 +452,40 @@ class ProductSlide extends Component {
                             </Animated.View>
                         </View>
                         <View style={styles.containerRight}>
-                            <TouchableHighlight style={styles.touchable}
+                            <Animated.View
+                                style={[styles.deleteActionContainer, {
+                                        width: this.animatedRemove.interpolate({
+                                            inputRange: [0, 1],
+                                            outputRange: [45, 170],
+                                            extrapolate: 'clamp',
+                                        }),
+                                        right: this.animatedRemove.interpolate({
+                                            inputRange: [0, 1],
+                                            outputRange: [0, 55],
+                                            extrapolate: 'clamp',
+                                        }),
+                                        opacity: this.animatedRemove
+                                        }
+                                        ] }>
+
+                                <Text style={styles.removeText}>Remove from list</Text>
+
+                                <TouchableHighlight style={[styles.stepperHightlight]}
+                                                    underlayColor={AppColors.base.grey}
+                                                    onPress={() => {this.removeProductFromList()}}
+                                                    >
+                                    <Image
+                                        source={require('../../assets/icons/icon-check-white.png')}
+                                        style={[styles.stepperIcon]}
+                                    />
+
+                                </TouchableHighlight>
+
+                            </Animated.View>
+                            <TouchableHighlight style={[styles.touchable, {zIndex: LAYER_INDEXES.TOP}]}
                                                 underlayColor={AppColors.base.grey}
                                                 onPress={() => {
-                                                this.props.showRemoveConfirmationDialog(this.props.item)
+                                                this.toggleRemoveFromListAction();
                                             }
                                        }>
                                 <Image
@@ -417,8 +513,10 @@ class ProductSlide extends Component {
 
             </View>
         );
+    }
 
-
+    componentWillUnmount = () => {
+        timer.clearTimeout(this.timerName);
     }
 }
 

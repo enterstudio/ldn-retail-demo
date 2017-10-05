@@ -6,7 +6,7 @@ export async function sendUserInRangeEvent(user) {
 
     try {
         // TODO rename endpoint
-        let response = await fetch('http://10.132.73.30:9000/api/beacon', {
+        let response = await fetch('http://10.132.73.48:9000/api/beacon', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
