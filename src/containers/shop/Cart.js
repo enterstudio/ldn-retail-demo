@@ -4,6 +4,8 @@ import {
     Image,
     Modal,
     Alert,
+    Animated,
+    Easing,
     ListView,
     FlatList,
     ScrollView,
@@ -40,7 +42,8 @@ import {
 /* Styles ==================================================================== */
 
 const LAYER_INDEXES = {
-    overlay: 9
+    overlay: 9,
+    card: 8
 }
 
 const styles = StyleSheet.create({
@@ -84,21 +87,19 @@ const styles = StyleSheet.create({
         backgroundColor: AppColors.base.white
     },
 
-    overlay: {
+    cardContainer: {
         position: 'absolute',
-        top: 0,
-        left: 0,
-        height: AppSizes.screen.innerHeight,
-        width: AppSizes.screen.width,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        zIndex: LAYER_INDEXES.overlay
+        top: -250,
+        flex: 1,
+        padding: 0,
+        zIndex: LAYER_INDEXES.card
     },
 
-    spinnerIcon: {
-        width: 100,
-        height: 60,
+    cardImage: {
+        width: AppSizes.screen.width,
         resizeMode: 'contain'
     }
+
 });
 
 
@@ -117,6 +118,11 @@ const mapStateToProps = state => ({
     cart: state.products.cart
 });
 
+const defaultProps = {
+    animationTime: 150,
+    cardPosition: -AppSizes.screen.width
+};
+
 //TODO seperate container and view
 class Cart extends Component {
 
@@ -131,6 +137,8 @@ class Cart extends Component {
         this.handleRemove = this.handleRemove.bind(this);
         this.goToProduct = this.goToProduct.bind(this);
         this.shouldSummaryRender = this.shouldSummaryRender.bind(this);
+        this.animateCardIn = this.animateCardIn.bind(this);
+        this.animatedCardPosition = new Animated.Value(this.props.cardPosition);
         this.state = {
             selectedIndex: 1,
             checkout: false,
@@ -162,6 +170,21 @@ class Cart extends Component {
             price = price + item.price;
         })
         return price;
+    }
+
+    animateCardIn = () => {
+        Animated.timing(this.animatedCardPosition, {
+            duration: this.props.animationTime,
+            toValue: 0,
+            easing: Easing.linear
+        }).start();
+    }
+
+    resetCardPosition = () => {
+        Animated.timing(this.animatedCardPosition, {
+            duration: 1,
+            toValue: this.props.cardPosition
+        }).start();
     }
 
     handleRemove = (item) => {
@@ -206,12 +229,13 @@ class Cart extends Component {
 
     checkout = () => {
         let self = this;
+        this.animateCardIn();
         this.setState({showprogressOverlay: true}, () => {
             setTimeout(() => {
+                self.resetCardPosition();
                 self.hideProgressOverlay();
             }, 1700);
         })
-
 
     }
 
@@ -235,7 +259,6 @@ class Cart extends Component {
 
     loadInfoItems = () => {
         this.setState({showInfoItems: true})
-
     };
 
 
@@ -252,6 +275,15 @@ class Cart extends Component {
 
     render = () => (
         <View>
+
+            <Animated.View style={[styles.cardContainer, {
+                left: this.animatedCardPosition
+            }]}>
+                <Image
+                    source={require('../../assets/images/visa-card.png')}
+                    style={[styles.cardImage]}
+                />
+            </Animated.View>
             <ProgressOverlay color={AppColors.brand.tertiary} size={100} visible={this.state.showprogressOverlay}/>
 
             {this.props.cart.length === 0 && !this.state.checkout &&
@@ -265,9 +297,13 @@ class Cart extends Component {
                     />
                 </View>
             </View>}
+
+
             < ScrollView style={styles.scrollView}
                          automaticallyAdjustContentInsets={false}
             >
+
+
                 <FlatList
                     data={this.props.cart}
                     extraData={this.state}
@@ -340,5 +376,5 @@ class Cart extends Component {
         }
     }
 }
-
+Cart.defaultProps = defaultProps;
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

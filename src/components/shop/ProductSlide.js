@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 25,
         right: 15,
-        width: AppSizes.screen.widthThreeQuarters - 50,
+        width: AppSizes.screen.widthThreeQuarters,
         zIndex: LAYER_INDEXES.iconContainer
     },
 
@@ -211,13 +211,13 @@ class ProductSlide extends Component {
         this.removeProductFromList = this.removeProductFromList.bind(this);
         this.indicatorScale = new Animated.Value(0);
         this.animatedRemove = new Animated.Value(0);
+        this.addToCartActionWith = new Animated.Value(this.props.addToCartInActive)
         this.state = {
             imageScale: new Animated.Value(1),
             imageTop: new Animated.Value(0),
             stepperCounter: 0,
             isAddToCartActive: false,
-            isRemoveFromListActive: false,
-            addToCartActionWith: new Animated.Value(this.props.addToCartInActive)
+            isRemoveFromListActive: false
         }
     }
 
@@ -254,15 +254,16 @@ class ProductSlide extends Component {
 
 
     toggleAddToCartAction = () => {
+        console.log('toggleAddToCartAction');
         this.resetIndicator();
         this.setState({isAddToCartActive: !this.state.isAddToCartActive}, () => {
-            Animated.timing(this.state.addToCartActionWith, {
+            console.log('toggleAddToCartAction 2');
+            Animated.timing(this.addToCartActionWith, {
                 duration: this.props.animationTime,
                 toValue: this.state.isAddToCartActive ? this.props.addToCartInActive : this.props.addToCartActive,
                 easing: Easing.linear
             }).start();
         })
-
     }
 
 
@@ -288,8 +289,6 @@ class ProductSlide extends Component {
             }, 300);
 
         })
-
-
     }
 
     closeCartAction = () => {
@@ -366,7 +365,6 @@ class ProductSlide extends Component {
         return (
 
             <View key={`entry-${this.props.index}`} style={styles.slide} elevation={5}>
-
                 <View style={styles.card}>
                     <View style={[styles.iconContainer]}>
                         <View style={styles.containerRight}>
@@ -413,7 +411,7 @@ class ProductSlide extends Component {
                             }>
                                 <Text style={styles.indicatorText}>{this.state.stepperCounter}</Text>
                             </Animated.View>
-                            <Animated.View style={[styles.actionContainer, {width: this.state.addToCartActionWith}] }>
+                            <Animated.View style={[styles.actionContainer, {width: this.addToCartActionWith}] }>
                                 <View style={[styles.stepperContainer]}>
 
                                     <TouchableHighlight style={[styles.stepperHightlight]}
